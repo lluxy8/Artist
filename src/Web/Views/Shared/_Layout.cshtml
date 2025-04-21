@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @(ViewBag.CompanyName ?? "Sanat Galerisi")</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <header>
+        <nav class="bg-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <div class="flex-shrink-0 flex items-center">
+                            <a href="/" class="text-xl font-bold text-gray-800">
+                                @(ViewBag.CompanyName ?? "Sanat Galerisi")
+                            </a>
+                        </div>
+                        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                            <a asp-controller="Home" asp-action="Index" 
+                               class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700") inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Anasayfa
+                            </a>
+                            <a asp-controller="Home" asp-action="Projects"
+                               class="@(ViewContext.RouteData.Values["Action"].ToString() == "Projects" ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700") inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Projeler
+                            </a>
+                            <a asp-controller="Home" asp-action="About"
+                               class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700") inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Hakkımızda
+                            </a>
+                            <a asp-controller="Home" asp-action="Contact"
+                               class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700") inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                İletişim
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                        <div class="ml-3 relative">
+                            <div class="flex space-x-4">
+                                @if (ViewBag.SocialMedias != null)
+                                {
+                                    @foreach (var social in ViewBag.SocialMedias)
+                                    {
+                                        <a href="@social.Url" target="_blank" class="text-gray-400 hover:text-gray-500">
+                                            <i class="@social.IconUrl"></i>
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only">Ana menüyü aç</span>
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:hidden hidden" id="mobile-menu">
+                <div class="pt-2 pb-3 space-y-1">
+                    <a asp-controller="Home" asp-action="Index" 
+                       class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700") block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        Anasayfa
+                    </a>
+                    <a asp-controller="Home" asp-action="Projects"
+                       class="@(ViewContext.RouteData.Values["Action"].ToString() == "Projects" ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700") block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        Projeler
+                    </a>
+                    <a asp-controller="Home" asp-action="About"
+                       class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700") block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        Hakkımızda
+                    </a>
+                    <a asp-controller="Home" asp-action="Contact"
+                       class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700") block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        İletişim
+                    </a>
+                </div>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <div class="flex items-center px-4 space-x-4">
+                        @if (ViewBag.SocialMedias != null)
+                        {
+                            @foreach (var social in ViewBag.SocialMedias)
+                            {
+                                <a href="@social.Url" target="_blank" class="text-gray-400 hover:text-gray-500">
+                                    <i class="@social.IconUrl"></i>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Hakkımızda</h3>
+                    <p class="mt-4 text-base text-gray-500">
+                        @(ViewBag.CompanyDescription ?? "Modern sanat galerisi")
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Hızlı Bağlantılar</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="/" class="text-base text-gray-500 hover:text-gray-900">Anasayfa</a>
+                        </li>
+                        <li>
+                            <a href="/Home/Projects" class="text-base text-gray-500 hover:text-gray-900">Projeler</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About" class="text-base text-gray-500 hover:text-gray-900">Hakkımızda</a>
+                        </li>
+                        <li>
+                            <a href="/Home/Contact" class="text-base text-gray-500 hover:text-gray-900">İletişim</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Sosyal Medya</h3>
+                    <div class="mt-4 flex space-x-6">
+                        @if (ViewBag.SocialMedias != null)
+                        {
+                            @foreach (var social in ViewBag.SocialMedias)
+                            {
+                                <a href="@social.Url" target="_blank" class="text-gray-400 hover:text-gray-500">
+                                    <i class="@social.IconUrl text-xl"></i>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8">
+                <p class="text-base text-gray-400 text-center">
+                    &copy; @DateTime.Now.Year @(ViewBag.CompanyName ?? "Sanat Galerisi"). Tüm hakları saklıdır.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('#mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

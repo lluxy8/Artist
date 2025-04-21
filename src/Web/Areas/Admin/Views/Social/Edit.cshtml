@@ -1,0 +1,114 @@
+@model Core.Entities.Social
+@{
+    ViewData["Title"] = "Sosyal Medya Düzenle";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Sosyal Medya Düzenle</h1>
+        <p class="text-gray-600 mt-2">Sosyal medya hesabını düzenleyin.</p>
+    </div>
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="group">
+                <label asp-for="Name" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Ad</label>
+                <div class="relative mt-1">
+                    <input asp-for="Name" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
+                        bg-white text-gray-900
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Name" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="Url" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">URL</label>
+                <div class="relative mt-1">
+                    <input asp-for="Url" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
+                        bg-white text-gray-900
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Url" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="IconUrl" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">İkon</label>
+                <div class="mt-1 flex items-center">
+                    @if (!string.IsNullOrEmpty(Model.IconUrl))
+                    {
+                        <img src="@Model.IconUrl" alt="Sosyal Medya İkonu" class="h-20 w-20 object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105" />
+                    }
+                    <div class="flex-1">
+                        <input type="file" name="IconFile" id="iconFile" class="block w-full text-sm text-gray-500 
+                            file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 
+                            file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 
+                            hover:file:bg-primary-100 file:cursor-pointer
+                            file:transition-all file:duration-300 file:ease-in-out
+                            file:shadow-sm
+                            file:focus:outline-none file:focus:ring-2 file:focus:ring-primary-500/50" />
+                    </div>
+                </div>
+                <span asp-validation-for="IconUrl" class="text-red-500 text-xs mt-1"></span>
+                <p class="mt-1 text-sm text-gray-500">Önerilen boyut: 64x64 piksel</p>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end space-x-3">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white 
+                hover:bg-gray-50 hover:border-gray-400
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Listeye Dön
+            </a>
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 
+                hover:bg-primary-700 hover:shadow-md
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out
+                active:bg-primary-800 active:shadow-sm">
+                <i class="fas fa-save mr-2"></i>
+                Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('iconFile').addEventListener('change', function(e) {
+            const preview = document.querySelector('.mt-1 img');
+            const file = e.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (preview) {
+                        preview.src = e.target.result;
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Sosyal Medya İkonu';
+                        img.className = 'h-20 w-20 object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105';
+                        e.target.parentElement.insertBefore(img, e.target);
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+} 

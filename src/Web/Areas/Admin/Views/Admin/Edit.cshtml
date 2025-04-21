@@ -1,0 +1,73 @@
+@model Core.Entities.Admin
+@{
+    ViewData["Title"] = "Yönetici Düzenle";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Yönetici Düzenle</h1>
+        <p class="text-gray-600 mt-2">Yönetici bilgilerini düzenleyin.</p>
+    </div>
+
+    <form asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CreateDate" />
+        <input type="hidden" asp-for="UpdateDate" />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="group">
+                <label asp-for="Name" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Ad</label>
+                <div class="relative mt-1">
+                    <input asp-for="Name" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
+                        bg-white text-gray-900
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Name" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="PasswordHash" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Şifre</label>
+                <div class="relative mt-1">
+                    <input asp-for="PasswordHash" type="password" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
+                        bg-white text-gray-900
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="PasswordHash" class="text-red-500 text-xs mt-1"></span>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end space-x-3">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white 
+                hover:bg-gray-50 hover:border-gray-400
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Listeye Dön
+            </a>
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 
+                hover:bg-primary-700 hover:shadow-md
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out
+                active:bg-primary-800 active:shadow-sm">
+                <i class="fas fa-save mr-2"></i>
+                Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

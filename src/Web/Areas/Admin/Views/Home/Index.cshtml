@@ -1,0 +1,184 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "_AdminLayout";
+}
+
+<style>
+    .rotate-icon {
+        transition: transform 0.3s ease-in-out;
+    }
+    .group:hover .rotate-icon {
+        transform: rotate(90deg);
+    }
+    .hover-lift {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .group:hover .hover-lift {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+</style>
+
+<div class="space-y-6">
+    <!-- İstatistik Kartları -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-primary-500">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-primary-50 text-primary-600">
+                        <i class="fas fa-folder text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Toplam Kategori</p>
+                        <p class="text-2xl font-semibold text-gray-900">@ViewBag.CategoryCount</p>
+                    </div>
+                </div>
+                <div class="w-16 h-16 flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full border-4 border-primary-100 flex items-center justify-center">
+                        <span class="text-primary-600 font-semibold">@ViewBag.CategoryCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-emerald-500">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-emerald-50 text-emerald-600">
+                        <i class="fas fa-project-diagram text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Toplam Proje</p>
+                        <p class="text-2xl font-semibold text-gray-900">@ViewBag.ProjectCount</p>
+                    </div>
+                </div>
+                <div class="w-16 h-16 flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full border-4 border-emerald-100 flex items-center justify-center">
+                        <span class="text-emerald-600 font-semibold">@ViewBag.ProjectCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-rose-500">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-rose-50 text-rose-600">
+                        <i class="fas fa-file-alt text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Toplam Sayfa</p>
+                        <p class="text-2xl font-semibold text-gray-900">@ViewBag.PageCount</p>
+                    </div>
+                </div>
+                <div class="w-16 h-16 flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full border-4 border-rose-100 flex items-center justify-center">
+                        <span class="text-rose-600 font-semibold">@ViewBag.PageCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-50 text-yellow-600">
+                        <i class="fas fa-share-alt text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Sosyal Medya</p>
+                        <p class="text-2xl font-semibold text-gray-900">@ViewBag.SocialCount</p>
+                    </div>
+                </div>
+                <div class="w-16 h-16 flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full border-4 border-yellow-100 flex items-center justify-center">
+                        <span class="text-yellow-600 font-semibold">@ViewBag.SocialCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı Erişim Butonları -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="group bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-4 rounded-full bg-white text-primary-600 group-hover:bg-primary-600 transition-colors duration-300 hover-lift">
+                    <i class="fas fa-plus text-xl rotate-icon text-primary-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 group-hover:text-primary-600 transition-colors duration-300">Yeni Kategori</p>
+                    <p class="text-lg font-semibold text-gray-900 group-hover:text-primary-700">Ekle</p>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Project" asp-action="Create" class="group bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-4 rounded-full bg-white text-emerald-600 group-hover:bg-emerald-600 transition-colors duration-300 hover-lift">
+                    <i class="fas fa-plus text-xl rotate-icon text-emerald-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 group-hover:text-emerald-600 transition-colors duration-300">Yeni Proje</p>
+                    <p class="text-lg font-semibold text-gray-900 group-hover:text-emerald-700">Ekle</p>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Page" asp-action="Create" class="group bg-gradient-to-br from-rose-50 to-rose-100 rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-4 rounded-full bg-white text-rose-600 group-hover:bg-rose-600 transition-colors duration-300 hover-lift">
+                    <i class="fas fa-plus text-xl rotate-icon text-rose-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 group-hover:text-rose-600 transition-colors duration-300">Yeni Sayfa</p>
+                    <p class="text-lg font-semibold text-gray-900 group-hover:text-rose-700">Ekle</p>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Social" asp-action="Create" class="group bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-sm p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+                <div class="p-4 rounded-full bg-white text-yellow-600 group-hover:bg-yellow-600 transition-colors duration-300 hover-lift">
+                    <i class="fas fa-plus text-xl rotate-icon text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 group-hover:text-yellow-600 transition-colors duration-300">Yeni Sosyal Medya</p>
+                    <p class="text-lg font-semibold text-gray-900 group-hover:text-yellow-700">Ekle</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Son Aktiviteler -->
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-semibold text-gray-900">Son Aktiviteler</h2>
+            <a href="#" class="text-sm font-medium text-primary-600 hover:text-primary-700">Tümünü Gör</a>
+        </div>
+        <div class="space-y-4">
+            @if (ViewBag.RecentActivities != null)
+            {
+                foreach (var activity in ViewBag.RecentActivities)
+                {
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="p-2 rounded-full bg-primary-50 text-primary-600">
+                                <i class="fas fa-@activity.Icon text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">@activity.Title</p>
+                            <p class="text-sm text-gray-500">@activity.Description</p>
+                            <p class="text-xs text-gray-400">@activity.TimeAgo</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-sm text-gray-500">Henüz aktivite bulunmuyor.</p>
+            }
+        </div>
+    </div>
+</div> 

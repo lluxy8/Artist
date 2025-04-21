@@ -1,0 +1,55 @@
+@model IEnumerable<Core.Entities.Category>
+@{
+    ViewData["Title"] = "Öne Çıkan Kategoriler";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col">
+        </div>
+        <div class="col text-end">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Tüm Kategorilere Dön
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var category in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(category.ImageUrl))
+                    {
+                        <img src="@category.ImageUrl" class="card-img-top" alt="@category.DisplayName" style="height: 200px; object-fit: cover;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@category.DisplayName</h5>
+                        <p class="card-text">@category.Description</p>
+                        <p class="card-text">
+                            <small class="text-muted">URL: @category.UrlName</small>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group w-100" role="group">
+                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Sil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Henüz öne çıkan kategori bulunmamaktadır.
+        </div>
+    }
+</div> 

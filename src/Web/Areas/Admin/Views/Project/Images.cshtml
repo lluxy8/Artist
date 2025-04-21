@@ -1,0 +1,146 @@
+@model Core.Entities.Project
+@{
+    ViewData["Title"] = "Proje Görselleri";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="flex flex-col md:flex-row justify-between">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Proje Görselleri</h1>
+        </div>
+
+        <div class="mb-6 flex justify-end space-x-4">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white
+            hover:bg-gray-50 hover:border-gray-400 hover:shadow-md
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+            transition-all duration-300 ease-in-out
+            active:bg-gray-100 active:shadow-sm">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Listeye Dön
+            </a>
+            <a asp-controller="ProjectImage" asp-action="Create" asp-route-projectId="@Model.Id" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
+            hover:bg-primary-700 hover:shadow-md
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+            transition-all duration-300 ease-in-out
+            active:bg-primary-800 active:shadow-sm">
+                <i class="fas fa-plus mr-2"></i>
+                Yeni Görsel
+            </a>
+        </div>
+    </div>
+
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Görsel</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ana Görsel</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oluşturulma Tarihi</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var image in Model.Images)
+                {
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex-shrink-0 h-20 w-32">
+                                <img class="h-20 w-32 rounded-lg object-cover" src="@image.Url">
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @if (image.IsMainImage)
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Evet
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Hayır
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@image.CreateDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <div class="flex space-x-2">
+                                <a asp-controller="ProjectImage" asp-action="Edit" asp-route-id="@image.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
+                                    hover:bg-primary-700 hover:shadow-md
+                                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                                    transition-all duration-300 ease-in-out
+                                    active:bg-primary-800 active:shadow-sm"
+                                    title="Düzenle">
+                                    <i class="fas fa-edit mr-1"></i>
+                                    Düzenle
+                                </a>
+                                <a asp-controller="ProjectImage" asp-action="Delete" asp-route-id="@image.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 
+                                    hover:bg-red-700 hover:shadow-md
+                                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500/50
+                                    transition-all duration-300 ease-in-out
+                                    active:bg-red-800 active:shadow-sm"
+                                    title="Sil">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    Sil
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+                $(document).ready(function() {
+                    $('table').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json',
+                            info: "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                            infoEmpty: "Gösterilecek kayıt bulunamadı",
+                            infoFiltered: "(_MAX_ kayıt içerisinden)"
+                        },
+                        order: [[2, 'desc']],
+                        pageLength: 10,
+                        responsive: true,
+                        "dom": '<"my-2 px-1 flex flex-col md:flex-row justify-between items-center mb-4"<"flex items-center"l><"flex items-center"f>>rtip',
+                        columnDefs: [
+                            { orderable: false, targets: [3] }
+                        ],
+                        "initComplete": function() {
+                            $('.dataTables_filter input').addClass(`
+                                        peer h-5 w-5 text-primary-600
+                                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
+                                        border-gray-300 rounded-md cursor-pointer
+                                        transition-all duration-300 ease-in-out
+                                        hover:border-primary-400/70
+                                        checked:bg-primary-600 checked:border-primary-600
+                                        checked:hover:bg-primary-700
+                            `);
+
+                            $('.dataTables_length select').addClass(`
+                                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
+                                        border-gray-300 rounded-md cursor-pointer
+                                        transition-all duration-300 ease-in-out
+                                        hover:border-primary-400/70
+                                        checked:bg-primary-600 checked:border-primary-600
+                                        checked:hover:bg-primary-700
+                            `);
+                        },
+                        "drawCallback": function () {
+                            var api = this.api();
+                            var start = api.page.info().start + 1;
+                            var end = api.page.info().end;
+                            var total = api.page.info().recordsTotal;
+                            $('.dataTables_info').html(
+                                total + ' kayıttan ' + start + ' - ' + end + ' arasındaki kayıtlar gösteriliyor'
+                            );
+                        }
+                    });
+                });
+    </script>
+} 

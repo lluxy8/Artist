@@ -1,0 +1,70 @@
+@model List<Core.Entities.PageCarousel>
+@{
+    ViewData["Title"] = "Carousel Yönetimi";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Carousel Yönetimi</h1>
+        <p class="text-gray-600 mt-2">@ViewBag.PageName sayfasının carousel görsellerini yönetin.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var carousel in Model)
+        {
+            <div class="group bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="relative aspect-video overflow-hidden rounded-t-lg">
+                    <img src="@carousel.ImageUrl" alt="Carousel Görseli" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">@carousel.Text1</h3>
+                            <p class="text-sm text-gray-500 mt-1">@carousel.Text2</p>
+                            <p class="text-sm text-gray-500 mt-1">@carousel.Text3</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a asp-action="EditCarousel" asp-route-pageid="@ViewBag.PageId" asp-route-id="@carousel.Id" class="inline-flex items-center px-3 py-1.5 border border-primary-300 rounded-md text-sm font-medium text-primary-700 bg-primary-50
+                                hover:bg-primary-100 hover:border-primary-400
+                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                                transition-all duration-300 ease-in-out">
+                                <i class="fas fa-edit mr-1.5"></i>
+                                Düzenle
+                            </a>
+                            <a asp-action="DeleteCarousel" asp-route-pageid="@ViewBag.PageId" asp-route-id="@carousel.Id" class="inline-flex items-center px-3 py-1.5 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-50
+                                hover:bg-red-100 hover:border-red-400
+                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500/50
+                                transition-all duration-300 ease-in-out">
+                                <i class="fas fa-trash mr-1.5"></i>
+                                Sil
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <span>Oluşturulma Tarihi: @carousel.CreateDate.ToString("dd.MM.yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="flex justify-between items-center mt-8 ">
+        <a asp-action="CreateCarousel" asp-route-pageid="@ViewBag.PageId" asp-route-pageContentId="@ViewBag.PageContentId" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
+            hover:bg-primary-700 hover:shadow-md
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+            transition-all duration-300 ease-in-out
+            active:bg-primary-800 active:shadow-sm">
+            <i class="fas fa-plus mr-2"></i>
+            Yeni Carousel Ekle
+        </a>
+        <a asp-action="Content" asp-route-id="@ViewBag.PageId" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white
+            hover:bg-gray-50 hover:border-gray-400
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+            transition-all duration-300 ease-in-out">
+            <i class="fas fa-arrow-left mr-2"></i>
+            İçerik Sayfasına Dön
+        </a>
+    </div>
+</div> 
