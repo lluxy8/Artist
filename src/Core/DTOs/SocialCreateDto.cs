@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Core.Common.Constants;
 
 namespace Core.DTOs
 {
     public class SocialCreateDto
     {
+        [Required(ErrorMessage = "Ad zorunludur.")]
+        [StringLength(MaxLenghts.Small, ErrorMessage = "Ad en fazla {1} karakter olabilir.")]
         public required string Name { get; set; }
+
+        [Required(ErrorMessage = "URL zorunludur.")]
+        [StringLength(MaxLenghts.Large, ErrorMessage = "URL en fazla {1} karakter olabilir.")]
         public required string Url { get; set; }
+
+        [Required(ErrorMessage = "Resim zorunludur.")]
         public required IFormFile Image { get; set; }
     }
 }

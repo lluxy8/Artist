@@ -33,81 +33,25 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var homePage = await _pageService.GetByUrlAsync("Anasayfa");
-            var settings = await _settingService.GetAllAsync();
-            var setting = settings.FirstOrDefault();
-            var socials = await _socialService.GetAllAsync();
-            var highlightedProjects = await _projectService.GetHighlightedProjects();
-            var categories = await _categoryService.GetAllAsync();
+            var projects = await _projectService.GetHighlightedProjects();
+            var categories = await _categoryService.GetHighlightedCategoriesAsync();
+            var page = await _pageService.GetByUrlAsync("anasayfa");
 
-            ViewBag.Settings = setting;
-            ViewBag.Socials = socials;
-            ViewBag.HighlightedProjects = highlightedProjects;
-            ViewBag.Categories = categories;
-
-            return View(homePage);
-        }
-
-        public async Task<IActionResult> Contact()
-        {
-            var contactPage = await _pageService.GetByUrlAsync("Iletisim");
-            var settings = await _settingService.GetAllAsync();
-            var setting = settings.FirstOrDefault();
-            var socials = await _socialService.GetAllAsync();
-
-            ViewBag.Settings = setting;
-            ViewBag.Socials = socials;
-
-            return View(contactPage);
-        }
-
-        public async Task<IActionResult> Projects(string categoryUrl = null)
-        {
-            var settings = await _settingService.GetAllAsync();
-            var setting = settings.FirstOrDefault();
-            var socials = await _socialService.GetAllAsync();
-            var categories = await _categoryService.GetAllAsync();
-            
-            IEnumerable<Project> projects;
-            if (string.IsNullOrEmpty(categoryUrl))
-            {
-                projects = await _projectService.GetAllAsync();
-            }
-            else
-            {
-                var category = categories.FirstOrDefault(c => c.UrlName == categoryUrl);
-                if (category == null)
-                {
-                    return NotFound();
-                }
-                projects = await _projectService.GetByCategoryIdAsync(category.Id);
-            }
-
-            ViewBag.Settings = setting;
-            ViewBag.Socials = socials;
-            ViewBag.Categories = categories;
-            ViewBag.CurrentCategory = categoryUrl;
-
-            return View(projects);
-        }
-
-        public async Task<IActionResult> ProjectDetail(Guid id)
-        {
-            var settings = await _settingService.GetAllAsync();
-            var setting = settings.FirstOrDefault();
-            var socials = await _socialService.GetAllAsync();
-            
-            var project = await _projectService.GetByIdAsync(id);
-            if (project == null)
-            {
+            if(page is null)
                 return NotFound();
-            }
 
-            ViewBag.Settings = setting;
-            ViewBag.Socials = socials;
+            //var settings = (await _settingService.GetAllAsync()).FirstOrDefault();
 
-            return View(project);
+            var vm = new PageViewModel
+            {
+                Page = page,
+                Projects = projects,
+                Categories = categories
+            };
+
+            return View(vm);
         }
+
 
         public IActionResult Privacy()
         {

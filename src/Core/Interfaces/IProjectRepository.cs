@@ -12,5 +12,6 @@ namespace Core.Interfaces
         Task<List<Project>> GetHighlightedProjectsAsync();
         Task<List<Project>> GetVisibleProjectsAsync();
         Task<List<Project>> GetByCategoryIdAsync(Guid id);
+        Task<List<Project>> Take(int amount);
     }
 }

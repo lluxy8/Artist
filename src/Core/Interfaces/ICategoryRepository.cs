@@ -6,5 +6,6 @@ namespace Core.Interfaces
     {
         Task<List<Category>> GetHighlightedCategoriesAsync();
         Task<Category?> GetByUrlAsync(string url);
+        Task<List<Category>> TakeAsync(int amount);
     }
 }

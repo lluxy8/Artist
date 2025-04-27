@@ -103,5 +103,17 @@ namespace Application.Services
                 throw new Exception("An error occurred while updating the entity.", ex);
             }
         }
+
+        public async Task<List<Category>> TakeAsync(int amount)
+        {
+            try
+            {
+                return await _categoryRepository.TakeAsync(amount);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving categories.", ex);
+            }
+        }
     }
 }

@@ -1,0 +1,12 @@
+﻿using Core.Entities;
+
+namespace Web.Models
+{
+    public class PageContentViewModel
+    {
+        public string Text1 { get; set; } = string.Empty;
+        public string Text2 { get; set; } = string.Empty;
+        public string Text3 { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+    }
+}

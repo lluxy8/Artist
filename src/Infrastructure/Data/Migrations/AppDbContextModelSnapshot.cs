@@ -158,6 +158,12 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("ListCategories")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ListProjects")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 

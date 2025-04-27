@@ -1,88 +1,76 @@
 @model Core.Entities.Page
 @{
-    ViewData["Title"] = "Yeni Sayfa";
+    ViewData["Title"] = "Sayfa Düzenle";
     Layout = "_AdminLayout";
 }
 
-<div class="bg-white rounded-lg shadow-md p-6">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Yeni Sayfa</h1>
-        <p class="text-gray-600 mt-2">Yeni bir sayfa ekleyin.</p>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa Düzenle</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Sayfa bilgilerini düzenleyin.</p>
     </div>
 
-    <form asp-action="Create" enctype="multipart/form-data">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+        <input type="hidden" asp-for="Id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Sayfa Adı -->
             <div class="group">
-                <label asp-for="DisplayName" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Görünen Ad</label>
+                <label asp-for="DisplayName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Sayfa Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="DisplayName" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
+                    <input asp-for="DisplayName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm" />
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
                 <span asp-validation-for="DisplayName" class="text-red-500 text-xs mt-1"></span>
             </div>
 
+            <!-- URL Adı -->
             <div class="group">
-                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">URL Adı</label>
+                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">URL Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="UrlName" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4
-                        bg-white text-gray-900
+                    <input asp-for="UrlName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm" />
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
-                <span asp-validation-for="UrlName" class="mt-1 text-sm text-red-600"></span>
-                <p class="mt-1 text-sm text-gray-500">URL'de kullanılacak benzersiz ad (örn: web-tasarim)</p>
+                <span asp-validation-for="UrlName" class="text-red-500 text-xs mt-1"></span>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">URL'de kullanılacak benzersiz ad (örn: web-tasarim)</p>
             </div>
         </div>
 
         <div class="mt-6 flex justify-end space-x-3">
-            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white 
-                hover:bg-gray-50 hover:border-gray-400
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                 transition-all duration-300 ease-in-out">
-                <i class="fas fa-arrow-left mr-2"></i>
-                Listeye Dön
+                <i class="fas fa-times mr-2"></i>
+                İptal
             </a>
-            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 dark:bg-primary-700
                 hover:bg-primary-700 hover:shadow-md
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                 transition-all duration-300 ease-in-out
                 active:bg-primary-800 active:shadow-sm">
-                <i class="fas fa-plus mr-2"></i>
-                Ekle
+                <i class="fas fa-save mr-2"></i>
+                Kaydet
             </button>
         </div>
     </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        document.getElementById('imageFile').addEventListener('change', function(e) {
-            const preview = document.getElementById('imagePreview');
-            const file = e.target.files[0];
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.querySelector('img').src = e.target.result;
-                    preview.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            } else {
-                preview.classList.add('hidden');
-            }
-        });
-    </script>
-} 
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

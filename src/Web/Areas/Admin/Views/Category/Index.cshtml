@@ -4,18 +4,18 @@
     Layout = "_AdminLayout";
 }
 
-<div class="bg-white rounded-lg shadow-md p-6">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Kategori Listesi</h1>
-        <a asp-action="Create" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Kategori Listesi</h1>
+        <a asp-action="Create" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 duration-300">
             <i class="fas fa-plus mr-2"></i>
             Yeni Kategori Ekle
         </a>
     </div>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200" id="categoryTable">
-            <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-900" id="categoryTable">
+            <thead class="bg-gray-50 dark:bg-gray-900">
                 <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         @Html.DisplayNameFor(model => model.DisplayName)
@@ -37,20 +37,20 @@
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-slate-900">
                 @foreach (var item in Model)
                 {
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 duration-300">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">@item.DisplayName</div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-300">@item.DisplayName</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">@item.UrlName</div>
+                            <div class="text-sm text-gray-900 dark:text-gray-300">@item.UrlName</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if (!string.IsNullOrEmpty(item.ImageUrl))
                             {
-                                <img src="@item.ImageUrl" alt="@item.DisplayName" class="h-20 w-20 rounded-lg shadow-sm object-cover" />
+                                <img src="@item.ImageUrl" alt="@item.DisplayName" class="h-20 w-20 rounded-lg shadow-lg object-cover" />
                             }
                             else
                             {
@@ -60,13 +60,13 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if (item.IsHighlighted)
                             {
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                                     Evet
                                 </span>
                             }
                             else
                             {
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-slate-500">
                                     Hayır
                                 </span>
                             }
@@ -76,11 +76,11 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500" title="Düzenle">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 duration-300" title="Düzenle">
                                     <i class="fas fa-edit mr-1"></i>
                                     Düzenle
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" title="Sil">
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 duration-300" title="Sil">
                                     <i class="fas fa-trash mr-1"></i>
                                     Sil
                                 </a>
@@ -94,41 +94,9 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#categoryTable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
-                },
-                "pageLength": 10,
-                "order": [[4, "desc"]], // Oluşturulma tarihine göre sırala
-                "responsive": true,
-                "dom": '<"my-2 px-1 flex flex-col md:flex-row justify-between items-center mb-4"<"flex items-center"l><"flex items-center"f>>rtip',
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tümü"]],
-                "columnDefs": [
-                    { "orderable": false, "targets": [2, 5] } 
-                ],
-                "initComplete": function() {
-                    $('.dataTables_filter input').addClass(`
-                                peer h-5 w-5 text-primary-600
-                                focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                                border-gray-300 rounded-md cursor-pointer
-                                transition-all duration-300 ease-in-out
-                                hover:border-primary-400/70
-                                checked:bg-primary-600 checked:border-primary-600
-                                checked:hover:bg-primary-700
-                    `);
-
-                    $('.dataTables_length select').addClass(`
-                                focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                                border-gray-300 rounded-md cursor-pointer
-                                transition-all duration-300 ease-in-out
-                                hover:border-primary-400/70
-                                checked:bg-primary-600 checked:border-primary-600
-                                checked:hover:bg-primary-700
-                    `);
-                }
-            });
-        });
-    </script>
+    @await Component.InvokeAsync("DataTable", new { 
+        tableId = "categoryTable", 
+        columns = new List<string> { "5" },
+        isOrderable = true 
+    })
 } 

@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Infrastructure.Abstract;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Infrastructure.Repositories
 {
@@ -35,6 +36,16 @@ namespace Infrastructure.Repositories
             return await IncludeRelatedEntities(context.Categories)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.UrlName == url);
+        }
+
+        public async Task<List<Category>> TakeAsync(int amount)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Categories
+                .AsNoTracking()
+                .Take(amount)
+                .ToListAsync();
         }
     }
 }

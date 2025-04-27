@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Core.DTOs;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -25,17 +26,32 @@ namespace Web.Areas.Admin.Controllers
             {
                 setting = new Setting();
                 await _settingService.AddAsync(setting);
+                await Task.Delay(500);
             }
             
-            return View(setting);
+            var dto = new SettingUpdateDto
+            {
+                Id = setting.Id,                
+                LogoUrl = setting.LogoUrl,
+                CompanyName = setting.CompanyName,
+                DoneCustomerCount = setting.DoneCustomerCount,
+                DoneProjectsCount = setting.DoneProjectsCount,
+                AddressGoogleMaps = setting.AddressGoogleMaps,
+                ExperienceYear = setting.ExperienceYear,
+                PhoneNumber = setting.PhoneNumber,
+                Email = setting.Email,
+                Address = setting.Address
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Setting setting)
+        public async Task<IActionResult> Index(SettingUpdateDto setting)
         {
             if (ModelState.IsValid)
             {
-                await _settingService.UpdateAsync(setting);
+                await _settingService.UpdateAsync(setting, Request);
                 return RedirectToAction(nameof(Index));
             }
             return View(setting);

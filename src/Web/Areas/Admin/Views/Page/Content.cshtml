@@ -1,30 +1,30 @@
-@model Core.Entities.PageContent
+@model PageContentUpdateDto
 @{
     ViewData["Title"] = "Sayfa İçeriği Düzenle";
     Layout = "_AdminLayout";
 }
 
-<div class="bg-white rounded-lg shadow-md p-6">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Sayfa İçeriği Düzenle</h1>
-        <p class="text-gray-600 mt-2">@Model.Page.DisplayName sayfasının içeriğini düzenleyin.</p>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa İçeriği Düzenle</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Sayfanın içeriğini düzenleyin.</p>
     </div>
 
     <form asp-action="Content" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
         <input type="hidden" asp-for="PageId" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="group">
-                <label asp-for="Text1" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Metin 1</label>
+                <label asp-for="Text1" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Metin 1</label>
                 <div class="relative mt-1">
-                    <textarea asp-for="Text1" rows="3" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
+                    <textarea asp-for="Text1" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm"></textarea>
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
@@ -32,14 +32,14 @@
             </div>
 
             <div class="group">
-                <label asp-for="Text2" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Metin 2</label>
+                <label asp-for="Text2" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Metin 2</label>
                 <div class="relative mt-1">
-                    <textarea asp-for="Text2" rows="3" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
+                    <textarea asp-for="Text2" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm"></textarea>
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
@@ -47,14 +47,14 @@
             </div>
 
             <div class="group">
-                <label asp-for="Text3" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Metin 3</label>
+                <label asp-for="Text3" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Metin 3</label>
                 <div class="relative mt-1">
-                    <textarea asp-for="Text3" rows="3" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
+                    <textarea asp-for="Text3" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm"></textarea>
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
@@ -62,44 +62,45 @@
             </div>
 
             <div class="group">
-                <label asp-for="ImageUrl" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Görsel</label>
+                <label asp-for="Image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Görsel</label>
                 <div class="mt-1 flex items-center">
                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
                     {
                         <img src="@Model.ImageUrl" alt="Sayfa Görseli" class="h-20 w-20 object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105" />
                     }
                     <div class="flex-1">
-                        <input type="file" name="ImageFile" class="block w-full text-sm text-gray-500 
-                            file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 
-                            file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 
-                            hover:file:bg-primary-100 file:cursor-pointer
+                        <input type="file" asp-for="Image" class="block w-full text-sm text-gray-500 dark:text-gray-400
+                            file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0
+                            file:text-sm file:font-medium file:bg-primary-50 dark:file:bg-primary-900 file:text-primary-700 dark:file:text-primary-300
+                            hover:file:bg-primary-100 dark:hover:file:bg-primary-800
+                            file:cursor-pointer
                             file:transition-all file:duration-300 file:ease-in-out
                             file:shadow-sm
                             file:focus:outline-none file:focus:ring-2 file:focus:ring-primary-500/50" />
                     </div>
                 </div>
-                <span asp-validation-for="ImageUrl" class="text-red-500 text-xs mt-1"></span>
-                <p class="mt-1 text-sm text-gray-500">Önerilen boyut: 1920x1080 piksel</p>
+                <span asp-validation-for="Image" class="text-red-500 text-xs mt-1"></span>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Önerilen boyut: 1920x1080 piksel</p>
             </div>
         </div>
 
         <div class="mt-6 flex justify-between items-center">
-            <a asp-action="Carousel" asp-route-pageid="@Model.PageId" asp-route-pageContentId="@Model.Id" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white
-                hover:bg-gray-50 hover:border-gray-400
+            <a asp-action="Carousel" asp-route-pageid="@Model.PageId" asp-route-pageContentId="@Model.Id" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                 transition-all duration-300 ease-in-out">
                 <i class="fas fa-images mr-2"></i>
                 Carousel Yönetimi
             </a>
             <div class="flex space-x-3">
-                <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white 
-                    hover:bg-gray-50 hover:border-gray-400
+                <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                    hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                     transition-all duration-300 ease-in-out">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Listeye Dön
                 </a>
-                <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 
+                <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
                     hover:bg-primary-700 hover:shadow-md
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                     transition-all duration-300 ease-in-out
@@ -113,5 +114,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} 
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

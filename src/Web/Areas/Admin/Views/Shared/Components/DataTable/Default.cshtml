@@ -1,0 +1,27 @@
+@model Web.Models.DataTableViewModel
+
+<script>
+    $(document).ready(function () {
+        $('#@Model.TableId').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
+            },
+            dom: '<"flex flex-col md:flex-row justify-between items-center mb-4"<"flex items-center"l><"flex items-center mt-4 md:mt-0"f>>rt<"flex flex-col md:flex-row justify-between items-center mt-4"<"flex items-center"i><"flex items-center mt-4 md:mt-0"p>>',
+            pageLength: 10,
+            responsive: true,
+            order: [[0, 'asc']],
+            columnDefs: [
+                { orderable: @Model.IsOrderable.ToString().ToLower(), targets: @Model.Columns }
+            ],
+            initComplete: function() {
+                $('.dataTables_wrapper').addClass('dark:bg-gray-700');
+                $('.dataTables_length select').addClass('dark:bg-gray-700 dark:text-white dark:border-gray-600');
+                $('.dataTables_filter input').addClass('dark:bg-gray-700 dark:text-white dark:border-gray-600');
+                $('.dataTables_info').addClass('dark:text-gray-300');
+                $('.dataTables_paginate .paginate_button').addClass('dark:text-gray-300 dark:border-gray-600');
+                $('.dataTables_paginate .paginate_button.current').addClass('dark:bg-gray-600 dark:text-white');
+                $('.dataTables_paginate .paginate_button:hover').addClass('dark:bg-gray-600 dark:text-white');
+            }
+        });
+    });
+</script> 

@@ -4,10 +4,10 @@
     Layout = "_AdminLayout";
 }
 
-<div class="bg-white rounded-lg shadow-md p-6">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Proje Düzenle</h1>
-        <p class="text-gray-600 mt-2">Proje bilgilerini güncelleyin.</p>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Proje Düzenle</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Proje bilgilerini güncelleyin.</p>
     </div>
 
     <form asp-action="Edit" enctype="multipart/form-data">
@@ -17,31 +17,29 @@
         <input type="hidden" asp-for="UpdateDate" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Proje Adı -->
             <div class="group">
-                <label asp-for="Name" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200"></label>
+                <label asp-for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Proje Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="Name" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
+                    <input asp-for="Name" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
-                        transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm" />
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
                 <span asp-validation-for="Name" class="text-red-500 text-xs mt-1"></span>
             </div>
 
+            <!-- Kategori -->
             <div class="group">
-                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">Kategori</label>
+                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Kategori</label>
                 <div class="relative mt-1">
-                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
-                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
-                        transition-all duration-300 ease-in-out
-                        text-sm
-                        shadow-sm">
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out text-sm shadow-sm">
                         <option value="">Kategori Seçin</option>
                     </select>
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
@@ -49,63 +47,54 @@
                 <span asp-validation-for="CategoryId" class="text-red-500 text-xs mt-1"></span>
             </div>
 
+            <!-- Açıklama -->
             <div class="group">
-                <label asp-for="Description" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200"></label>
+                <label asp-for="Description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Açıklama</label>
                 <div class="relative mt-1">
-                    <textarea asp-for="Description" rows="3" class="block w-full border border-gray-300 rounded-lg py-2.5 px-4 
-                        bg-white text-gray-900
-                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70
-                        transition-all duration-300 ease-in-out
-                        placeholder-gray-400 text-sm
+                    <textarea asp-for="Description" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out placeholder-gray-400 dark:placeholder-gray-500 text-sm
                         shadow-sm"></textarea>
                     <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
                 </div>
                 <span asp-validation-for="Description" class="text-red-500 text-xs mt-1"></span>
             </div>
 
+            <!-- Öne Çıkart -->
             <div class="group flex items-center">
                 <div class="relative">
-                    <input asp-for="IsHighlighted" class="peer h-5 w-5 text-primary-600 
-                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                        border-gray-300 rounded-md cursor-pointer
-                        transition-all duration-300 ease-in-out
-                        hover:border-primary-400/70
-                        checked:bg-primary-600 checked:border-primary-600
-                        checked:hover:bg-primary-700" />
-                    <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+                    <input asp-for="IsHighlighted" class="peer h-5 w-5 text-primary-600 focus:ring-2 focus:ring-primary-500/50
+                        focus:ring-offset-2 border-gray-300 dark:border-gray-700 rounded-md cursor-pointer transition-all duration-300 ease-in-out
+                        hover:border-primary-400/70 checked:bg-primary-600 checked:border-primary-600 checked:hover:bg-primary-700 dark:checked:bg-primary-500 dark:checked:border-primary-500" />
+                    <div class="absolute inset-0 rounded-md pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
                 </div>
-                <label asp-for="IsHighlighted" class="ml-2 block text-sm text-gray-700 cursor-pointer group-hover:text-primary-600 transition-colors duration-200">Öne Çıkart</label>
+                <label asp-for="IsHighlighted" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Öne Çıkart</label>
             </div>
 
+            <!-- Görünürlük -->
             <div class="group flex items-center">
                 <div class="relative">
-                    <input asp-for="IsVisible" class="peer h-5 w-5 text-primary-600 
-                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                        border-gray-300 rounded-md cursor-pointer
-                        transition-all duration-300 ease-in-out
-                        hover:border-primary-400/70
-                        checked:bg-primary-600 checked:border-primary-600
-                        checked:hover:bg-primary-700" />
-                    <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+                    <input asp-for="IsVisible" class="peer h-5 w-5 text-primary-600 focus:ring-2 focus:ring-primary-500/50
+                        focus:ring-offset-2 border-gray-300 dark:border-gray-700 rounded-md cursor-pointer transition-all duration-300 ease-in-out
+                        hover:border-primary-400/70 checked:bg-primary-600 checked:border-primary-600 checked:hover:bg-primary-700 dark:checked:bg-primary-500 dark:checked:border-primary-500" />
+                    <div class="absolute inset-0 rounded-md pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
                 </div>
-                <label asp-for="IsVisible" class="ml-2 block text-sm text-gray-700 cursor-pointer group-hover:text-primary-600 transition-colors duration-200">Görünür</label>
+                <label asp-for="IsVisible" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Görünür</label>
             </div>
         </div>
 
-        <div class="mt-6 flex justify-end space-x-3">
-            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white 
-                hover:bg-gray-50 hover:border-gray-400
+        <div class="mt-6 flex justify-end space-x-2 items-center">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
                 transition-all duration-300 ease-in-out">
                 <i class="fas fa-arrow-left mr-2"></i>
                 Listeye Dön
             </a>
-            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 
-                hover:bg-primary-700 hover:shadow-md
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
-                transition-all duration-300 ease-in-out
-                active:bg-primary-800 active:shadow-sm">
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
+                hover:bg-primary-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out active:bg-primary-800 active:shadow-sm">
                 <i class="fas fa-save mr-2"></i>
                 Kaydet
             </button>
@@ -114,5 +103,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} 
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

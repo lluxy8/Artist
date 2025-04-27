@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Core.DTOs;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -28,13 +29,15 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Social social)
+        public async Task<IActionResult> Create(SocialCreateDto social)
         {
             if (ModelState.IsValid)
             {
-                await _socialService.AddAsync(social);
+                await _socialService.AddAsync(social, Request);
                 return RedirectToAction(nameof(Index));
             }
+
+
             return View(social);
         }
 
@@ -45,22 +48,48 @@ namespace Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(social);
+
+            var dto = new SocialUpdateDto
+            {
+                Id = social.Id,
+                IconUrl = social.IconUrl,
+                Name = social.Name,
+                Url = social.Url
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, Social social)
+        public async Task<IActionResult> Edit(Guid id, SocialUpdateDto social)
         {
             if (id != social.Id)
             {
                 return NotFound();
             }
 
+
             if (ModelState.IsValid)
             {
-                await _socialService.UpdateAsync(social);
+
+                await _socialService.UpdateAsync(social, Request);
                 return RedirectToAction(nameof(Index));
             }
+            /*
+            else
+            {
+                foreach (var state in ModelState)
+                {
+                    var key = state.Key;
+                    var errors = state.Value.Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Hata: {key} - {error.ErrorMessage}");
+                    }
+                }
+            }
+            */
+
             return View(social);
         }
 

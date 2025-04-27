@@ -51,5 +51,17 @@ namespace Application.Services
 
             }
         }
+
+        public async Task<List<Project>> TakeAsync(int amount)
+        {
+            try
+            {
+                return await _projectRepository.Take(amount);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving projects.", ex);
+            }
+        }
     }
 }

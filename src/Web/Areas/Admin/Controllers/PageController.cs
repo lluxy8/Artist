@@ -97,17 +97,33 @@ namespace Web.Areas.Admin.Controllers
             {
                 content = new PageContent { PageId = id };
                 await _pageContentService.AddAsync(content);
+                await Task.Delay(500);
             }
 
+            var pc = new PageContentUpdateDto
+            {
+                Id = content.Id,
+                PageId = content.PageId,
+                ImageUrl = content.ImageUrl,
+                Text1 = content.Text1,
+                Text2 = content.Text2,
+                Text3 = content.Text3
+            };
 
-            return View(content);
+            return View(pc);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Content(PageContent content)
+        public async Task<IActionResult> Content(PageContentUpdateDto content)
         {
-            await _pageContentService.UpdateAsync(content);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _pageContentService.UpdateAsync(content, Request);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(content);
+
         }
 
         public async Task<IActionResult> Carousel(Guid PageId, Guid pageContentId)
@@ -122,6 +138,7 @@ namespace Web.Areas.Admin.Controllers
         {
             var carousel = new PageCarouselCreateDto { PageContentId = pageContentId };
             ViewBag.PageId = PageId;
+            ViewBag.pageContentId = pageContentId;
             return View(carousel);
         }
 

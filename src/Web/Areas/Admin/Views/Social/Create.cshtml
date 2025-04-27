@@ -1,4 +1,4 @@
-@model Core.Entities.Social
+@model SocialCreateDto
 @{
     ViewData["Title"] = "Yeni Sosyal Medya";
     Layout = "_AdminLayout";
@@ -45,13 +45,13 @@
             </div>
 
             <div class="group">
-                <label asp-for="IconUrl" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">İkon</label>
+                <label asp-for="Image" class="block text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors duration-200">İkon</label>
                 <div class="mt-1 flex items-center">
                     <div id="iconPreview" class="h-20 w-20 hidden">
                         <img src="" alt="İkon Önizleme" class="h-full w-full object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105" />
                     </div>
                     <div class="flex-1">
-                        <input type="file" name="IconFile" id="iconFile" class="block w-full text-sm text-gray-500 
+                        <input type="file" asp-for="Image" id="iconFile" class="block w-full text-sm text-gray-500
                             file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 
                             file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 
                             hover:file:bg-primary-100 file:cursor-pointer
@@ -60,7 +60,7 @@
                             file:focus:outline-none file:focus:ring-2 file:focus:ring-primary-500/50" />
                     </div>
                 </div>
-                <span asp-validation-for="IconUrl" class="text-red-500 text-xs mt-1"></span>
+                <span asp-validation-for="Image" class="text-red-500 text-xs mt-1"></span>
                 <p class="mt-1 text-sm text-gray-500">Önerilen boyut: 64x64 piksel</p>
             </div>
         </div>

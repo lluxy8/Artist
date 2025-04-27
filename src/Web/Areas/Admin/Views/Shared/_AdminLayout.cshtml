@@ -4,15 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Admin Panel</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -33,48 +30,68 @@
             },
         }
     </script>
+
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <div id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0" :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
-            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-xl font-bold text-gray-800">Admin Panel</a>
+        <div id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 -translate-x-full">
+            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="text-xl font-bold text-gray-800 dark:text-white">Admin Panel</a>
                 <button id="sidebarClose" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+
+            <!-- 🌗 Dark Mode Toggle -->
+            <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Dark Mode</span>
+                <label class="inline-flex relative items-center cursor-pointer">
+                    <input type="checkbox" id="themeToggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:bg-primary-500"></div>
+                    <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition-all peer-checked:translate-x-full"></div>
+                </label>
+            </div>
+
             <div class="px-4 py-6">
                 <nav class="space-y-2">
-                    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    @{
+                        var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+                        var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+                        Func<string, string, bool> isActive = (ctrl, act) => currentController == ctrl && (act == null || currentAction == act);
+                    }
+
+                    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Home", "Index") ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-home w-5 h-5 mr-3"></i>
                         <span>Ana Sayfa</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Category" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Category", null) ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-folder w-5 h-5 mr-3"></i>
                         <span>Kategoriler</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Project" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Project" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Project" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Project", null) ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-project-diagram w-5 h-5 mr-3"></i>
                         <span>Projeler</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Page" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Page" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Page" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Page", null) ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
                         <span>Sayfalar</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Social" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Social" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Social" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Social", null) ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-share-alt w-5 h-5 mr-3"></i>
                         <span>Sosyal Medya</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Admin" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Admin", "Index") ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-user-tie w-5 h-5 mr-3"></i>
                         <span>Admin Hesapları</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Setting" asp-action="Index" class="flex items-center px-4 py-3 text-gray-700 @(ViewContext.RouteData.Values["Controller"].ToString() == "Setting" ? "bg-gray-100" : "") rounded-lg hover:bg-primary-50 hover:text-primary-700">
+                    <a asp-area="Admin" asp-controller="Setting" asp-action="Index" class="flex items-center px-4 py-3 rounded-lg transition hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-700 @(isActive("Setting", null) ? "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" : "text-gray-700 dark:text-gray-300")">
                         <i class="fas fa-gear w-5 h-5 mr-3"></i>
                         <span>Ayarlar</span>
                     </a>
-                    <a asp-area="Admin" asp-controller="Admin" asp-action="Logout" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-700">
+                    <a asp-area="Admin" asp-controller="Admin" asp-action="Logout" class="flex items-center px-4 py-3 text-red-700 rounded-lg hover:bg-red-100 dark:hover:bg-red-900 hover:text-red-800">
                         <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
                         <span>Çıkış Yap</span>
                     </a>
@@ -84,69 +101,76 @@
 
         <!-- Main Content -->
         <div class="flex flex-col flex-1 overflow-hidden">
-            <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
+            <!-- Topbar -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm">
                 <div class="flex items-center h-16 px-4">
                     <button id="sidebarToggle" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <div class="flex items-center">
-                        <span class="text-xl font-medium text-gray-700">@ViewData["Title"]</span>
-                    </div>
+                    <h1 class="ml-4 text-xl font-medium text-gray-700 dark:text-white">@ViewData["Title"]</h1>
                 </div>
             </header>
 
-            <!-- Page Content -->
+            <!-- Content -->
             <main class="flex-1 overflow-y-auto p-4">
                 @RenderBody()
             </main>
 
             <!-- Footer -->
-            <footer class="bg-white border-t border-gray-200 py-4 px-4">
-                <div class="text-center text-sm text-gray-500">
-                    &copy; @DateTime.Now.Year - Admin Panel
-                </div>
+            <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                &copy; @DateTime.Now.Year - Admin Panel
             </footer>
         </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-        // Sidebar toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const sidebarClose = document.getElementById('sidebarClose');
-            
+        $(document).ready(function () {
+            const $sidebar = $('#sidebar');
+            const $sidebarToggle = $('#sidebarToggle');
+            const $sidebarClose = $('#sidebarClose');
+            const $toggle = $('#themeToggle');
+            const $root = $(document.documentElement);
+
             let sidebarOpen = false;
-            
+
+            // Sidebar toggle işlevi
             function toggleSidebar() {
                 sidebarOpen = !sidebarOpen;
-                if (sidebarOpen) {
-                    sidebar.classList.remove('-translate-x-full');
-                    sidebar.classList.add('translate-x-0');
-                } else {
-                    sidebar.classList.remove('translate-x-0');
-                    sidebar.classList.add('-translate-x-full');
-                }
+                $sidebar.toggleClass('-translate-x-full', !sidebarOpen);
+                $sidebar.toggleClass('translate-x-0', sidebarOpen);
             }
-            
-            sidebarToggle.addEventListener('click', toggleSidebar);
-            sidebarClose.addEventListener('click', toggleSidebar);
-            
-            // Close sidebar when clicking outside on mobile
-            document.addEventListener('click', function(event) {
-                const isClickInside = sidebar.contains(event.target) || sidebarToggle.contains(event.target);
-                if (!isClickInside && sidebarOpen && window.innerWidth < 1024) {
+
+            $sidebarToggle.on('click', toggleSidebar);
+            $sidebarClose.on('click', toggleSidebar);
+
+            $(document).on('click', function (event) {
+                if (!$(event.target).closest('#sidebar').length && !$(event.target).closest('#sidebarToggle').length && sidebarOpen && $(window).width() < 1024) {
                     toggleSidebar();
                 }
             });
+
+            // Dark mode işlevi
+            function initTheme() {
+                const darkMode = localStorage.getItem('darkMode') === 'true';
+                $root.toggleClass('dark', darkMode);
+                $toggle.prop('checked', darkMode);
+            }
+
+            function toggleTheme() {
+                const isDark = $root.hasClass('dark');
+                $root.toggleClass('dark', !isDark);
+                localStorage.setItem('darkMode', !isDark);
+            }
+
+            // Sayfa yüklendiğinde tema durumunu kontrol et
+            initTheme();
+
+            // Tema değiştirme butonuna tıklandığında
+            $toggle.on('change', toggleTheme);
         });
     </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-</html> 
+</html>

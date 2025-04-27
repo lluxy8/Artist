@@ -46,5 +46,16 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
 
         }
+
+        public async Task<List<Project>> Take(int amount)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Projects
+                .AsNoTracking()
+                .Where(p => p.IsVisible)
+                .Take(amount)
+                .ToListAsync();
+        }
     }
 }

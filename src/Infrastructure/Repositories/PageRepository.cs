@@ -16,7 +16,8 @@ namespace Infrastructure.Repositories
         protected override IQueryable<Page> IncludeRelatedEntities(IQueryable<Page> query)
         {
             return query
-                .Include(p => p.PageContent);
+                .Include(p => p.PageContent)
+                .Include(p => p.PageContent.PageCarousels);
         }
 
         public async Task<Page?> GetByUrlAsync(string url)
