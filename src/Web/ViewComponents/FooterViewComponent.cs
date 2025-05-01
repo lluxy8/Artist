@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -6,16 +7,16 @@ namespace Web.ViewComponents
 {
     public class FooterViewComponent : ViewComponent
     {
-        private readonly SettingService _settingService;
-        private readonly SocialService _socialService;
-        private readonly CategoryService _categoryService;
-        private readonly ProjectService _projectService;
+        private readonly ISettingService _settingService;
+        private readonly ISocialService _socialService;
+        private readonly ICategoryService _categoryService;
+        private readonly IProjectService _projectService;
 
         public FooterViewComponent(
-            SettingService settingService, 
-            SocialService socialService,
-            CategoryService categoryService,
-            ProjectService projectService)
+            ISettingService settingService, 
+            ISocialService socialService,
+            ICategoryService categoryService,
+            IProjectService projectService)
         {
             _settingService = settingService;
             _socialService = socialService;

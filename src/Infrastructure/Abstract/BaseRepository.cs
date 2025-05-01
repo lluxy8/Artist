@@ -1,14 +1,9 @@
 ﻿using Core.Abstract;
-using Core.Interfaces;
+using Core.Common.Enums;
+using Core.Interfaces.Repository;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Abstract
 {
@@ -83,6 +78,75 @@ namespace Infrastructure.Abstract
             using var context = _contextfactory.CreateDbContext();
             return await context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
         }
-            
+
+        public async Task<List<T>> TakeAsync(int amount)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Set<T>()
+                .AsNoTracking()
+                .Take(amount)
+                .ToListAsync();
+        }
+
+        public async Task<List<T>> TakeAsync(int amount, Expression<Func<T, object>> orderByDescending)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Set<T>()
+                .AsNoTracking()
+                .OrderByDescending(orderByDescending)
+                .Take(amount)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Set<T>()
+                .AsNoTracking()
+                .CountAsync();
+        }
+
+        public async Task<List<T>> GetByDateFilterAsync(
+            DateTime? startDate = null,
+            DateTime? endDate = null,
+            DateFilter predefinedRange = DateFilter.None)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            var query = context.Set<T>().AsQueryable();
+
+            if (predefinedRange != DateFilter.None)
+            {
+                var now = DateTime.UtcNow;
+
+                switch (predefinedRange)
+                {
+                    case DateFilter.Last24Hours:
+                        startDate = now.AddHours(-24);
+                        endDate = now;
+                        break;
+                    case DateFilter.LastWeek:
+                        startDate = now.AddDays(-7);
+                        endDate = now;
+                        break;
+                    case DateFilter.LastMonth:
+                        startDate = now.AddMonths(-1);
+                        endDate = now;
+                        break;
+                }
+            }
+
+            if (startDate.HasValue)
+                query = query.Where(x => x.CreateDate >= startDate.Value);
+
+            if (endDate.HasValue)
+                query = query.Where(x => x.CreateDate <= endDate.Value);
+
+            return await query.ToListAsync();
+        }
+
     }
 }

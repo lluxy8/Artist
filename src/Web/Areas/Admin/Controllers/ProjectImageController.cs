@@ -3,6 +3,7 @@ using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Core.DTOs;
+using Core.Interfaces.Service;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -10,10 +11,10 @@ namespace Web.Areas.Admin.Controllers
     //[Authorize]
     public class ProjectImageController : Controller
     {
-        private readonly ProjectImageService _projectImageService;
-        private readonly ProjectService _projectService;
+        private readonly IProjectImageService _projectImageService;
+        private readonly IProjectService _projectService;
 
-        public ProjectImageController(ProjectImageService projectImageService, ProjectService projectService)
+        public ProjectImageController(IProjectImageService projectImageService, IProjectService projectService)
         {
             _projectImageService = projectImageService;
             _projectService = projectService;
@@ -35,8 +36,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProjectImageCreateDto projectImage)
         {
-            await _projectImageService.AddAsync(projectImage, Request);
-            return RedirectToAction("Images", "Project", new { id = projectImage.ProjectId });
+            if(ModelState.IsValid)
+            {
+                await _projectImageService.AddAsync(projectImage, Request);
+                return RedirectToAction("Images", "Project", new { id = projectImage.ProjectId });
+            }
+
+            return View(projectImage);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -65,12 +71,16 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Guid id, ProjectImageUpdateDto dto)
         {
             if (id != dto.Id)
-            {
                 return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                await _projectImageService.UpdateAsync(dto, Request);
+                return RedirectToAction("Images", "Project", new { id = dto.ProjectId });
             }
 
-            await _projectImageService.UpdateAsync(dto, Request);
-            return RedirectToAction("Images", "Project", new { id = dto.ProjectId });
+            return View(dto);
+
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -93,7 +103,7 @@ namespace Web.Areas.Admin.Controllers
             if (projectImage != null)
             {
                 var projectId = projectImage.ProjectId;
-                await _projectImageService.DeleteAsync(projectImage);
+                await _projectImageService.DeleteAsync(id);
                 return RedirectToAction("Images", "Project", new { id = projectId });
             }
             return RedirectToAction("Index", "Project");

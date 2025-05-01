@@ -20,11 +20,6 @@ namespace Infrastructure.Configurations
             builder.Property(x => x.PasswordHash)
                    .HasMaxLength(MaxLenghts.XLarge)
                    .IsRequired();
-
-            builder.HasMany(a => a.LoginAttempts)
-                   .WithOne(la => la.Admin)
-                   .HasForeignKey(la => la.AdminId)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

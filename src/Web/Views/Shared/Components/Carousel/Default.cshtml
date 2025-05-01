@@ -5,18 +5,21 @@
 <section class="hero-section">
     <div class="swiper hero-slider">
         <div class="swiper-wrapper">
-            @foreach(var i in Model)
+            @if(Model != null)
             {
-                <div class="swiper-slide">
-                    <img src="@i.ImageUrl"
-                         alt="Art Studio"
-                         width="1920" height="1080">
-                    <div class="hero-content">
-                        <p class="text-[var(--primary-color)] mb-4">@i.Text1</p>
-                        <h1 class="hero-title">@i.Text2</h1>
-                        <h2 class="hero-subtitle">@i.Text3</h2>
+                foreach (var i in Model)
+                {
+                    <div class="swiper-slide">
+                        <img src="@(i.ImageUrl ?? "")"
+                             alt="Art Studio"
+                             width="1920" height="1080">
+                        <div class="hero-content">
+                            <p class="text-[var(--primary-color)] mb-4">@(i.Text1 ?? "")</p>
+                            <h1 class="hero-title">@(i.Text2 ?? "")</h1>
+                            <h2 class="hero-subtitle">@(i.Text3 ?? "")</h2>
+                        </div>
                     </div>
-                </div>
+                }
             }
         </div>
         <div class="swiper-pagination"></div>

@@ -1,4 +1,4 @@
-@model Core.Entities.Project
+@model ProjectUpdateDto
 @{
     ViewData["Title"] = "Proje Düzenle";
     Layout = "_AdminLayout";
@@ -13,8 +13,6 @@
     <form asp-action="Edit" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
         <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="CreateDate" />
-        <input type="hidden" asp-for="UpdateDate" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Proje Adı -->

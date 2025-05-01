@@ -1,21 +1,22 @@
-using Microsoft.AspNetCore.Mvc;
-using Application.Services;
-using Core.Entities;
+using Core.DTOs;
+using Core.Interfaces;
+using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Cryptography;
-using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class AdminController : Controller
     {
-        private readonly AdminService _adminService;
+        private readonly IAdminService _adminService;
+        private readonly IAuthenticationManager _authenticationManager;
 
-        public AdminController(AdminService adminService)
+        public AdminController(IAdminService adminService, IAuthenticationManager authenticationManager)
         {
             _adminService = adminService;
+            _authenticationManager = authenticationManager;
         }
 
         public async Task<IActionResult> Index()
@@ -24,24 +25,30 @@ namespace Web.Areas.Admin.Controllers
             return View(admins);
         }
 
-        //[AllowAnonymous]
+        [Route("Admin/Login")]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        //[AllowAnonymous]
-        public async Task<IActionResult> Login(string username, string password)
+        [ActionName("login")]
+        [Route("Admin/Login")]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginDto dto, string? returnUrl = null)
         {
-            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
-            var result = await _adminService.LoginAsync(username, password, ip);
+            var result = await _adminService.LoginAsync(dto);
 
-            if (result)
+            if (ModelState.IsValid && result)
             {
-                // TODO: Implement proper authentication
-                return RedirectToAction("Index");
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+
+                return RedirectToAction("Index", "Home");
             }
+
 
             ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre");
             return View();
@@ -49,78 +56,77 @@ namespace Web.Areas.Admin.Controllers
 
         public IActionResult Logout()
         {
-            // TODO: Implement proper logout
+            _authenticationManager.SignOutAsync();
             return RedirectToAction("Login");
         }
 
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Core.Entities.Admin admin, string password)
+        [AllowAnonymous]
+        public async Task<IActionResult> Create(AdminCreateDto dto)
         {
-            admin.PasswordHash = HashPassword(password);
-            await _adminService.AddAsync(admin);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                dto.IpAdress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+                await _adminService.AddAsync(dto);
+                return RedirectToAction(nameof(Index));
+            }
 
+            return View(dto);
         }
 
         public async Task<IActionResult> Edit(Guid id)
         {
             var admin = await _adminService.GetByIdAsync(id);
+
+            var dto = new AdminUpdateDto
+            {
+                Id = admin.Id,
+                Name = admin.Name,
+                Password = string.Empty,
+            };
+
             if (admin == null)
             {
                 return NotFound();
             }
-            return View(admin);
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, Core.Entities.Admin admin, string password)
+        public async Task<IActionResult> Edit(Guid id, AdminUpdateDto dto)
         {
-            if (id != admin.Id)
+            if (id != dto.Id)
             {
                 return NotFound();
             }
 
-            if (!string.IsNullOrEmpty(password))
+            if(ModelState.IsValid)
             {
-                admin.PasswordHash = HashPassword(password);
+                await _adminService.UpdateAsync(dto);
+                return RedirectToAction(nameof(Index));
             }
-            await _adminService.UpdateAsync(admin);
-            return RedirectToAction(nameof(Index));
+
+            return View(dto);
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
             var admin = await _adminService.GetByIdAsync(id);
-            if (admin == null)
-            {
-                return NotFound();
-            }
             return View(admin);
         }
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var admin = await _adminService.GetByIdAsync(id);
-            if (admin != null)
-            {
-                await _adminService.DeleteAsync(admin);
-            }
+            await _adminService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(hashedBytes);
-            }
-        }
     }
-} 
+}

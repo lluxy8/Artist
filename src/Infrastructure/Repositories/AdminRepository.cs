@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfaces;
+using Core.Interfaces.Repository;
 using Infrastructure.Abstract;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +10,12 @@ namespace Infrastructure.Repositories
     {
         public AdminRepository(IDbContextFactory<AppDbContext> context) : base(context) { }
 
-        public async Task<bool> FindAdminAsync(string username, string password)
+        public async Task<Admin?> FindAdminAsync(string username, string password)
         {
             using var context = _contextfactory.CreateDbContext();
             return await context.Admins
                 .AsNoTracking()
-                .AnyAsync(x => x.Name == username && x.PasswordHash == password);
+                .FirstOrDefaultAsync(x => x.Name == username && x.PasswordHash == password);
         }
 
         public async Task<Admin?> GetByUserNameAsync(string username)

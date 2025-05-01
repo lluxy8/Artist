@@ -5,21 +5,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Core.DTOs;
+using Core.Interfaces.Service;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class PageController : Controller
     {
-        private readonly PageService _pageService;
-        private readonly PageContentService _pageContentService;
-        private readonly PageCarouselService _pageCarouselService;
+        private readonly IPageService _pageService;
+        private readonly IPageContentService _pageContentService;
+        private readonly IPageCarouselService _pageCarouselService;
 
         public PageController(
-            PageService pageService,
-            PageContentService pageContentService,
-            PageCarouselService pageCarouselService)
+            IPageService pageService,
+            IPageContentService pageContentService,
+            IPageCarouselService pageCarouselService)
         {
             _pageService = pageService;
             _pageContentService = pageContentService;
@@ -38,32 +39,53 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Page page)
+        public async Task<IActionResult> Create(PageCreateDto page)
         {
-            await _pageService.AddAsync(page);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _pageService.AddAsync(page);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(page);
         }
 
         public async Task<IActionResult> Edit(Guid id)
         {
             var page = await _pageService.GetByIdAsync(id);
+
             if (page == null)
             {
                 return NotFound();
             }
-            return View(page);
+
+            var dto = new PageUpdateDto
+            {
+                Id = page.Id,
+                DisplayName = page.DisplayName,
+                UrlName = page.UrlName,
+                ListCategories = page.ListCategories,
+                ListProjects = page.ListProjects
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, Page page)
+        public async Task<IActionResult> Edit(Guid id, PageUpdateDto page)
         {
             if (id != page.Id)
             {
                 return NotFound();
             }
 
-            await _pageService.UpdateAsync(page);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _pageService.UpdateAsync(page);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(page);
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -82,7 +104,7 @@ namespace Web.Areas.Admin.Controllers
             var page = await _pageService.GetByIdAsync(id);
             if (page != null)
             {
-                await _pageService.DeleteAsync(page);
+                await _pageService.DeleteAsync(id);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -203,7 +225,7 @@ namespace Web.Areas.Admin.Controllers
             if (carousel != null)
             {
                 var pageContentId = carousel.PageContentId;
-                await _pageCarouselService.DeleteAsync(carousel);
+                await _pageCarouselService.DeleteAsync(id);
                 return RedirectToAction(nameof(Carousel), new { pageContentId });
             }
             return NotFound();

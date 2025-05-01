@@ -106,6 +106,9 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -120,9 +123,6 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AdminId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -131,6 +131,10 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Success")
                         .HasColumnType("bit");
 
@@ -138,8 +142,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdminId");
 
                     b.ToTable("LoginAttempts", (string)null);
                 });
@@ -414,17 +416,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Socials", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.LoginAttempt", b =>
-                {
-                    b.HasOne("Core.Entities.Admin", "Admin")
-                        .WithMany("LoginAttempts")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-                });
-
             modelBuilder.Entity("Core.Entities.PageCarousel", b =>
                 {
                     b.HasOne("Core.Entities.PageContent", "PageContent")
@@ -467,11 +458,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("Core.Entities.Admin", b =>
-                {
-                    b.Navigation("LoginAttempts");
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>

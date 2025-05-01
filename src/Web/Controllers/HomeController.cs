@@ -3,25 +3,26 @@ using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 using Application.Services;
 using Core.Entities;
+using Core.Interfaces.Service;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly PageService _pageService;
-        private readonly ProjectService _projectService;
-        private readonly CategoryService _categoryService;
-        private readonly SettingService _settingService;
-        private readonly SocialService _socialService;
+        private readonly IPageService _pageService;
+        private readonly IProjectService _projectService;
+        private readonly ICategoryService _categoryService;
+        private readonly ISettingService _settingService;
+        private readonly ISocialService _socialService;
 
         public HomeController(
             ILogger<HomeController> logger,
-            PageService pageService,
-            ProjectService projectService,
-            CategoryService categoryService,
-            SettingService settingService,
-            SocialService socialService)
+            IPageService pageService,
+            IProjectService projectService,
+            ICategoryService categoryService,
+            ISettingService settingService,
+            ISocialService socialService)
         {
             _logger = logger;
             _pageService = pageService;
@@ -39,8 +40,6 @@ namespace Web.Controllers
 
             if(page is null)
                 return NotFound();
-
-            //var settings = (await _settingService.GetAllAsync()).FirstOrDefault();
 
             var vm = new PageViewModel
             {

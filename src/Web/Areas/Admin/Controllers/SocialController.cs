@@ -3,16 +3,17 @@ using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Core.DTOs;
+using Core.Interfaces.Service;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class SocialController : Controller
     {
-        private readonly SocialService _socialService;
+        private readonly ISocialService _socialService;
 
-        public SocialController(SocialService socialService)
+        public SocialController(ISocialService socialService)
         {
             _socialService = socialService;
         }
@@ -109,7 +110,7 @@ namespace Web.Areas.Admin.Controllers
             var social = await _socialService.GetByIdAsync(id);
             if (social != null)
             {
-                await _socialService.DeleteAsync(social);
+                await _socialService.DeleteAsync(id);
             }
             return RedirectToAction(nameof(Index));
         }

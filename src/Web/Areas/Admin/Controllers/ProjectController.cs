@@ -3,17 +3,19 @@ using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Core.Interfaces.Service;
+using Core.DTOs;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class ProjectController : Controller
     {
-        private readonly ProjectService _projectService;
-        private readonly CategoryService _categoryService;
+        private readonly IProjectService _projectService;
+        private readonly ICategoryService _categoryService;
 
-        public ProjectController(ProjectService projectService, CategoryService categoryService)
+        public ProjectController(IProjectService projectService, ICategoryService categoryService)
         {
             _projectService = projectService;
             _categoryService = categoryService;
@@ -33,10 +35,15 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Project project)
+        public async Task<IActionResult> Create(ProjectCreateDto project)
         {
-            await _projectService.AddAsync(project);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _projectService.AddAsync(project);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(project);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -47,21 +54,37 @@ namespace Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var dto = new ProjectUpdateDto
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                CategoryId = project.CategoryId,
+                IsHighlighted = project.IsHighlighted,
+                IsVisible = project.IsVisible
+            };
+
             var categories = await _categoryService.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "DisplayName");
-            return View(project);
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, Project project)
+        public async Task<IActionResult> Edit(Guid id, ProjectUpdateDto project)
         {
             if (id != project.Id)
             {
                 return NotFound();
             }
 
-            await _projectService.UpdateAsync(project);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _projectService.UpdateAsync(project);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(project);
+
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -80,7 +103,7 @@ namespace Web.Areas.Admin.Controllers
             var project = await _projectService.GetByIdAsync(id);
             if (project != null)
             {
-                await _projectService.DeleteAsync(project);
+                await _projectService.DeleteAsync(id);
             }
             return RedirectToAction(nameof(Index));
         }

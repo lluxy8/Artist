@@ -1,74 +1,88 @@
 ﻿using Application.Abstract;
+using Application.Events;
+using Core.Common.Dispatchers;
+using Core.Common.Enums;
 using Core.Common.Helpers;
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Interfaces.Repository;
+using Core.Interfaces.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Services
 {
-    public sealed class SocialService : BaseService<Social>
+    public sealed class SocialService : BaseService<Social>, ISocialService
     {
-        public SocialService(IRepository<Social> repository) : base(repository)
+        private readonly IAuthenticationManager _authenticationService;
+        private readonly EventDispatcher _eventDispatcher;
+        public SocialService(IRepository<Social> repository,
+            IAuthenticationManager authenticationService,
+            EventDispatcher eventDispatcher) : base(repository)
         {
+            _authenticationService = authenticationService;
+            _eventDispatcher = eventDispatcher;
         }
 
 
         public async Task AddAsync(SocialCreateDto dto, HttpRequest request)
         {
-            try
+            var file = dto.Image;
+
+            string imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
+
+
+            var social = new Social
             {
-                var file = dto.Image;
+                IconUrl = imgurl,
+                Name = dto.Name,
+                Url = dto.Url
+            };
 
-                string imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
-
-
-                var social = new Social
-                {
-                    IconUrl = imgurl,
-                    Name = dto.Name,
-                    Url = dto.Url
-                };
-
-                await _repository.AddAsync(social);
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while adding the entity.", ex);
-            }
+            await _repository.AddAsync(social);
+            await _eventDispatcher.DispatchAsync(new LogEvent(
+                _authenticationService.GetUser().Name,
+                "Yeni bir sosyal medya bağlantısı oluşturuldu.", LogType.Create));
         }
 
         public async Task UpdateAsync(SocialUpdateDto dto, HttpRequest request)
         {
-            try
+            var existingEntity = await _repository.GetByIdAsync(dto.Id)
+                ?? throw new Exception("Sosyal medya bağlantısı bulunamadı.");
+
+            string imgurl = existingEntity.IconUrl;
+            var file = dto.Image;
+            var ChangeImg = file != null && file.Length > 0;
+
+            if (ChangeImg)
+                imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
+
+            var social = new Social
             {
-                var existingEntity = await _repository.GetByIdAsync(dto.Id)
-                    ?? throw new Exception("Entity not found.");
+                Id = existingEntity.Id,
+                IconUrl = imgurl,
+                Name = dto.Name,
+                Url = dto.Url,
+                CreateDate = existingEntity.CreateDate,
+                UpdateDate = DateTime.UtcNow
+            };
 
-                string imgurl = existingEntity.IconUrl;
-                var file = dto.Image;
-                var ChangeImg = file != null && file.Length > 0;
+            await _repository.UpdateAsync(social);
+            await _eventDispatcher.DispatchAsync(new LogEvent(
+                _authenticationService.GetUser().Name,
+                $"{existingEntity.Name} Adlı sosyal medya bağlantısı güncellendi.", LogType.Update));   
+        }
 
-                if (ChangeImg)
-                    imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
+        public override async Task DeleteAsync(Guid id)
+        {
+            var existingEntity = await _repository.GetByIdAsync(id)
+                ?? throw new Exception("Sosyal medya bağlantısı bulunamadı.");
 
-                var social = new Social
-                {
-                    Id = existingEntity.Id,
-                    IconUrl = imgurl,
-                    Name = dto.Name,
-                    Url = dto.Url,
-                    CreateDate = existingEntity.CreateDate,
-                    UpdateDate = DateTime.UtcNow
-                };
-
-                await _repository.UpdateAsync(social);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while updating the entity.", ex);
-            }
+            await _repository.DeleteAsync(existingEntity);
+            await _eventDispatcher.DispatchAsync(new LogEvent(
+                _authenticationService.GetUser().Name,
+                $"{existingEntity.Name} Adlı sosyal medya bağlantısı silindi.", LogType.Delete));
         }
     }
 }

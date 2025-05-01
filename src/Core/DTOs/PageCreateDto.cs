@@ -14,7 +14,7 @@ namespace Core.DTOs
         [StringLength(MaxLenghts.Small, ErrorMessage = "URL adı en fazla {1} karakter olabilir.")]
         public required string UrlName { get; set; }
 
-        [Required(ErrorMessage = "Resim zorunludur.")]
-        public required IFormFile Image { get; set; }
+        public bool ListProjects { get; set; }
+        public bool ListCategories { get; set; }
     }
 }

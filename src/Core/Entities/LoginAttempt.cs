@@ -10,8 +10,7 @@ namespace Core.Entities
     public class LoginAttempt : BaseEntity
     {
         public required string Ip { get; set; }
+        public required string Location { get; set; }
         public bool Success { get; set; }
-        public Guid AdminId { get; set; }
-        public Admin Admin { get; set; } = null!;
     }
 }

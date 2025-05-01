@@ -1,8 +1,13 @@
-﻿using Application.Services;
-using Core.Entities;
+﻿using Application.Abstract;
+using Application.Events;
+using Application.Events.Handlers;
+using Application.Interceptors;
+using Application.Services;
+using Castle.DynamicProxy;
 using Core.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Core.Interfaces.Service;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Application.DependencyInjection
 {
@@ -10,30 +15,52 @@ namespace Application.DependencyInjection
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<AdminService>();
-            services.AddScoped<CategoryService>();
-            services.AddScoped<PageService>();
-            services.AddScoped<PageCarouselService>();
-            services.AddScoped<PageContentService>();
-            services.AddScoped<SettingService>();
-            services.AddScoped<SocialService>();
-            services.AddScoped<LogService>();
-            services.AddScoped<LoginAttemptService>();
-            services.AddScoped<ProjectImageService>();
-            services.AddScoped<ProjectService>();
+            services.AddScoped<IEventHandler<LogEvent>, LogEventHandler>();
 
-            services.AddScoped<IService<Admin>, AdminService>();
-            services.AddScoped<IService<Category>, CategoryService>();
-            services.AddScoped<IService<Log>, LogService>();
-            services.AddScoped<IService<LoginAttempt>, LoginAttemptService>();
-            services.AddScoped<IService<Page>, PageService>();
-            services.AddScoped<IService<PageCarousel>, PageCarouselService>();
-            services.AddScoped<IService<PageContent>, PageContentService>();
-            services.AddScoped<IService<Project>, ProjectService>();
-            services.AddScoped<IService<ProjectImage>, ProjectImageService>();
-            services.AddScoped<IService<Setting>, SettingService>();
-            services.AddScoped<IService<Social>, SocialService>();
+            services.AddSingleton<ProxyGenerator>();
+            services.AddScoped<IInterceptor, ErrorhandlingInterceptor>();
 
+
+            services.Scan(scan => scan
+            .FromAssemblyOf<AdminService>()
+            .AddClasses(classes => classes.AssignableTo(typeof(IService<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+            .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
+                .AsSelfWithInterfaces()
+                .WithScopedLifetime());
+
+            
+            Assembly assembly = typeof(AdminService).Assembly;
+            var baseGenericType = typeof(BaseService<>);
+
+            var serviceTypes = assembly.GetTypes()
+                .Where(t =>
+                    t.IsClass &&
+                    !t.IsAbstract &&
+                    t.BaseType != null &&
+                    t.BaseType.IsGenericType &&
+                    t.BaseType.GetGenericTypeDefinition() == baseGenericType
+                )
+                .ToList();
+
+
+            foreach (var serviceType in serviceTypes)
+            {
+                var interfaceTypes = serviceType.GetInterfaces();
+
+                foreach (var interfaceType in interfaceTypes)
+                {
+                    services.AddScoped(interfaceType, provider =>
+                    {
+                        var proxyGenerator = provider.GetRequiredService<ProxyGenerator>();
+                        var interceptor = provider.GetRequiredService<IInterceptor>();
+                        var service = provider.GetRequiredService(serviceType);
+
+                        return proxyGenerator.CreateInterfaceProxyWithTarget(interfaceType, service, interceptor);
+                    });
+                }
+            }
 
             return services;
         }

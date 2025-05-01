@@ -13,8 +13,7 @@ namespace Infrastructure.Repositories
 
         protected override IQueryable<LoginAttempt> IncludeRelatedEntities(IQueryable<LoginAttempt> query)
         {
-            return query
-                .Include(p => p.Admin);
+            return query;
         }
     }
 }

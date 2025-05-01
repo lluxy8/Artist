@@ -3,16 +3,17 @@ using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Core.DTOs;
+using Core.Interfaces.Service;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class CategoryController : Controller
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -31,8 +32,13 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateDto category)
         {
-            await _categoryService.AddAsync(category, Request);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _categoryService.AddAsync(category, Request);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(category);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -66,8 +72,13 @@ namespace Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            await _categoryService.UpdateAsync(category, Request);
-            return RedirectToAction(nameof(Index));
+            if(ModelState.IsValid)
+            {
+                await _categoryService.UpdateAsync(category, Request);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(category);
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -86,7 +97,7 @@ namespace Web.Areas.Admin.Controllers
             var category = await _categoryService.GetByIdAsync(id);
             if (category != null)
             {
-                await _categoryService.DeleteAsync(category);
+                await _categoryService.DeleteAsync(id);
             }
             return RedirectToAction(nameof(Index));
         }

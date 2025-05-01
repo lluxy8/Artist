@@ -1,3 +1,8 @@
+@{
+    var toastSuccess = TempData["ToastSuccess"]?.ToString();
+    var toastError = TempData["ToastError"]?.ToString();
+}
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -5,8 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Admin Panel</title>
 
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -31,8 +38,96 @@
         }
     </script>
 
-    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+        toastr.options = {
+          "closeButton": true,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-center",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            const $sidebar = $('#sidebar');
+            const $sidebarToggle = $('#sidebarToggle');
+            const $sidebarClose = $('#sidebarClose');
+            const $toggle = $('#themeToggle');
+            const $root = $(document.documentElement);
+
+            let sidebarOpen = false;
+
+            // Sidebar toggle işlevi
+            function toggleSidebar() {
+                sidebarOpen = !sidebarOpen;
+                $sidebar.toggleClass('-translate-x-full', !sidebarOpen);
+                $sidebar.toggleClass('translate-x-0', sidebarOpen);
+            }
+
+            $sidebarToggle.on('click', toggleSidebar);
+            $sidebarClose.on('click', toggleSidebar);
+
+            $(document).on('click', function (event) {
+                if (!$(event.target).closest('#sidebar').length && !$(event.target).closest('#sidebarToggle').length && sidebarOpen && $(window).width() < 1024) {
+                    toggleSidebar();
+                }
+            });
+
+            // Dark mode işlevi
+            function initTheme() {
+                const darkMode = localStorage.getItem('darkMode') === 'true';
+                $root.toggleClass('dark', darkMode);
+                $toggle.prop('checked', darkMode);
+            }
+
+            function toggleTheme() {
+                const isDark = $root.hasClass('dark');
+                $root.toggleClass('dark', !isDark);
+                localStorage.setItem('darkMode', !isDark);
+            }
+
+            // Sayfa yüklendiğinde tema durumunu kontrol et
+            initTheme();
+            setTimeout(function() {
+                document.getElementsByTagName("html")[0].style.visibility = "visible";
+
+                const success = "@toastSuccess";
+                const error = "@toastError";
+
+                if (success) {
+                    toastr.success(success);
+                }
+
+                if (error) {
+                    toastr.error(error);
+                }
+            }, 120);
+
+
+            
+
+            // Tema değiştirme butonuna tıklandığında
+            $toggle.on('change', toggleTheme);
+        });
+    </script>
+
+
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
     <div class="flex h-screen overflow-hidden">
@@ -45,7 +140,6 @@
                 </button>
             </div>
 
-            <!-- 🌗 Dark Mode Toggle -->
             <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Dark Mode</span>
                 <label class="inline-flex relative items-center cursor-pointer">
@@ -123,53 +217,7 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            const $sidebar = $('#sidebar');
-            const $sidebarToggle = $('#sidebarToggle');
-            const $sidebarClose = $('#sidebarClose');
-            const $toggle = $('#themeToggle');
-            const $root = $(document.documentElement);
 
-            let sidebarOpen = false;
-
-            // Sidebar toggle işlevi
-            function toggleSidebar() {
-                sidebarOpen = !sidebarOpen;
-                $sidebar.toggleClass('-translate-x-full', !sidebarOpen);
-                $sidebar.toggleClass('translate-x-0', sidebarOpen);
-            }
-
-            $sidebarToggle.on('click', toggleSidebar);
-            $sidebarClose.on('click', toggleSidebar);
-
-            $(document).on('click', function (event) {
-                if (!$(event.target).closest('#sidebar').length && !$(event.target).closest('#sidebarToggle').length && sidebarOpen && $(window).width() < 1024) {
-                    toggleSidebar();
-                }
-            });
-
-            // Dark mode işlevi
-            function initTheme() {
-                const darkMode = localStorage.getItem('darkMode') === 'true';
-                $root.toggleClass('dark', darkMode);
-                $toggle.prop('checked', darkMode);
-            }
-
-            function toggleTheme() {
-                const isDark = $root.hasClass('dark');
-                $root.toggleClass('dark', !isDark);
-                localStorage.setItem('darkMode', !isDark);
-            }
-
-            // Sayfa yüklendiğinde tema durumunu kontrol et
-            initTheme();
-
-            // Tema değiştirme butonuna tıklandığında
-            $toggle.on('change', toggleTheme);
-        });
-    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

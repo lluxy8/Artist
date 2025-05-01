@@ -1,4 +1,4 @@
-@model Core.Entities.Page
+@model PageCreateDto
 @{
     ViewData["Title"] = "Sayfa Düzenle";
     Layout = "_AdminLayout";
@@ -6,13 +6,12 @@
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa Düzenle</h1>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">Sayfa bilgilerini düzenleyin.</p>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa Ekle</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Yeni bir sayfa ekleyin.</p>
     </div>
 
-    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
-        <input type="hidden" asp-for="Id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Sayfa Adı -->

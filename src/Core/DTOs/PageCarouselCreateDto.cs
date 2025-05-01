@@ -23,7 +23,7 @@ namespace Core.DTOs
         [StringLength(MaxLenghts.Medium, ErrorMessage = "Metin 3 en fazla {1} karakter olabilir.")]
         public string Text3 { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Sayfa İçeriği ID'si zorunludur.")]
+        [Required(ErrorMessage = "Sayfa İçeriği zorunludur.")]
         public Guid PageContentId { get; set; }
     }
 }

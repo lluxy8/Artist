@@ -3,16 +3,17 @@ using Application.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Core.DTOs;
+using Core.Interfaces.Service;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class SettingController : Controller
     {
-        private readonly SettingService _settingService;
+        private readonly ISettingService _settingService;
 
-        public SettingController(SettingService settingService)
+        public SettingController(ISettingService settingService)
         {
             _settingService = settingService;
         }

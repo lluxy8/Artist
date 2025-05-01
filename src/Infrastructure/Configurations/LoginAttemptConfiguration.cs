@@ -22,10 +22,6 @@ namespace Infrastructure.Configurations
                    .HasMaxLength(MaxLenghts.Small)
                    .IsRequired();
 
-            builder.HasOne(la => la.Admin)
-                   .WithMany(a => a.LoginAttempts)
-                   .HasForeignKey(la => la.AdminId)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

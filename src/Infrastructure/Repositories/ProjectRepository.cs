@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfaces;
+using Core.Interfaces.Repository;
 using Infrastructure.Abstract;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -45,17 +45,6 @@ namespace Infrastructure.Repositories
                 .Where(p => p.CategoryId == id)
                 .ToListAsync();
 
-        }
-
-        public async Task<List<Project>> Take(int amount)
-        {
-            using var context = _contextfactory.CreateDbContext();
-
-            return await context.Projects
-                .AsNoTracking()
-                .Where(p => p.IsVisible)
-                .Take(amount)
-                .ToListAsync();
         }
     }
 }

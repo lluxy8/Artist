@@ -1,11 +1,10 @@
 ﻿using Core.Entities;
 
-namespace Core.Interfaces
+namespace Core.Interfaces.Repository
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IRepository<Category>
     {
         Task<List<Category>> GetHighlightedCategoriesAsync();
         Task<Category?> GetByUrlAsync(string url);
-        Task<List<Category>> TakeAsync(int amount);
     }
 }

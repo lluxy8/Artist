@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -6,8 +7,8 @@ namespace Web.ViewComponents
 {
     public class CarouselViewComponent : ViewComponent
     {
-        private readonly PageService _page;
-        public CarouselViewComponent(PageService page)
+        private readonly IPageService _page;
+        public CarouselViewComponent(IPageService page)
         {
             _page = page;
         }

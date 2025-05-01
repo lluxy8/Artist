@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -6,16 +7,14 @@ namespace Web.ViewComponents
 {
     public class ListCPViewComponent : ViewComponent
     {
-        private readonly PageService _pageService;
-        private readonly ProjectService _projectService;
-        private readonly CategoryService _categoryService;
+        private readonly IPageService _pageService;
+        private readonly IProjectService _projectService;
+        private readonly ICategoryService _categoryService;
 
         public ListCPViewComponent(
-            PageService pageService,
-            ProjectService projectService,
-            CategoryService categoryService,
-            SettingService settingService,
-            SocialService socialService)
+            IPageService pageService,
+            IProjectService projectService,
+            ICategoryService categoryService)
         {
             _pageService = pageService;
             _projectService = projectService;

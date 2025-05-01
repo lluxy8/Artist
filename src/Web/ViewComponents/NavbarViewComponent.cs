@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -6,9 +7,9 @@ namespace Web.ViewComponents
 {
     public class NavbarViewComponent : ViewComponent
     {
-        private readonly PageService _page;
-        private readonly SettingService _setting;
-        public NavbarViewComponent(PageService page, SettingService setting)
+        private readonly IPageService _page;
+        private readonly ISettingService _setting;
+        public NavbarViewComponent(IPageService page, ISettingService setting)
         {
             _page = page;
             _setting = setting;
