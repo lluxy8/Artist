@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         protected override IQueryable<Project> IncludeRelatedEntities(IQueryable<Project> query)
         {
             return query
-                .Include(p => p.Category)
+                .Include(p => p.SubCategory)
                 .Include(p => p.Images);
         }
 
@@ -42,9 +42,17 @@ namespace Infrastructure.Repositories
             using var context = _contextfactory.CreateDbContext();
             return await IncludeRelatedEntities(context.Projects)
                 .AsNoTracking()
-                .Where(p => p.CategoryId == id)
+                .Where(p => p.SubCategoryId == id && p.IsVisible)
                 .ToListAsync();
 
+        }
+
+        public async Task<Project?> GetByUrl(string url)
+        {
+            using var context = _contextfactory.CreateDbContext();
+            return await IncludeRelatedEntities(context.Projects)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.UrlName == url && p.IsVisible);
         }
     }
 }

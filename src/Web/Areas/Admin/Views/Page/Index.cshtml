@@ -5,18 +5,11 @@
 }
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-start items-center mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa Listesi</h1>
             <p class="text-gray-600 dark:text-gray-300 mt-2">Sayfalarınızı yönetin.</p>
         </div>
-        <a asp-action="Create" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
-            hover:bg-primary-700 hover:shadow-md
-            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
-            transition-all duration-300 ease-in-out">
-            <i class="fas fa-plus mr-2"></i>
-            Yeni Sayfa Ekle
-        </a>
     </div>
 
     <div class="overflow-x-auto">
@@ -54,10 +47,6 @@
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-primary-700 dark:hover:bg-primary-800" title="Düzenle">
                                     <i class="fas fa-edit mr-1"></i>
                                     Düzenle
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:bg-red-700 dark:hover:bg-red-800" title="Sil">
-                                    <i class="fas fa-trash mr-1"></i>
-                                    Sil
                                 </a>
                             </div>
                         </td>

@@ -1,0 +1,14 @@
+﻿@model bool
+
+@if (Model)
+{
+    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-700">
+        <i class="fa-solid fa-check text-emerald-600 dark:text-emerald-200 text-lg"></i>
+    </div>
+}
+else
+{
+    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-700">
+        <i class="fa-solid fa-xmark text-rose-600 dark:text-rose-200 text-lg"></i>
+    </div>
+}

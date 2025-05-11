@@ -30,7 +30,7 @@ namespace Application.DependencyInjection
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
 
-            
+            // Bok çukuru
             Assembly assembly = typeof(AdminService).Assembly;
             var baseGenericType = typeof(BaseService<>);
 

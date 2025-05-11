@@ -18,16 +18,16 @@ namespace Infrastructure.Configurations
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.DisplayName)
                    .HasMaxLength(MaxLenghts.Small)
                    .IsRequired();
 
             builder.Property(x => x.Description)
                    .HasMaxLength(MaxLenghts.XLarge);
 
-            builder.HasOne(p => p.Category)
+            builder.HasOne(p => p.SubCategory)
                    .WithMany(c => c.Projects)
-                   .HasForeignKey(p => p.CategoryId)
+                   .HasForeignKey(p => p.SubCategoryId)
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.Images)

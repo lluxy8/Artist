@@ -6,5 +6,6 @@ namespace Core.Interfaces.Repository
     {
         Task<List<Category>> GetHighlightedCategoriesAsync();
         Task<Category?> GetByUrlAsync(string url);
+        Task<bool> CheckUrl(string url);
     }
 }

@@ -19,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<ProjectImage> ProjectImages { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Social> Socials { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

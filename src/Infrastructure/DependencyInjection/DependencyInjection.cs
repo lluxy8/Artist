@@ -16,6 +16,17 @@ namespace Infrastructure.DependencyInjection
             services.AddDbContextFactory<AppDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DevConnection")));
 
+            services.Scan(scan => scan
+                .FromAssemblyOf<AdminRepository>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IRepository<>)))
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime()
+                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+                    .AsSelfWithInterfaces()
+                    .WithScopedLifetime());
+
+
+            /*
             services.AddScoped<IRepository<Admin>, AdminRepository>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
             services.AddScoped<IRepository<Log>, LogRepository>();
@@ -33,7 +44,7 @@ namespace Infrastructure.DependencyInjection
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IPageRepository, PageRepository>();
-
+            */
             return services;
         }
     }

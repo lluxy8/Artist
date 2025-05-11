@@ -38,6 +38,9 @@ namespace Application.Services
 
         public async Task AddAsync(PageCreateDto dto)
         {
+            if (await _pageRepository.CheckUrl(dto.UrlName))
+                throw new Exception("Bu url'ye sahip bir sayfa zaten var!");
+
             var page = new Page
             {
                 DisplayName = dto.DisplayName,
@@ -54,6 +57,9 @@ namespace Application.Services
 
         public async Task UpdateAsync(PageUpdateDto dto)
         {
+            if (await _pageRepository.CheckUrl(dto.UrlName))
+                throw new Exception("Bu url'ye sahip bir sayfa zaten var!");
+
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Sayfa bulunamadı."); ;
 

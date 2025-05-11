@@ -27,5 +27,12 @@ namespace Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.UrlName == url);
         }
+
+        public async Task<bool> CheckUrl(string url)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Categories.AnyAsync(x => x.UrlName == url);
+        }
     }
 }

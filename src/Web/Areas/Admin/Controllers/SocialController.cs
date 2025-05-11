@@ -76,20 +76,6 @@ namespace Web.Areas.Admin.Controllers
                 await _socialService.UpdateAsync(social, Request);
                 return RedirectToAction(nameof(Index));
             }
-            /*
-            else
-            {
-                foreach (var state in ModelState)
-                {
-                    var key = state.Key;
-                    var errors = state.Value.Errors;
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"Hata: {key} - {error.ErrorMessage}");
-                    }
-                }
-            }
-            */
 
             return View(social);
         }

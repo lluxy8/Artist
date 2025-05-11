@@ -1,29 +1,53 @@
 ﻿@model List<CarouselViewModel>
 
 
-<!-- Hero Section with Slider -->
-<section class="hero-section">
-    <div class="swiper hero-slider">
-        <div class="swiper-wrapper">
-            @if(Model != null)
-            {
-                foreach (var i in Model)
-                {
-                    <div class="swiper-slide">
-                        <img src="@(i.ImageUrl ?? "")"
-                             alt="Art Studio"
-                             width="1920" height="1080">
-                        <div class="hero-content">
-                            <p class="text-[var(--primary-color)] mb-4">@(i.Text1 ?? "")</p>
-                            <h1 class="hero-title">@(i.Text2 ?? "")</h1>
-                            <h2 class="hero-subtitle">@(i.Text3 ?? "")</h2>
-                        </div>
+
+@if(Model != null)
+{
+    if (Model.Count > 1)
+    {
+        <section class="hero-section">
+            <div class="swiper hero-slider">
+                <div class="swiper-wrapper">
+                    @if (Model != null)
+                    {
+                        foreach (var i in Model)
+                        {
+                            <div class="swiper-slide">
+                                <img src="@(i.ImageUrl ?? "")"
+                                     alt="Art Studio"
+                                     width="1920" height="1080">
+                                <div class="hero-content">
+                                    <p class="text-[var(--primary-color)] mb-4">@(i.Text1 ?? "")</p>
+                                    <h1 class="hero-title">@(i.Text2 ?? "")</h1>
+                                    <h2 class="hero-subtitle">@(i.Text3 ?? "")</h2>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+    }
+    else
+    {
+        var i = @Model.FirstOrDefault();
+        if (i != null)
+        {
+            <section class="about-hero">
+                <img src="@i.ImageUrl" alt="About Us Hero" class="w-100 h-100 object-fit-cover">
+                <div class="hero-content">
+                    <h1 class="hero-title">@i.Text1</h1>
+                    <div class="d-flex align-items-center gap-2 text-white">
+                        <a href="/anasayfa" class="text-white text-decoration-none">@i.Text2</a>
+                        <span>//</span>
+                        <span>@i.Text3</span>
                     </div>
-                }
-            }
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</section>
+                </div>
+            </section>
+        }
+    }
+}

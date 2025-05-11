@@ -1,26 +1,68 @@
 @model Web.Models.DataTableViewModel
+@using Newtonsoft.Json
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#@Model.TableId').DataTable({
+    $(document).ready(function() {
+        var table = $('#@Model.TableId').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json'
             },
-            dom: '<"flex flex-col md:flex-row justify-between items-center mb-4"<"flex items-center"l><"flex items-center mt-4 md:mt-0"f>>rt<"flex flex-col md:flex-row justify-between items-center mt-4"<"flex items-center"i><"flex items-center mt-4 md:mt-0"p>>',
+
+            dom: `
+                <"flex justify-between items-center mb-4"
+                    <"flex items-center"
+                        <"relative">
+                        l
+                    >
+                    <"flex items-center"
+                        f
+                    >
+                >
+                t
+                <"flex justify-between items-center mt-4"
+                    <"flex items-center"
+                        i
+                    >
+                    <"flex items-center"
+                        p
+                    >
+                >
+            `,
+            // Diðer ayarlar
             pageLength: 10,
-            responsive: true,
-            order: [[0, 'asc']],
-            columnDefs: [
-                { orderable: @Model.IsOrderable.ToString().ToLower(), targets: @Model.Columns }
-            ],
+            responsive: false,
+            ordering: true,
             initComplete: function() {
-                $('.dataTables_wrapper').addClass('dark:bg-gray-700');
-                $('.dataTables_length select').addClass('dark:bg-gray-700 dark:text-white dark:border-gray-600');
-                $('.dataTables_filter input').addClass('dark:bg-gray-700 dark:text-white dark:border-gray-600');
-                $('.dataTables_info').addClass('dark:text-gray-300');
-                $('.dataTables_paginate .paginate_button').addClass('dark:text-gray-300 dark:border-gray-600');
-                $('.dataTables_paginate .paginate_button.current').addClass('dark:bg-gray-600 dark:text-white');
-                $('.dataTables_paginate .paginate_button:hover').addClass('dark:bg-gray-600 dark:text-white');
+                $(this).removeClass('display dataTable');
+                $(this).find('th, td').removeClass('sorting sorting_asc sorting_desc dt-column');
+
+                $('.dataTables_length select').addClass('border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 hover:border-primary-400/70 dark:hover:border-primary-400 transition-all duration-300 ease-in-out text-sm dark:text-sm shadow-sm');
+                $('.dataTables_filter input').addClass('m-1  border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 hover:border-primary-400/70 dark:hover:border-primary-400 transition-all duration-300 ease-in-out placeholder-gray-400 dark:placeholder-gray-500 text-sm shadow-sm');
+
+
+                $('.dataTables_paginate .paginate_button').addClass('dark:border-gray-600');
+            },
+
+            drawCallback: function () {
+                const $headers = $('thead th.sorting:not(.sorting_asc, .sorting_desc)');
+                $headers.find('i.fa-sort').remove();
+                $headers.append('<i class="fas fa-sort ml-2 text-gray-400"></i>');
+
+                let $info = $('.dataTables_info');
+                let text = $info.text();
+
+                if (text.length > 0) {
+                    let mid = text.length / 2;
+                    let firstHalf = text.substring(0, mid).trim();
+                    let secondHalf = text.substring(mid).trim();
+
+                    if (firstHalf === secondHalf) {
+                        $info.text(firstHalf); 
+                    }
+                }
             }
         });
     });

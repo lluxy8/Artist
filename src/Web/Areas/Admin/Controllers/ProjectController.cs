@@ -13,15 +13,17 @@ namespace Web.Areas.Admin.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
+        private readonly ISubCategoryService _subCategoryService;
         private readonly ICategoryService _categoryService;
 
-        public ProjectController(IProjectService projectService, ICategoryService categoryService)
+        public ProjectController(IProjectService projectService, ISubCategoryService subCategoryService, ICategoryService categoryService)
         {
             _projectService = projectService;
+            _subCategoryService = subCategoryService;
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()    
         {
             var projects = await _projectService.GetAllAsync(true);
             return View(projects);
@@ -29,8 +31,8 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var categories = await _categoryService.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "DisplayName");
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.SubCategories = await _subCategoryService.GetAllAsync();
             return View();
         }
 
@@ -43,9 +45,11 @@ namespace Web.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.SubCategories = await _subCategoryService.GetAllAsync();
             return View(project);
         }
-
         public async Task<IActionResult> Edit(Guid id)
         {
             var project = await _projectService.GetByIdAsync(id);
@@ -54,18 +58,23 @@ namespace Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var subCategory = await _subCategoryService.GetByIdAsync(project.SubCategoryId, true);
+
             var dto = new ProjectUpdateDto
             {
                 Id = project.Id,
-                Name = project.Name,
+                Name = project.DisplayName,
+                UrlName = project.UrlName,
                 Description = project.Description,
-                CategoryId = project.CategoryId,
+                CategoryId = project.SubCategoryId,
                 IsHighlighted = project.IsHighlighted,
+                SelectedCategoryId = subCategory is null ? Guid.Empty : subCategory.Category.Id,
+                SelectedSubCategoryId = project.SubCategoryId,
                 IsVisible = project.IsVisible
             };
 
-            var categories = await _categoryService.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "DisplayName");
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.SubCategories = await _subCategoryService.GetAllAsync();
             return View(dto);
         }
 
@@ -83,8 +92,9 @@ namespace Web.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.SubCategories = await _subCategoryService.GetAllAsync();
             return View(project);
-
         }
 
         public async Task<IActionResult> Delete(Guid id)

@@ -4,6 +4,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Core.DTOs;
 using Core.Interfaces.Service;
+using System.Threading.Tasks;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -12,10 +13,12 @@ namespace Web.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly ISubCategoryService _subCategoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ISubCategoryService subCategoryService)
         {
             _categoryService = categoryService;
+            _subCategoryService = subCategoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -26,6 +29,7 @@ namespace Web.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+
             return View();
         }
 

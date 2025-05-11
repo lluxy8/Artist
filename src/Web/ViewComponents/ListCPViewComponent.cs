@@ -34,19 +34,18 @@ namespace Web.ViewComponents
                 Categories = categories
             };
 
-            return View("Both", pageVM);
 
-            /*
-            if (page.ListProjects)
+
+            if (page.ListProjects && page.ListCategories)
+                return View("Both", pageVM);
+
+            else if (page.ListProjects)
                 return View("Projects", pageVM);
+
             else if(page.ListCategories)
                 return View("Categories", pageVM);
-            else if (page.ListProjects && page.ListCategories)
-                return View("Both", pageVM);
-            
-            return View();
 
-            */
+            return View();
         }
     }
 }

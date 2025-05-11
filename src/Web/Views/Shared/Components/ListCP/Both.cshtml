@@ -11,7 +11,7 @@
                     <div class="gallery-item" data-category="yağlı-boya modern">
                         <img src="@(i.Images.FirstOrDefault(x => x.IsMainImage)?.Url ?? i.Images.FirstOrDefault()?.Url)" class="gallery-image">
                         <div class="gallery-overlay">
-                            <h3>@i.Name</h3>
+                            <h3>@i.DisplayName</h3>
                             <a href="exhibition-detail.html?id=1" class="text-white">Detayları Gör <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -27,13 +27,16 @@
             <div class="portfolio-grid mt-12">
                 @foreach (var i in Model.Categories)
                 {
-                    <div class="portfolio-item">
-                        <img src="@i.ImageUrl" width="600" height="400">
-                        <div class="portfolio-overlay">
-                            <h3 class="portfolio-title">@i.DisplayName</h3>
-                            <a href="#" class="text-white">Projeleri Gör <i class="fas fa-arrow-right"></i></a>
+                    <a asp-controller="Galeri" asp-action="Index" asp-route-kategori="@i.UrlName" class="nav-link">
+                        <div class="portfolio-item">
+
+                            <img src="@i.ImageUrl" width="600" height="400">
+                            <div class="portfolio-overlay">
+                                <h3 class="portfolio-title">@i.DisplayName</h3>
+                                <span href="#" class="text-white">Projeleri Gör <i class="fas fa-arrow-right"></i></span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 }
             </div>
         </div>

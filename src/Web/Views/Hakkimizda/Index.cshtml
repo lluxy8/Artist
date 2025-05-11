@@ -1,0 +1,36 @@
+﻿@model AboutPageViewModel
+@{
+    ViewData["Title"] = "Hakkımızda";
+    ViewData["PageUrl"] = Model.Page.UrlName;
+}
+
+
+
+<!-- About Content Section -->
+@await Component.InvokeAsync("PageContent", ViewData["PageUrl"])
+
+<!-- Stats Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 flex justify-center items-center">
+            <div class="col-md-3 col-6">
+                <div class="stats-card text-center">
+                    <div class="stats-number">@(Model.DoneProjectsCount)+</div>
+                    <div class="stats-text">Tamamlanan İş</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card text-center">
+                    <div class="stats-number">@(Model.DoneCustomerCount)+</div>
+                    <div class="stats-text">Mutlu Müşteri</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card text-center">
+                    <div class="stats-number">@(Model.ExperienceYear)+</div>
+                    <div class="stats-text">Yıllık Deneyim</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -18,19 +18,19 @@
             <thead class="bg-gray-50 dark:bg-gray-900">
                 <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        @Html.DisplayNameFor(model => model.DisplayName)
+                        Ad
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        @Html.DisplayNameFor(model => model.UrlName)
+                        Url
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        @Html.DisplayNameFor(model => model.ImageUrl)
+                        Görsel
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        @Html.DisplayNameFor(model => model.IsHighlighted)
+                        Öne Çıkan
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        @Html.DisplayNameFor(model => model.CreateDate)
+                        Oluşturulma Tarihi
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         İşlemler
@@ -76,6 +76,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
+                                <a asp-controller="SubCategory" asp-action="Index" asp-route-scid="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-slate-400 dark:bg-slate-500 dark:hover:bg-slate-600 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 duration-300" title="Görselleri Yönet">
+                                    <i class="fas fa-code-branch mr-1"></i>
+                                    Alt Kategoriler
+                                </a>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 duration-300" title="Düzenle">
                                     <i class="fas fa-edit mr-1"></i>
                                     Düzenle

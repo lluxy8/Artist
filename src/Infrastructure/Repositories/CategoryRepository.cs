@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
         protected override IQueryable<Category> IncludeRelatedEntities(IQueryable<Category> query)
         {
             return query
-                .Include(p => p.Projects);
+                .Include(p => p.SubCategories);
         }
 
         public async Task<List<Category>> GetHighlightedCategoriesAsync()
@@ -36,6 +36,13 @@ namespace Infrastructure.Repositories
             return await IncludeRelatedEntities(context.Categories)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.UrlName == url);
+        }
+
+        public async Task<bool> CheckUrl(string url)
+        {
+            using var context = _contextfactory.CreateDbContext();
+
+            return await context.Categories.AnyAsync(x => x.UrlName == url);
         }
     }
 }

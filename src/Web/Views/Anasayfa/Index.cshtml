@@ -1,0 +1,8 @@
+﻿@model PageViewModel
+@{
+    ViewData["Title"] = "Sanatçı & Resim Tasarımcıları Ajansı";
+    ViewData["PageUrl"] = Model.Page.UrlName;
+}
+
+
+@await Component.InvokeAsync("PageContent", ViewData["PageUrl"])

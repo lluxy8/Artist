@@ -1,8 +1,10 @@
 ﻿using Core.Abstract;
 using Core.Common.Enums;
+using Core.Common.Helpers;
 using Core.Interfaces.Repository;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Abstract
@@ -47,7 +49,13 @@ namespace Infrastructure.Abstract
             if (includeRelated)
                 query = IncludeRelatedEntities(query);
 
-            return await query.AsNoTracking().ToListAsync();
+            var list = await query.AsNoTracking().ToListAsync();
+            foreach (var item in list)
+            {
+                item.CreateDate = DateTimeHelper.ConvertToTurkeyTime(item.CreateDate);
+            }
+            return list;
+
         }
 
         public virtual async Task<T?> GetByIdAsync(Guid id, bool includeRelated = false)
@@ -83,21 +91,34 @@ namespace Infrastructure.Abstract
         {
             using var context = _contextfactory.CreateDbContext();
 
-            return await context.Set<T>()
+            var list = await context.Set<T>()
                 .AsNoTracking()
                 .Take(amount)
                 .ToListAsync();
+
+            foreach (var item in list)
+            {
+                item.CreateDate = DateTimeHelper.ConvertToTurkeyTime(item.CreateDate);
+            }
+            return list;
+
         }
 
         public async Task<List<T>> TakeAsync(int amount, Expression<Func<T, object>> orderByDescending)
         {
             using var context = _contextfactory.CreateDbContext();
 
-            return await context.Set<T>()
+            var list = await context.Set<T>()
                 .AsNoTracking()
                 .OrderByDescending(orderByDescending)
                 .Take(amount)
                 .ToListAsync();
+
+            foreach (var item in list)
+            {
+                item.CreateDate = DateTimeHelper.ConvertToTurkeyTime(item.CreateDate);
+            }
+            return list;
         }
 
         public async Task<int> GetCountAsync()
@@ -145,7 +166,13 @@ namespace Infrastructure.Abstract
             if (endDate.HasValue)
                 query = query.Where(x => x.CreateDate <= endDate.Value);
 
-            return await query.ToListAsync();
+            var list = await query.ToListAsync();
+
+            foreach (var item in list)
+            {
+                item.CreateDate = DateTimeHelper.ConvertToTurkeyTime(item.CreateDate);
+            }
+            return list;
         }
 
     }

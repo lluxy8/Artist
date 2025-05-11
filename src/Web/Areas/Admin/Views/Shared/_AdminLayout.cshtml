@@ -13,9 +13,21 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <script>
         tailwind.config = {
+            safelist: [
+                'divide-y',
+                'divide-gray-200',
+                'dark:divide-slate-900',
+                'bg-white',
+                'dark:bg-gray-800',
+                'px-6',
+                'py-4',
+                'whitespace-nowrap'
+            ],
             darkMode: 'class',
             theme: {
                 extend: {
@@ -220,5 +232,6 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script asp-append-version="true" src="~/js/admin.js"></script>
 </body>
 </html>

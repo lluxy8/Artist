@@ -9,6 +9,6 @@ namespace Core.Entities
         public required string ImageUrl { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool IsHighlighted { get; set; }
-        public List<Project> Projects { get; set; } = [];
+        public List<SubCategory> SubCategories { get; set; } = [];
     }
 }

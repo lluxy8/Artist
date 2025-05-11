@@ -14,18 +14,26 @@ namespace Application.Services
 {
     public sealed class ProjectImageService : BaseService<ProjectImage>, IProjectImageService
     {
+        private readonly IProjectImageRepository _piRepo;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly EventDispatcher _eventDispatcher;
         public ProjectImageService(IRepository<ProjectImage> repository,
             IAuthenticationManager authenticationManager,
-            EventDispatcher eventDispatcher) : base(repository)
+            EventDispatcher eventDispatcher,
+            IProjectImageRepository piRepo) : base(repository)
         {
             _authenticationManager = authenticationManager;
             _eventDispatcher = eventDispatcher;
+            _piRepo = piRepo;
         }
 
         public async Task AddAsync(ProjectImageCreateDto dto, HttpRequest request)
         {
+            var hasMainImage = await _piRepo.CheckMainImage(dto.ProjectId);
+
+            if (hasMainImage && dto.IsMainImage)
+                throw new Exception("Projede zaten ana resim bulunmakta!");
+
             var file = dto.Image;
 
             string imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
@@ -37,6 +45,7 @@ namespace Application.Services
                 Url = imgurl
             };
 
+
             await _repository.AddAsync(pi);
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
@@ -45,6 +54,9 @@ namespace Application.Services
 
         public async Task UpdateAsync(ProjectImageUpdateDto dto, HttpRequest request)
         {
+            if (dto.IsMainImage && await _piRepo.CheckMainImage(dto.ProjectId))
+                throw new Exception("Projede zaten ana resim bulunmakta!");
+
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Entity not found.");
 

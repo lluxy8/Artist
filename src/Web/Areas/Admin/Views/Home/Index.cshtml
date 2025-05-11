@@ -166,7 +166,7 @@
                     </div>
                     <p class="text-sm font-semibold text-gray-500">Son 24 Saat: @Model.LoginCountToday</p>                 
                 </div>
-                <a href="#" class="text-sm font-medium text-primary-600 hover:text-primary-700">Tümünü Gör</a>
+                <a asp-controller="Logs" asp-action="LoginAttempts" class="text-sm font-medium text-primary-600 hover:text-primary-700">Tümünü Gör</a>
             </div>
 
             <div class="space-y-4">
@@ -176,25 +176,14 @@
                     {
                         <div class="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow">
                             <div class="flex-shrink-0">
-                                @if (i.Success)
-                                {
-                                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-700">
-                                        <i class="fa-solid fa-check text-emerald-600 dark:text-emerald-200 text-lg"></i>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-700">
-                                        <i class="fa-solid fa-xmark text-rose-600 dark:text-rose-200 text-lg"></i>
-                                    </div>
-                                }
+                                @await Component.InvokeAsync("LAResultIcon", new { success = i.Success })
                             </div>
                             <div class="ml-4 flex-1">
                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
                                     @i.Location Konumundan
                                 </p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    @DateTimeHelper.ConvertToTurkeyTime(i.CreateDate).ToString("dd MMM yyyy HH:mm")
+                                    @i.CreateDate.ToString("dd MMM yyyy HH:mm")
                                 </p>
                             </div>
                         </div>
@@ -217,7 +206,7 @@
                     </div>
                     <p class="text-sm font-semibold text-gray-500">Son 24 Saat: @Model.LogCountToday</p>
                 </div>
-                <a href="#" class="text-sm font-medium text-primary-600 hover:text-primary-700">Tümünü Gör</a>
+                <a asp-controller="Logs" asp-action="Index" class="text-sm font-medium text-primary-600 hover:text-primary-700">Tümünü Gör</a>
             </div>
 
 
@@ -228,39 +217,14 @@
                     {
                         <div class="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow">
                             <div class="flex-shrink-0">
-                                @switch ((LogType)i.Type)
-                                {
-                                    case LogType.Update:
-                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100 dark:bg-yellow-700">
-                                            <i class="fa-solid fa-pen text-yellow-600 dark:text-yellow-200 text-lg"></i>
-                                        </div>
-                                        break;
-
-                                    case LogType.Create:
-                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-700">
-                                            <i class="fa-solid fa-plus text-green-600 dark:text-green-200 text-lg"></i>
-                                        </div>
-                                        break;
-
-                                    case LogType.Delete:
-                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 dark:bg-red-700">
-                                            <i class="fa-solid fa-trash text-red-600 dark:text-red-200 text-lg"></i>
-                                        </div>
-                                        break;
-
-                                    case LogType.Authorize:
-                                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-700">
-                                            <i class="fa-solid fa-user text-blue-600 dark:text-blue-200 text-lg"></i>
-                                        </div>
-                                        break;
-                                }
+                                @await Component.InvokeAsync("LogTypeIcon", new { type = (LogType)i.Type })
                             </div>
                             <div class="ml-4 flex-1">
                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
                                     @i.Message
                                 </p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    @DateTimeHelper.ConvertToTurkeyTime(i.CreateDate).ToString("dd MMM yyyy HH:mm")
+                                    @i.CreateDate.ToString("dd MMM yyyy HH:mm")
                                 </p>
                             </div>
                         </div>

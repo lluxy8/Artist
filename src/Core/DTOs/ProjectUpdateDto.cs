@@ -15,11 +15,14 @@ namespace Core.DTOs
         [Required(ErrorMessage = "Proje adı zorunludur.")]
         [StringLength(MaxLenghts.Small, ErrorMessage = "Proje adı en fazla {1} karakter olabilir.")]
         public required string Name { get; set; }
+        public required string UrlName { get; set; }
 
         [StringLength(MaxLenghts.XLarge, ErrorMessage = "Proje açıklaması en fazla {1} karakter olabilir.")]
         public required string Description { get; set; }
         public bool IsHighlighted { get; set; }
         public bool IsVisible { get; set; }
         public Guid CategoryId { get; set; }
+        public Guid SelectedCategoryId { get; set; }
+        public Guid SelectedSubCategoryId { get; set; }
     }
 }

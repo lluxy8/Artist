@@ -33,7 +33,7 @@ namespace Core.Common.Helpers
                     _ => $"Bilinmeyen SQL hatası: {sqlEx.Message} (Kodu: {sqlEx.Number})"
                 },
 
-                _ => $"Hata: {ex.GetType().Name}"
+                _ => $"Hata: {ex.Message}"
             };
 
         }

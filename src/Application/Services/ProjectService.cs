@@ -68,10 +68,11 @@ namespace Application.Services
         {
             var project = new Project
             {
-                Name = dto.Name,
+                DisplayName = dto.Name,
                 Description = dto.Description,
-                CategoryId = dto.CategoryId,
+                SubCategoryId = dto.CategoryId,
                 IsHighlighted = dto.IsHighlighted,
+                UrlName = dto.UrlName,
                 IsVisible = dto.IsVisible
             };
 
@@ -81,6 +82,17 @@ namespace Application.Services
                 "Yeni bir proje oluşturuldu.", LogType.Create));
         }
 
+        public async Task<Project?> GetByUrlAsync(string url)
+        {
+            try
+            {
+                return await _projectRepository.GetByUrl(url);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the project by URL.", ex);
+            }
+        }
 
 
         public async Task UpdateAsync(ProjectUpdateDto dto)
@@ -91,12 +103,13 @@ namespace Application.Services
             var project = new Project
             {
                 Id = dto.Id,
-                Name = dto.Name,
+                DisplayName = dto.Name,
+                UrlName = dto.UrlName,
                 Description = dto.Description,
                 IsVisible = dto.IsVisible,
                 IsHighlighted = dto.IsHighlighted,
-                CategoryId = dto.CategoryId,
-                Category = existingEntity.Category, 
+                SubCategoryId = dto.CategoryId,
+                SubCategory = existingEntity.SubCategory, 
                 CreateDate = existingEntity.CreateDate,
                 UpdateDate = DateTime.UtcNow
             };
@@ -104,7 +117,7 @@ namespace Application.Services
             await _repository.UpdateAsync(project);
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
-                $"{existingEntity.Name} Adlı proje güncellendi.", LogType.Update));
+                $"{existingEntity.DisplayName} Adlı proje güncellendi.", LogType.Update));
         }
 
         public override async Task DeleteAsync(Guid id)
@@ -115,7 +128,7 @@ namespace Application.Services
             await _repository.DeleteAsync(existingEntity);
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
-                $"{existingEntity.Name} Adlı proje silindi.", LogType.Delete));
+                $"{existingEntity.DisplayName} Adlı proje silindi.", LogType.Delete));
         }
     }
 }

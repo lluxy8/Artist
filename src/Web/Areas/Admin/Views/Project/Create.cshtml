@@ -30,22 +30,16 @@
                 <span asp-validation-for="Name" class="text-red-500 text-xs mt-1"></span>
             </div>
 
-            <!-- Kategori -->
             <div class="group">
-                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Kategori</label>
+                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Adı</label>
                 <div class="relative mt-1">
-                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
-                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
-                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70 dark:hover:border-primary-400
-                        transition-all duration-300 ease-in-out
-                        text-sm dark:text-sm
-                        shadow-sm">
-                        <option value="">Kategori Seçin</option>
-                    </select>
-                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                    <input readonly asp-for="UrlName" type="text"
+                           class="block w-full border border-gray-200 dark:border-gray-700 rounded-lg py-2.5 px-4
+                   bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400
+                   cursor-not-allowed select-none
+                   text-sm shadow-sm transition-colors duration-200" />
                 </div>
-                <span asp-validation-for="CategoryId" class="text-red-500 text-xs mt-1"></span>
+                <span asp-validation-for="UrlName" class="text-red-500 text-xs mt-1"></span>
             </div>
 
             <!-- Açıklama -->
@@ -64,36 +58,71 @@
                 <span asp-validation-for="Description" class="text-red-500 text-xs mt-1"></span>
             </div>
 
-            <!-- Öne Çıkart -->
-            <div class="group flex items-center">
-                <div class="relative">
-                    <input asp-for="IsHighlighted" class="peer h-5 w-5 text-primary-600
-                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                        border-gray-300 dark:border-gray-700 rounded-md cursor-pointer
+            <div class="group">
+                <label for="categorySelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori Seçin</label>
+                <select id="categorySelect" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        hover:border-primary-400/70 dark:hover:border-primary-400/70
-                        checked:bg-primary-600 checked:border-primary-600
-                        checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700
-                        dark:checked:hover:bg-primary-800" />
-                    <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
-                </div>
-                <label asp-for="IsHighlighted" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne Çıkart</label>
+                        text-sm dark:text-sm
+                        shadow-sm">
+                    <option value="">-- Kategori Seçin --</option>
+                    @foreach (var category in (List<Core.Entities.Category>)ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.DisplayName</option>
+                    }
+                </select>
             </div>
 
-            <!-- Görünürlük -->
-            <div class="group flex items-center">
-                <div class="relative">
-                    <input asp-for="IsVisible" checked class="peer h-5 w-5 text-primary-600
-                        focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
-                        border-gray-300 dark:border-gray-700 rounded-md cursor-pointer
+            <div class="group">
+                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Alt Kategori Seçin</label>
+                <select asp-for="CategoryId" id="subCategorySelect" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
                         transition-all duration-300 ease-in-out
-                        hover:border-primary-400/70 dark:hover:border-primary-400/70
-                        checked:bg-primary-600 checked:border-primary-600
-                        checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700
-                        dark:checked:hover:bg-primary-800" />
-                    <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+                        text-sm dark:text-sm
+                        shadow-sm">
+                    <option value="">-- Önce kategori seçin --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div></div>
+
+            <div class="grid">
+                <!-- Öne Çıkart -->
+                <div class="group flex items-center">
+                    <div class="relative">
+                        <input asp-for="IsHighlighted" class="peer h-5 w-5 text-primary-600
+                            focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
+                            border-gray-300 dark:border-gray-700 rounded-md cursor-pointer
+                            transition-all duration-300 ease-in-out
+                            hover:border-primary-400/70 dark:hover:border-primary-400/70
+                            checked:bg-primary-600 checked:border-primary-600
+                            checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700
+                            dark:checked:hover:bg-primary-800" />
+                        <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+                    </div>
+                    <label asp-for="IsHighlighted" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne Çıkart</label>
                 </div>
-                <label asp-for="IsVisible" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Görünür</label>
+
+                <!-- Görünürlük -->
+                <div class="group flex items-center">
+                    <div class="relative">
+                        <input asp-for="IsVisible" checked class="peer h-5 w-5 text-primary-600
+                            focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2
+                            border-gray-300 dark:border-gray-700 rounded-md cursor-pointer
+                            transition-all duration-300 ease-in-out
+                            hover:border-primary-400/70 dark:hover:border-primary-400/70
+                            checked:bg-primary-600 checked:border-primary-600
+                            checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700
+                            dark:checked:hover:bg-primary-800" />
+                        <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+                    </div>
+                    <label asp-for="IsVisible" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Görünür</label>
+                </div>
             </div>
         </div>
 
@@ -118,6 +147,36 @@
 </div>
 
 @section Scripts {
+    <script>
+        const allSubCategories = @Html.Raw(Json.Serialize(ViewBag.SubCategories));
+
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            const selectedCategoryId = this.value;
+            const subCategorySelect = document.getElementById('subCategorySelect');
+
+            // Önceki seçenekleri temizle
+            subCategorySelect.innerHTML = '<option value="">-- Alt Kategori Seçin --</option>';
+
+            if (!selectedCategoryId) return;
+
+            const filteredSubCategories = allSubCategories.filter(sc => sc.categoryId == selectedCategoryId);
+            filteredSubCategories.forEach(sc => {
+                const option = document.createElement('option');
+                option.value = sc.id;
+                option.textContent = sc.displayName;
+                subCategorySelect.appendChild(option);
+            });
+        });
+
+        const displayNameInput = document.getElementById('Name');
+        const urlNameInput = document.getElementById('UrlName');
+
+        displayNameInput.addEventListener('input', function () {
+            const slug = slugify(displayNameInput.value);
+            urlNameInput.value = slug;
+        });
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

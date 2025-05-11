@@ -29,6 +29,43 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var pagesNotCreated = await _pageService.GetByUrlAsync("anasayfa") == null;
+
+            if(pagesNotCreated)
+            {
+                await _pageService.AddAsync(new Page
+                {
+                    DisplayName = "Anasayfa",
+                    UrlName = "anasayfa",
+                });
+
+                await _pageService.AddAsync(new Page
+                {
+                    DisplayName = "Galeri",
+                    UrlName = "galeri",
+                });
+
+                await _pageService.AddAsync(new Page
+                {
+                    DisplayName = "Hakkýmda",
+                    UrlName = "hakkimizda",
+                });
+
+                await _pageService.AddAsync(new Page
+                {
+                    DisplayName = "Iletisim",
+                    UrlName = "Iletisim",
+                });
+
+                await _pageService.AddAsync(new Page
+                {
+                    DisplayName = "Detay",
+                    UrlName = "detay",
+                });
+
+                await Task.Delay(500);
+            }
+
             var pages = await _pageService.GetAllAsync();
             return View(pages);
         }

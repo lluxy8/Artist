@@ -23,7 +23,7 @@
         <div class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Proje</label>
-                <p class="mt-1 text-gray-900">@Model.Project?.Name</p>
+                <p class="mt-1 text-gray-900">@Model.Project?.DisplayName</p>
             </div>
 
             <div>
@@ -75,7 +75,7 @@
     <form asp-action="Delete" class="mt-6">
         <input type="hidden" asp-for="Id" />
         <div class="flex justify-end space-x-3">
-            <a asp-action="Index" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+            <a asp-controller="Project" asp-action="Images" asp-route-id="@ViewBag." class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                 <i class="fas fa-times mr-2"></i>
                 İptal
             </a>

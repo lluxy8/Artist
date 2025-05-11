@@ -26,6 +26,7 @@
             <thead class="bg-gray-50 dark:bg-gray-900">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Proje Adı</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Url</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Kategori</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Öne Çıkan</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Görünür</th>
@@ -37,8 +38,9 @@
                 @foreach (var item in Model)
                 {
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 duration-300">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">@item.Name</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">@item.Category?.DisplayName</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">@item.DisplayName</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">@item.UrlName</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">@item.SubCategory?.DisplayName</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             @if (item.IsHighlighted)
                             {
@@ -70,9 +72,9 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">@item.CreateDate.ToString("dd.MM.yyyy")</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                <a asp-action="Images" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-400 dark:bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 duration-300" title="Görselleri Yönet">
-                                    <i class="fas fa-images mr-1"></i>
-                                    Görseller
+                                <a asp-action="Images" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800" title="Düzenle">
+                                    <i class="fas fa-images mr-2"></i>
+                                    Görsel Yönetimi
                                 </a>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 duration-300" title="Düzenle">
                                     <i class="fas fa-edit mr-1"></i>

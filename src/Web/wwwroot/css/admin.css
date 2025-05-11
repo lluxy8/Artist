@@ -17,3 +17,8 @@
 html {
     visibility: hidden;
 }
+
+th:hover{
+    cursor:pointer;
+}
+

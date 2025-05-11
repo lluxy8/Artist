@@ -33,7 +33,7 @@ namespace Infrastructure.Configurations
             builder.Property(x => x.Description)
                    .HasMaxLength(MaxLenghts.Large);
 
-            builder.HasMany(c => c.Projects)
+            builder.HasMany(c => c.SubCategories)
                    .WithOne(p => p.Category)
                    .HasForeignKey(p => p.CategoryId)
                    .OnDelete(DeleteBehavior.Cascade);

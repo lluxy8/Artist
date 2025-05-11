@@ -33,21 +33,38 @@
 
             <!-- URL Adı -->
             <div class="group">
-                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">URL Adı</label>
+                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="UrlName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
-                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
-                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70 dark:hover:border-primary-400
-                        transition-all duration-300 ease-in-out
-                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
-                        shadow-sm" />
-                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                    <input readonly asp-for="UrlName" type="text"
+                           class="block w-full border border-gray-200 dark:border-gray-700 rounded-lg py-2.5 px-4
+                   bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400
+                   cursor-not-allowed select-none
+                   text-sm shadow-sm transition-colors duration-200" />
                 </div>
                 <span asp-validation-for="UrlName" class="text-red-500 text-xs mt-1"></span>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">URL'de kullanılacak benzersiz ad (örn: web-tasarim)</p>
             </div>
         </div>
+
+        <div class="group flex items-center mt-4">
+            <div class="relative">
+                @Html.CheckBoxFor(m => m.ListCategories, new {
+                                @class = "peer h-5 w-5 text-primary-600 focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 border-gray-300 dark:border-gray-700 rounded-md cursor-pointer transition-all duration-300 ease-in-out hover:border-primary-400/70 dark:hover:border-primary-400/70 checked:bg-primary-600 checked:border-primary-600 checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700 dark:checked:hover:bg-primary-800"
+                            })
+                <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+            </div>
+            <label asp-for="ListCategories" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne çıkan Kategoriler</label>
+        </div>
+
+        <div class="group flex items-center">
+            <div class="relative">
+                @Html.CheckBoxFor(m => m.ListProjects, new {
+                                @class = "peer h-5 w-5 text-primary-600 focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 border-gray-300 dark:border-gray-700 rounded-md cursor-pointer transition-all duration-300 ease-in-out hover:border-primary-400/70 dark:hover:border-primary-400/70 checked:bg-primary-600 checked:border-primary-600 checked:hover:bg-primary-700 dark:checked:bg-primary-700 dark:checked:border-primary-700 dark:checked:hover:bg-primary-800"
+                            })
+                <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
+            </div>
+            <label asp-for="ListProjects" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne çıkan Projeler</label>
+        </div>
+
 
         <div class="mt-6 flex justify-end space-x-3">
             <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
@@ -73,4 +90,14 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        const displayNameInput = document.getElementById('DisplayName');
+        const urlNameInput = document.getElementById('UrlName');
+
+        displayNameInput.addEventListener('input', function () {
+            const slug = slugify(displayNameInput.value);
+            urlNameInput.value = slug;
+        });
+    </script>
 }

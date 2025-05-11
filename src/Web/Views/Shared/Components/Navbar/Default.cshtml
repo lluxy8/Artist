@@ -10,18 +10,13 @@
         <ul class="desktop-nav hidden md:flex space-x-8">
             @foreach(var i in Model)
             {
-                <li>
-                    <a href="/p/@i.UrlName" class="nav-link">@i.DisplayName</a>
-                </li>
+                @if(i.UrlName != "Detay")
+                {
+                    <li>
+                        <a asp-controller="@i.UrlName" asp-action="Index" class="nav-link">@i.DisplayName</a>
+                    </li>
+                }
             }
-            <li>
-                <a href="#" class="relative text-white hover:text-[var(--primary-color)] transition-colors">
-                    <span class="absolute -top-2 -right-2 bg-[var(--primary-color)] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </a>
-            </li>
         </ul>
         <!-- Hamburger Menu -->
         <div class="hamburger-menu md:hidden">

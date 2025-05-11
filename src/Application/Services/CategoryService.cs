@@ -17,16 +17,19 @@ namespace Application.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly EventDispatcher _eventDispatcher;
         private readonly IAuthenticationManager _authenticationManager;
+        private readonly ISubCategoryRepository _subCategoryRepository;
 
         public CategoryService(IRepository<Category> repository, 
             ICategoryRepository categoryRepository,
             EventDispatcher eventDispatcher,
-            IAuthenticationManager authenticationManager)
+            IAuthenticationManager authenticationManager,
+            ISubCategoryRepository subCategoryRepository)
             : base(repository)
         {
             _categoryRepository = categoryRepository;
             _eventDispatcher = eventDispatcher;
             _authenticationManager = authenticationManager;
+            _subCategoryRepository = subCategoryRepository;
         }
 
         public async Task<List<Category>> GetHighlightedCategoriesAsync()
@@ -55,12 +58,16 @@ namespace Application.Services
 
         public async Task AddAsync(CategoryCreateDto dto, HttpRequest request)
         {
+            if (await _categoryRepository.CheckUrl(dto.UrlName))
+                throw new Exception("Bu url'ye sahip bir kategori zaten var!");
+
             var file = dto.Image;
 
             string imgurl = await FileHelper.SaveImageAsync(file, "Category", request);
 
             var category = new Category
             {
+                Id = Guid.NewGuid(),
                 DisplayName = dto.DisplayName,
                 UrlName = dto.UrlName,
                 ImageUrl = imgurl,
@@ -70,6 +77,14 @@ namespace Application.Services
             };
 
             await _repository.AddAsync(category);
+            await _subCategoryRepository.AddAsync(new SubCategory
+            {
+                DisplayName = "Tümü",
+                UrlName = $"{category.UrlName}-kategorisiz",
+                CategoryId = category.Id,
+                ImageUrl = "https://community.softr.io/uploads/db9110/original/2X/7/74e6e7e382d0ff5d7773ca9a87e6f6f8817a68a6.jpeg",
+            });
+
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
                 "Yeni bir kategori oluşturuldu.", LogType.Create));
@@ -78,6 +93,9 @@ namespace Application.Services
 
         public async Task UpdateAsync(CategoryUpdateDto dto, HttpRequest request)
         {
+            if (await _categoryRepository.CheckUrl(dto.UrlName))
+                throw new Exception("Bu url'ye sahip bir kategori zaten var!");
+
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Kategori bulunamadı.");
 
@@ -97,7 +115,7 @@ namespace Application.Services
                 DisplayName = dto.DisplayName,
                 ImageUrl = imgurl,
                 IsHighlighted = dto.IsHighlighted,
-                Projects = existingEntity.Projects,
+                SubCategories = existingEntity.SubCategories,
                 UpdateDate = DateTime.UtcNow
             };
 

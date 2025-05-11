@@ -1,0 +1,130 @@
+@model SubCategoryCreateDto
+@{
+    ViewData["Title"] = "Yeni Alt Kategori";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Yeni Alt Kategori</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Yeni bir Alt Kategori ekleyin.</p>
+    </div>
+
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Proje Adı -->
+            <div class="group">
+                <label asp-for="DisplayName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Proje Adı</label>
+                <div class="relative mt-1">
+                    <input asp-for="DisplayName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="DisplayName" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Proje Adı</label>
+                <div class="relative mt-1">
+                    <input asp-for="UrlName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
+                        shadow-sm" />
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="UrlName" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <!-- Kategori -->
+            <div class="group">
+                <label asp-for="CategoryId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Kategori</label>
+                <div class="relative mt-1">
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        text-sm dark:text-sm
+                        shadow-sm">
+                        <option value="">Kategori Seçin</option>
+                    </select>
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="CategoryId" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group md:col-span-2">
+                <label asp-for="Image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Görsel</label>
+                <div class="mt-1 flex items-center">
+                    <div id="imagePreview" class="h-20 w-20 hidden">
+                        <img src="" alt="Görsel Önizleme" class="h-full w-full object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105" />
+                    </div>
+                    <div class="flex-1">
+                        <input asp-for="Image" type="file" id="imageFile" class="block w-full text-sm text-gray-500 dark:text-gray-400
+                            file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0
+                            file:text-sm file:font-medium file:bg-primary-50 dark:file:bg-primary-900 file:text-primary-700 dark:file:text-primary-300
+                            hover:file:bg-primary-100 dark:hover:file:bg-primary-800
+                            file:cursor-pointer
+                            file:transition-all file:duration-300 file:ease-in-out
+                            file:shadow-sm
+                            file:focus:outline-none file:focus:ring-2 file:focus:ring-primary-500/50" />
+                    </div>
+                </div>
+                <span asp-validation-for="Image" class="text-red-500 text-xs mt-1"></span>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Önerilen boyut: 800x600 piksel</p>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end space-x-3">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Listeye Dön
+            </a>
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 dark:bg-primary-700
+                hover:bg-primary-700 hover:shadow-md
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                transition-all duration-300 ease-in-out
+                active:bg-primary-800 active:shadow-sm">
+                <i class="fas fa-save mr-2"></i>
+                Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const imageInput = document.getElementById('imageFile');
+        const imagePreviewContainer = document.getElementById('imagePreview');
+        const imagePreview = imagePreviewContainer.querySelector('img');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

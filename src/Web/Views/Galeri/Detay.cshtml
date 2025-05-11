@@ -1,0 +1,126 @@
+﻿@model DetailViewModel
+@{
+    ViewData["Title"] = "Detay";
+    ViewData["PageUrl"] = "Detay";
+}
+
+@section Styles {
+    <link href="~/css/detail.css" rel="stylesheet" />
+}
+<!-- Artwork Section -->
+<section class="artwork-section">
+    <div class="container">
+        <div class="artwork-container">
+            <div class="row g-0">
+                <div class="col-lg-7">
+                    <div class="artwork-slider-container">
+                        <!-- Main Swiper -->
+                        <div class="artwork-slider">
+                            <div class="swiper mainSwiper">
+                                <div class="swiper-wrapper" id="artworkSlides">
+                                    <!-- Slides will be filled dynamically -->
+                                </div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+                        </div>
+
+                        <!-- Thumbs Swiper -->
+                        <div class="artwork-thumbs">
+                            <div class="swiper thumbsSwiper">
+                                <div class="swiper-wrapper" id="artworkThumbs">
+                                    <!-- Thumbs will be filled dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="artwork-details">
+                        <h1 class="artwork-title" id="artworkTitle">@Model.ProjectName</h1>
+                        <h3 class="artwork-subtitle" id="artworkSubtitle">@Model.CategoryName</h3>
+
+                        <p class="artwork-description" id="artworkDescription"></p>
+
+                        <div class="artwork-info">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-paint-brush"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h5 class="info-title">Kategori</h5>
+                                    <p class="info-text" id="artworkTechnique">
+                                        @Model.CategoryName
+                                        
+                                        @(@Model.SubCategoryName == "Tümü" ? "" : $"~ {Model.SubCategoryName}")
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h5 class="info-title">Tarih</h5>
+                                    <p class="info-text" id="artworkYear">@Model.CreateDate.ToString("dd MMM yyyy HH:mm")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const allImages = [
+            @foreach (var image in Model.Images)
+            {
+
+                var last = Model.Images.Last();
+                <text>"@image"</text>
+                @(image != last ? "," : "")
+            }
+        ];
+
+
+        const slidesContainer = document.getElementById('artworkSlides');
+        const thumbsContainer = document.getElementById('artworkThumbs');
+
+        allImages.forEach((imgSrc, index) => {
+            const slide = document.createElement('div');
+            slide.classList.add('swiper-slide');
+            slide.innerHTML = `<img src="${imgSrc}" alt="@Model.ProjectName - ${index + 1}">`;
+            slidesContainer.appendChild(slide);
+
+            const thumb = document.createElement('div');
+            thumb.classList.add('swiper-slide');
+            thumb.innerHTML = `<img src="${imgSrc}" alt="Küçük görsel - ${index + 1}">`;
+            thumbsContainer.appendChild(thumb);
+        });
+
+        const thumbsSwiper = new Swiper('.thumbsSwiper', {
+            spaceBetween: 10,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+
+        const mainSwiper = new Swiper('.mainSwiper', {
+            spaceBetween: 10,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            thumbs: {
+                swiper: thumbsSwiper,
+            },
+        });
+    </script>
+}

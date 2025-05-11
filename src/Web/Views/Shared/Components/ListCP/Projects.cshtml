@@ -10,7 +10,7 @@
                 <div class="gallery-item" data-category="yağlı-boya modern">
                     <img src="@(i.Images.FirstOrDefault(x => x.IsMainImage)?.Url ?? i.Images.FirstOrDefault()?.Url)" class="gallery-image">
                     <div class="gallery-overlay">
-                        <h3>@i.Name</h3>
+                        <h3>@i.DisplayName</h3>
                         <a href="exhibition-detail.html?id=1" class="text-white">Detayları Gör <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
