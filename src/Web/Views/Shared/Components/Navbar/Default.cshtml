@@ -8,14 +8,11 @@
         </div>
         <!-- Desktop Navigation -->
         <ul class="desktop-nav hidden md:flex space-x-8">
-            @foreach(var i in Model)
+            @foreach (var i in Model.Where(i => i.UrlName != "detay"))
             {
-                @if(i.UrlName != "Detay")
-                {
-                    <li>
-                        <a asp-controller="@i.UrlName" asp-action="Index" class="nav-link">@i.DisplayName</a>
-                    </li>
-                }
+                <li>
+                    <a asp-controller="@i.UrlName" asp-action="Index" class="nav-link">@i.DisplayName</a>
+                </li>
             }
         </ul>
         <!-- Hamburger Menu -->

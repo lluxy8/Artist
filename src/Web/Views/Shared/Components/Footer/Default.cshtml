@@ -9,11 +9,14 @@
                 <div class="logo-text">@Model.Settings.CompanyName</div>
                 <p class="footer-description">@Model.Settings.CreateDate</p>
                 <div class="social-links">
-                    @foreach(var i in Model.Socials)
+                    @if (Model.Socials != null && Model.Socials.Any())
                     {
-                        <a href="@i.Url" class="social-link">
-                            <i class="fab fa-@i.Name.ToLower() text-2xl text-gray-200"></i>
-                        </a>
+                        foreach (var i in Model.Socials)
+                        {
+                            <a href="@i.Url" class="social-link">
+                                <i class="fab fa-@i.Name.ToLower() text-2xl text-gray-200"></i>
+                            </a>
+                        }
                     }
                 </div>
             </div>
@@ -23,9 +26,12 @@
                 <h3 class="footer-title">Keşfet</h3>
 
                 <ul class="footer-links">
-                    @foreach (var i in Model.Projects)
+                    @if (Model.Projects != null && Model.Projects.Any())
                     {
-                        <li><a href="#">@i.DisplayName</a></li>
+                        @foreach (var i in Model.Projects)
+                        {
+                            <li><a href="#">@i.DisplayName</a></li>
+                        }
                     }
                 </ul>
             </div>
