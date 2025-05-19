@@ -27,14 +27,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Admin/Login"; 
         options.ExpireTimeSpan = TimeSpan.FromHours(3);
 
-        if (builder.Environment.IsDevelopment())
-        {
-            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-        }
-        else
-        {
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        }
+        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
 
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Strict;
