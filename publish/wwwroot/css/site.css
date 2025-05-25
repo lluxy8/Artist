@@ -242,9 +242,6 @@ html {
 }
 
 /* Vintage Image Filter */
-.vintage-filter {
-    filter: sepia(20%) brightness(95%) contrast(90%);
-}
 
 /* Custom Transitions */
 .transition-all {
@@ -706,7 +703,7 @@ footer {
     text-align: center;
     z-index: 10;
     padding: 2rem;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .hero-title {
@@ -1250,4 +1247,25 @@ footer {
 
     .contact-image:hover img {
         transform: scale(1.05);
-    } 
+    }
+
+
+.navlogo {
+    height: 4.5rem;
+}
+
+.headroom {
+    @apply transition-transform duration-300 ease-in-out;
+}
+
+.headroom--unpinned {
+    transform: translateY(-100%);
+}
+
+.headroom--pinned {
+    transform: translateY(0);
+}
+
+header {
+    transition: ease-in-out 0.3s;
+}
