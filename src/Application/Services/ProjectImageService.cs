@@ -36,7 +36,8 @@ namespace Application.Services
 
             var file = dto.Image;
 
-            string imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
+            var imgurl = await FileHelper.SaveImageAsync(file, 
+                "ProjectImage", request, true);
 
             var pi = new ProjectImage
             {
@@ -45,6 +46,10 @@ namespace Application.Services
                 Url = imgurl
             };
 
+            if (imgurl.EndsWith(".mp4") && pi.IsMainImage)
+            {
+                pi.IsMainImage = false;
+            }
 
             await _repository.AddAsync(pi);
             await _eventDispatcher.DispatchAsync(new LogEvent(
@@ -60,12 +65,13 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Entity not found.");
 
-            string imgurl = existingEntity.Url;
+            var imgurl = existingEntity.Url;
             var file = dto.Image;
+
             var ChangeImg = file != null && file.Length > 0;
 
             if (ChangeImg)
-                imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
+                imgurl = await FileHelper.SaveImageAsync(file, "ProjectImage", request);
 
             var pi = new ProjectImage
             {

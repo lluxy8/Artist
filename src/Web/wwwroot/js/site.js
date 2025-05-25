@@ -145,3 +145,4 @@ window.addEventListener('scroll', () => {
     const scrolled = (window.scrollY / windowHeight) * 100;
     progressBar.style.width = `${scrolled}%`;
 }); 
+

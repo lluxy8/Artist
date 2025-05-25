@@ -8,68 +8,112 @@
     <link href="~/css/detail.css" rel="stylesheet" />
 }
 <!-- Artwork Section -->
-<section class="artwork-section">
+<section class="artwork-section mt-5">
     <div class="container">
         <div class="artwork-container">
             <div class="row g-0">
-                <div class="col-lg-7">
-                    <div class="artwork-slider-container">
-                        <!-- Main Swiper -->
-                        <div class="artwork-slider">
-                            <div class="swiper mainSwiper">
-                                <div class="swiper-wrapper" id="artworkSlides">
-                                    <!-- Slides will be filled dynamically -->
+                @if(Model.Images.Any())
+                {
+                    <div class="col-lg-7">
+                        <div class="artwork-slider-container">
+                            <!-- Main Swiper -->
+                            <div class="artwork-slider">
+                                <div class="swiper mainSwiper">
+                                    <div class="swiper-wrapper" id="artworkSlides">
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                    <div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>
                                 </div>
-                                <div class="swiper-pagination"></div>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
+                            </div>
+
+                            <!-- Thumbs Swiper -->
+                            <div class="artwork-thumbs">
+                                <div class="swiper thumbsSwiper">
+                                    <div class="swiper-wrapper" id="artworkThumbs">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>            
+                    <div class="col-lg-5">
+                        <div class="artwork-details">
+                            <h1 class="artwork-title" id="artworkTitle">@Model.ProjectName</h1>
+                            <h3 class="artwork-subtitle" id="artworkSubtitle">@Model.CategoryName</h3>
 
-                        <!-- Thumbs Swiper -->
-                        <div class="artwork-thumbs">
-                            <div class="swiper thumbsSwiper">
-                                <div class="swiper-wrapper" id="artworkThumbs">
-                                    <!-- Thumbs will be filled dynamically -->
+                            <p class="artwork-description" id="artworkDescription">@Model.Description</p>
+
+                            <div class="artwork-info">
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-paint-brush"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <h5 class="info-title">Kategori</h5>
+                                        <p class="info-text" id="artworkTechnique">
+                                            @Model.CategoryName
+
+                                            @(Model.SubCategoryName == "Tümü" ? "" : $"~ {Model.SubCategoryName}")
+                                        </p>
+                                    </div>
                                 </div>
+                                @if (!string.IsNullOrEmpty(Model.Reference))
+                                {
+                                    <div class="info-item">
+                                        <div class="info-icon">
+                                            <i class="fas fa-quote-left"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h5 class="info-title">Referans</h5>
+                                            <p class="info-text" id="artworkYear">@Model.Reference</p>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="artwork-details">
-                        <h1 class="artwork-title" id="artworkTitle">@Model.ProjectName</h1>
-                        <h3 class="artwork-subtitle" id="artworkSubtitle">@Model.CategoryName</h3>
+                }
+                else
+                {
+                    <div class="col-lg-12">
+                        <div class="artwork-details">
+                            <h1 class="artwork-title" id="artworkTitle">@Model.ProjectName</h1>
+                            <h3 class="artwork-subtitle" id="artworkSubtitle">@Model.CategoryName</h3>
 
-                        <p class="artwork-description" id="artworkDescription"></p>
+                            <p class="artwork-description" id="artworkDescription">@Model.Description</p>
 
-                        <div class="artwork-info">
-                            <div class="info-item">
-                                <div class="info-icon">
-                                    <i class="fas fa-paint-brush"></i>
-                                </div>
-                                <div class="info-content">
-                                    <h5 class="info-title">Kategori</h5>
-                                    <p class="info-text" id="artworkTechnique">
-                                        @Model.CategoryName
-                                        
-                                        @(@Model.SubCategoryName == "Tümü" ? "" : $"~ {Model.SubCategoryName}")
-                                    </p>
-                                </div>
-                            </div>
+                            <div class="artwork-info">
+                                <div class="info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-paint-brush"></i>
+                                    </div>
+                                    <div class="info-content">
+                                        <h5 class="info-title">Kategori</h5>
+                                        <p class="info-text" id="artworkTechnique">
+                                            @Model.CategoryName
 
-                            <div class="info-item">
-                                <div class="info-icon">
-                                    <i class="fas fa-calendar-alt"></i>
+                                            @(Model.SubCategoryName == "Tümü" ? "" : $"~ {Model.SubCategoryName}")
+                                        </p>
+                                     </div>
                                 </div>
-                                <div class="info-content">
-                                    <h5 class="info-title">Tarih</h5>
-                                    <p class="info-text" id="artworkYear">@Model.CreateDate.ToString("dd MMM yyyy HH:mm")</p>
-                                </div>
+                                @if (!string.IsNullOrEmpty(Model.Reference))
+                                {
+                                    <div class="info-item">
+                                        <div class="info-icon">
+                                            <i class="fas fa-quote-left"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <h5 class="info-title">Referans</h5>
+                                            <p class="info-text" id="artworkYear">@Model.Reference</p>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -93,16 +137,32 @@
         const thumbsContainer = document.getElementById('artworkThumbs');
 
         allImages.forEach((imgSrc, index) => {
-            const slide = document.createElement('div');
-            slide.classList.add('swiper-slide');
-            slide.innerHTML = `<img src="${imgSrc}" alt="@Model.ProjectName - ${index + 1}">`;
-            slidesContainer.appendChild(slide);
+            if(!imgSrc.endsWith(".mp4"))
+            {
+                const slide = document.createElement('div');
+                slide.classList.add('swiper-slide');
+                slide.innerHTML = `<img src="${imgSrc}" alt="@Model.ProjectName - ${index + 1}">`;
+                slidesContainer.appendChild(slide);
 
-            const thumb = document.createElement('div');
-            thumb.classList.add('swiper-slide');
-            thumb.innerHTML = `<img src="${imgSrc}" alt="Küçük görsel - ${index + 1}">`;
-            thumbsContainer.appendChild(thumb);
+                const thumb = document.createElement('div');
+                thumb.classList.add('swiper-slide');
+                thumb.innerHTML = `<img src="${imgSrc}" alt="Küçük görsel - ${index + 1}">`;
+                thumbsContainer.appendChild(thumb);
+            }
+            else
+            {
+                const slide = document.createElement('div');
+                slide.classList.add('swiper-slide');
+                slide.innerHTML = `<video controls>  <source src="${imgSrc}" type="video/webm" /></video>`;
+                slidesContainer.appendChild(slide);
+
+                const thumb = document.createElement('div');
+                thumb.classList.add('swiper-slide');
+                thumb.innerHTML = `<video>  <source src="${imgSrc}" type="video/webm" /></video>`;
+                thumbsContainer.appendChild(thumb);
+            }
         });
+
 
         const thumbsSwiper = new Swiper('.thumbsSwiper', {
             spaceBetween: 10,
@@ -122,5 +182,18 @@
                 swiper: thumbsSwiper,
             },
         });
+
+        mainSwiper.on('slideChange', () => {
+            mainSwiper.slides.forEach((slide, index) => {
+                if (index !== mainSwiper.activeIndex) {
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                }
+            });
+        });
+
     </script>
 }

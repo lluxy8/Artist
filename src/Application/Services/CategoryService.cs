@@ -99,11 +99,11 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Kategori bulunamadı.");
 
-            string imgurl = existingEntity.ImageUrl;
+            var imgurl = existingEntity.ImageUrl;
             var file = dto.Image;
-            var ChangeImg = file != null && file.Length > 0;
+            var changeImg = file != null && file.Length > 0;
 
-            if (ChangeImg)
+            if (changeImg)
                 imgurl = await FileHelper.SaveImageAsync(file, "Category", request);
 
             var category = new Category
@@ -120,6 +120,17 @@ namespace Application.Services
             };
 
             await _repository.UpdateAsync(category);
+
+            var defaultCategory = (await _subCategoryRepository.GetByCategoryIdAsync(category.Id))
+                .OrderBy(x => x.CreateDate)
+                .FirstOrDefault();
+
+            if (defaultCategory != null)
+            {
+                defaultCategory.UrlName = $"{category.UrlName}-kategorisiz";
+                await _subCategoryRepository.UpdateAsync(defaultCategory);
+            }
+
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
                 $"{category.DisplayName} Adlı kategori güncellendi.", LogType.Update));

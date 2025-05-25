@@ -34,6 +34,7 @@
                 <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Görsel</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ana Görsel</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tür</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Oluşturulma Tarihi</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">İşlemler</th>
                 </tr>
@@ -44,7 +45,17 @@
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 duration-300">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex-shrink-0 h-20 w-32">
-                                <img class="h-20 w-32 rounded-lg object-cover" src="@image.Url">
+                                @if(image.Url.EndsWith(".mp4"))
+                                {
+                                    <video class="h-20 w-32 rounded-lg object-cover">
+                                        <source src="@image.Url"/>
+                                    </video>
+                                }
+                                else
+                                {
+                                    <img class="h-20 w-32 rounded-lg object-cover" src="@image.Url">
+                                }
+                                
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
@@ -58,6 +69,20 @@
                             {
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-slate-500">
                                     Hayır
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                            @if (image.Url.EndsWith(".mp4"))
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200">
+                                    Video
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-500">
+                                    Resim
                                 </span>
                             }
                         </td>

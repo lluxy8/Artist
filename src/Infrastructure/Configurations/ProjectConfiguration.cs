@@ -22,6 +22,14 @@ namespace Infrastructure.Configurations
                    .HasMaxLength(MaxLenghts.Small)
                    .IsRequired();
 
+
+            builder.Property(x => x.UrlName)
+                .HasMaxLength(MaxLenghts.Small)
+                .IsRequired();
+
+            builder.Property(x => x.Refference)
+                .HasMaxLength(MaxLenghts.Small);
+
             builder.Property(x => x.Description)
                    .HasMaxLength(MaxLenghts.XLarge);
 

@@ -289,6 +289,11 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsVisible")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Refference")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<Guid>("SubCategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -297,7 +302,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("UrlName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

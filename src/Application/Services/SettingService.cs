@@ -29,17 +29,18 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Site ayarları bulunamadı.");
 
-            string imgurl = existingEntity.LogoUrl;
-            var file = dto.Image;
-            var ChangeImg = file != null && file.Length > 0;
+            var logoUrl = existingEntity.LogoUrl;
+            var logoFile = dto.Image;
+            var changeImg = logoFile != null && logoFile.Length > 0;
 
-            if (ChangeImg)
-                imgurl = await FileHelper.SaveImageAsync(file, "PageContent", request);
+
+            if (changeImg)
+                logoUrl = await FileHelper.SaveImageAsync(logoFile, "PageContent", request);
 
             var setting = new Setting
             {
                 Id = dto.Id,
-                LogoUrl = imgurl,
+                LogoUrl = logoUrl,
                 CompanyName = dto.CompanyName,
                 DoneCustomerCount = dto.DoneCustomerCount,
                 DoneProjectsCount = dto.DoneProjectsCount,
@@ -53,6 +54,10 @@ namespace Application.Services
             };
 
             await _repository.UpdateAsync(setting);
+
+            if (dto.Icon != null)
+                await FileHelper.SaveIconAsync(dto.Icon);
+
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
                 "Site ayarları güncellendi.", LogType.Update));
