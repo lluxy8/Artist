@@ -31,17 +31,17 @@ namespace Web.Controllers
             {
                 var category = await _categoryService.GetByUrlAsync(kategori);
 
+                if (category is null)
+                {
+                    return NotFound();
+                }
+
                 if (string.IsNullOrEmpty(altkategori))
                 {
                     altkategori = $"{category.UrlName}-kategorisiz";
                 }
 
                 var selectedSub = await _subCategoryService.GetByUrlAsync(altkategori);
-
-                if (category is null)
-                {
-                    return NotFound();
-                }
 
                 vm.SubCategories = await _subCategoryService.GetByCategoryIdAsync(category.Id);
 
@@ -53,7 +53,7 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
             }
 
@@ -77,6 +77,7 @@ namespace Web.Controllers
                 ProjectName = project.DisplayName,
                 Description = project.Description,
                 CreateDate = project.CreateDate,
+                Reference = project.Refference,
                 Images = project.Images.Select(x => x.Url).ToList()
             };
 

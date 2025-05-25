@@ -66,6 +66,7 @@ namespace Web.Areas.Admin.Controllers
                 Name = project.DisplayName,
                 UrlName = project.UrlName,
                 Description = project.Description,
+                Reference = project.Refference,
                 CategoryId = project.SubCategoryId,
                 IsHighlighted = project.IsHighlighted,
                 SelectedCategoryId = subCategory is null ? Guid.Empty : subCategory.Category.Id,

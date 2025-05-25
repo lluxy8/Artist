@@ -38,5 +38,6 @@ namespace Core.DTOs
 
         [Range(0, 100, ErrorMessage = "Deneyim yılı 0 ile 100 arasında olmalıdır.")]
         public int ExperienceYear { get; set; }
+        public IFormFile? Icon { get; set; }
     }
 }

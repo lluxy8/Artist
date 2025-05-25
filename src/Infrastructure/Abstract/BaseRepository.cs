@@ -13,28 +13,28 @@ namespace Infrastructure.Abstract
     {
         protected readonly IDbContextFactory<AppDbContext> _contextfactory;
 
-        public BaseRepository(IDbContextFactory<AppDbContext> contextFactory)
+        protected BaseRepository(IDbContextFactory<AppDbContext> contextFactory)
         {
             _contextfactory = contextFactory;
         }
 
         public async Task AddAsync(T entity)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             context.Set<T>().Update(entity);
             await context.SaveChangesAsync();
         }
@@ -43,7 +43,7 @@ namespace Infrastructure.Abstract
 
         public virtual async Task<List<T>> GetAllAsync(bool includeRelated = false)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             var query = context.Set<T>().AsQueryable();
 
             if (includeRelated)
@@ -60,7 +60,7 @@ namespace Infrastructure.Abstract
 
         public virtual async Task<T?> GetByIdAsync(Guid id, bool includeRelated = false)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             var query = context.Set<T>().AsQueryable();
 
             if (includeRelated)
@@ -77,19 +77,19 @@ namespace Infrastructure.Abstract
 
         public async Task<T?> FindByAsync(Expression<Func<T, bool>> predicate)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate);
         }
 
         public async Task<List<T>> FindAllByAsync(Expression<Func<T, bool>> predicate)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public async Task<List<T>> TakeAsync(int amount)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             var list = await context.Set<T>()
                 .AsNoTracking()
@@ -106,7 +106,7 @@ namespace Infrastructure.Abstract
 
         public async Task<List<T>> TakeAsync(int amount, Expression<Func<T, object>> orderByDescending)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             var list = await context.Set<T>()
                 .AsNoTracking()
@@ -123,7 +123,7 @@ namespace Infrastructure.Abstract
 
         public async Task<int> GetCountAsync()
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             return await context.Set<T>()
                 .AsNoTracking()
@@ -135,7 +135,7 @@ namespace Infrastructure.Abstract
             DateTime? endDate = null,
             DateFilter predefinedRange = DateFilter.None)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             var query = context.Set<T>().AsQueryable();
 

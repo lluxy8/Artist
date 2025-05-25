@@ -19,6 +19,9 @@ namespace Core.DTOs
 
         [StringLength(MaxLenghts.XLarge, ErrorMessage = "Proje açıklaması en fazla {1} karakter olabilir.")]
         public required string Description { get; set; }
+
+        [StringLength(MaxLenghts.Small, ErrorMessage = "Proje açıklaması en fazla {1} karakter olabilir.")]
+        public string Reference { get; set; } = string.Empty;
         public bool IsHighlighted { get; set; }
         public bool IsVisible { get; set; }
         public Guid CategoryId { get; set; }

@@ -6,6 +6,7 @@ namespace Core.Entities
     {
         public required string DisplayName { get; set; }
         public required string UrlName { get; set; }
+        public string Refference { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool IsHighlighted { get; set; }
         public bool IsVisible { get; set; } = true;

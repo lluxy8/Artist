@@ -73,6 +73,7 @@ namespace Application.Services
                 SubCategoryId = dto.CategoryId,
                 IsHighlighted = dto.IsHighlighted,
                 UrlName = dto.UrlName,
+                Refference = dto.Reference,
                 IsVisible = dto.IsVisible
             };
 
@@ -108,6 +109,7 @@ namespace Application.Services
                 Description = dto.Description,
                 IsVisible = dto.IsVisible,
                 IsHighlighted = dto.IsHighlighted,
+                Refference = dto.Reference,
                 SubCategoryId = dto.CategoryId,
                 SubCategory = existingEntity.SubCategory, 
                 CreateDate = existingEntity.CreateDate,
