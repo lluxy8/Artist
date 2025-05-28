@@ -38,6 +38,8 @@ namespace Web.Controllers
                     return NotFound();
                 }
 
+                vm.Selected = category;
+
                 if (string.IsNullOrEmpty(altkategori)) return View(vm);
 
                 var selectedSub = await _subCategoryService.GetByUrlAsync(altkategori);
@@ -45,7 +47,6 @@ namespace Web.Controllers
                 if (selectedSub != null)
                 {
                     vm.Projects = await _projectService.GetByCategoryIdAsync(selectedSub.Id) ?? [];
-                    vm.Selected = category;
                     vm.SelectedSub = selectedSub;
                 }
                 else
