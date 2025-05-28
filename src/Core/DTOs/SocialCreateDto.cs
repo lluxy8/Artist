@@ -13,8 +13,6 @@ namespace Core.DTOs
         [Required(ErrorMessage = "URL zorunludur.")]
         [StringLength(MaxLenghts.Large, ErrorMessage = "URL en fazla {1} karakter olabilir.")]
         public required string Url { get; set; }
-
-        [Required(ErrorMessage = "Resim zorunludur.")]
-        public required IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

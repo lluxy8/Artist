@@ -28,14 +28,11 @@ namespace Application.Services
 
         public async Task AddAsync(SocialCreateDto dto, HttpRequest request)
         {
-            var file = dto.Image;
-
-            string imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
 
 
             var social = new Social
             {
-                IconUrl = imgurl,
+                IconUrl = "",
                 Name = dto.Name,
                 Url = dto.Url
             };
@@ -61,7 +58,7 @@ namespace Application.Services
             var social = new Social
             {
                 Id = existingEntity.Id,
-                IconUrl = imgurl,
+                IconUrl = "",
                 Name = dto.Name,
                 Url = dto.Url,
                 CreateDate = existingEntity.CreateDate,

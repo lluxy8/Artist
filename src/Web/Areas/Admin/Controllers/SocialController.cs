@@ -53,7 +53,7 @@ namespace Web.Areas.Admin.Controllers
             var dto = new SocialUpdateDto
             {
                 Id = social.Id,
-                IconUrl = social.IconUrl,
+                IconUrl = "",
                 Name = social.Name,
                 Url = social.Url
             };
