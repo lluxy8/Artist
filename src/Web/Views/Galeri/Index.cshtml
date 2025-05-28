@@ -22,7 +22,7 @@
             @foreach (var category in Model.Categories)
             {
                 if (category.SubCategories
-                    .Any(x => x.UrlName == $"{category.UrlName}-kategorisiz"))
+                    .Any(x => x.UrlName != $"{category.UrlName}-kategorisiz"))
                 {
                     <div class="filter-dropdown">
                         <button class="filter-btn has-dropdown" data-toggle="dropdown">
