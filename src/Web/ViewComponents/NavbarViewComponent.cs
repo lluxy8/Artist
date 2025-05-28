@@ -26,7 +26,7 @@ namespace Web.ViewComponents
                 .OrderBy(x => x.DisplayName)
                 .ToList();
 
-            ViewBag.logoUrl = (await _setting.GetAllAsync()).FirstOrDefault()?.LogoUrl;
+            ViewBag.CName = (await _setting.GetAllAsync()).FirstOrDefault()?.CompanyName;
 
             return View(pages);
         }

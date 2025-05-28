@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repository;
+using Infrastructure.Abstract;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -25,26 +26,6 @@ namespace Infrastructure.DependencyInjection
                     .AsSelfWithInterfaces()
                     .WithScopedLifetime());
 
-
-            /*
-            services.AddScoped<IRepository<Admin>, AdminRepository>();
-            services.AddScoped<IRepository<Category>, CategoryRepository>();
-            services.AddScoped<IRepository<Log>, LogRepository>();
-            services.AddScoped<IRepository<LoginAttempt>, LoginAttemptRepository>();
-            services.AddScoped<IRepository<Page>, PageRepository>();
-            services.AddScoped<IRepository<PageCarousel>, PageCarouselRepository>();
-            services.AddScoped<IRepository<PageContent>, PageContentRepository>();
-            services.AddScoped<IRepository<Project>, ProjectRepository>();
-            services.AddScoped<IRepository<ProjectImage>, ProjectImageRepository>();
-            services.AddScoped<IRepository<Setting>, SettingRepository>();
-            services.AddScoped<IRepository<Social>, SocialRepository>();
-
-
-            services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<IPageRepository, PageRepository>();
-            */
             return services;
         }
     }

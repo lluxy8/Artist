@@ -31,16 +31,14 @@ namespace Application.DependencyInjection
                 .WithScopedLifetime());
 
             // Bok çukuru
-            Assembly assembly = typeof(AdminService).Assembly;
+            var assembly = typeof(AdminService).Assembly;
             var baseGenericType = typeof(BaseService<>);
 
             var serviceTypes = assembly.GetTypes()
                 .Where(t =>
-                    t.IsClass &&
-                    !t.IsAbstract &&
-                    t.BaseType != null &&
-                    t.BaseType.IsGenericType &&
-                    t.BaseType.GetGenericTypeDefinition() == baseGenericType
+                    t.FullName != null && (t is { IsClass: true, IsAbstract: false, BaseType.IsGenericType: true } &&
+                        t.BaseType.GetGenericTypeDefinition() == baseGenericType && 
+                        t.FullName != null)
                 )
                 .ToList();
 

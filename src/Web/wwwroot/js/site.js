@@ -135,7 +135,6 @@ document.querySelectorAll('.gallery-item').forEach(item => {
     });
 });
 
-// Scroll Progress Indicator
 const progressBar = document.createElement('div');
 progressBar.classList.add('scroll-progress');
 document.body.appendChild(progressBar);
@@ -145,4 +144,3 @@ window.addEventListener('scroll', () => {
     const scrolled = (window.scrollY / windowHeight) * 100;
     progressBar.style.width = `${scrolled}%`;
 }); 
-

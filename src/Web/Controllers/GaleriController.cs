@@ -20,12 +20,14 @@ namespace Web.Controllers
         [Route("Galeri/{kategori?}/{altkategori?}")]
         public async Task<IActionResult> Index(string kategori, string altkategori)
         {
-            var vm = new GaleriPageViewModel{Categories = await _categoryService.GetAllAsync()};
+            var vm = new GaleriPageViewModel
+            {
+                Categories = await _categoryService.GetAllAsync(true)
+            };
 
             if (string.IsNullOrEmpty(kategori))
             {
-                vm.Projects = await _projectService.GetAllAsync(true);
-                vm.SubCategories = [];
+                vm.Projects = await _projectService.GetAllAsync(true) ?? [];
             }
             else
             {
@@ -36,25 +38,21 @@ namespace Web.Controllers
                     return NotFound();
                 }
 
-                if (string.IsNullOrEmpty(altkategori))
-                {
-                    altkategori = $"{category.UrlName}-kategorisiz";
-                }
+                if (string.IsNullOrEmpty(altkategori)) return View(vm);
 
                 var selectedSub = await _subCategoryService.GetByUrlAsync(altkategori);
 
-                vm.SubCategories = await _subCategoryService.GetByCategoryIdAsync(category.Id);
-
                 if (selectedSub != null)
                 {
-                    vm.Projects = await _projectService.GetByCategoryIdAsync(selectedSub.Id);
+                    vm.Projects = await _projectService.GetByCategoryIdAsync(selectedSub.Id) ?? [];
                     vm.Selected = category;
                     vm.SelectedSub = selectedSub;
                 }
                 else
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
+
             }
 
             return View(vm);
