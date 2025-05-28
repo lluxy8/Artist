@@ -1,22 +1,37 @@
 ﻿@model PageViewModel
 
-<section class="py-20 bg-gray-300">
-    <div class="container text-center mx-auto px-4">
-        <p class="text-center text-[var(--primary-color)] mb-2">Arşiv</p>
-        <h2 class="text-center text-4xl section-title mb-12">Popüler Çalışmalarım</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            @foreach (var i in Model.Projects)
+<section class="py-20 bg-[var(--light-bg)]">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <p class="text-[var(--primary-color)] mb-2">PORTFOLYOM</p>
+            <h2 class="text-4xl section-title">Sevilen Eserlerim</h2>
+        </div>
+
+        <div class="gallery-grid">
+            @if (Model.Projects.Any())
             {
-                <a asp-controller="Galeri" asp-action="Detay" asp-route-url="@i.UrlName" class="nav-link">
-                    <div class="gallery-item">
-                        <img src="@(i.Images.FirstOrDefault(x => x.IsMainImage)?.Url ?? i.Images.FirstOrDefault()?.Url)" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h3>@i.DisplayName</h3>
-                            <span class="text-white">Detayları Gör <i class="fas fa-arrow-right"></i></span>
+                @foreach (var project in Model.Projects)
+                {
+                    <a asp-controller="Galeri" asp-action="Detay" asp-route-url="@project.UrlName">
+                        <div class="gallery-item">
+                            <img src="@(project.Images.FirstOrDefault(x => x.IsMainImage)?.Url
+                                      ?? project.Images.FirstOrDefault()?.Url
+                                      ?? Url.Content("~/images/nullimg.jpg"))"
+                                 alt="@project.DisplayName" class="gallery-image">
+                            <div class="gallery-overlay">
+                                <h3 class="">@project.DisplayName</h3>
+                                <p class="text-center">
+                                    @(project.Description.Length > 50
+                                        ? $"{project.Description[..50]}..."
+                                        : project.Description)
+                                </p>
+                                <span class="text-white">Detayları Gör <i class="fas fa-arrow-right"></i></span>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                }
             }
         </div>
     </div>
 </section>
+

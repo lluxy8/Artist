@@ -124,35 +124,67 @@
                 });
             });
         });
+
+                    // Mobile Menu Toggle
+            const hamburger = document.querySelector('.hamburger-menu');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const sidebarClose = document.querySelector('.sidebar-close');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('overflow-hidden');
+            }
+
+            if (hamburger && sidebar && overlay && sidebarClose) {
+                hamburger.addEventListener('click', toggleSidebar);
+                overlay.addEventListener('click', toggleSidebar);
+                sidebarClose.addEventListener('click', toggleSidebar);
+            }
+
+            // Mobile submenu functionality
+            const submenuTrigger = document.querySelector('.mobile-nav-link.has-submenu');
+            const submenu = document.querySelector('.mobile-gallery-submenu');
+
+            if (submenuTrigger && submenu) {
+                submenuTrigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    submenu.classList.toggle('active');
+                    submenuTrigger.classList.toggle('active');
+                });
+            }
+
+            // Close sidebar when clicking on a mobile nav link (except submenu trigger)
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link:not(.has-submenu)');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', toggleSidebar);
+            });
     </script>
     
    <script>
-let lastScrollTop = 0;
-let navbar = document.querySelector('header');
+        let lastScrollTop = 0;
+        let navbar = document.querySelector('header');
 
-// Kaç yüzde scroll sonrası başlasın (örnek: %20)
-const triggerPercentage = 20;
+        const triggerPercentage = 20;
 
-window.addEventListener('scroll', function () {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPercent = (scrollTop / documentHeight) * 100;
+        window.addEventListener('scroll', function () {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const scrollPercent = (scrollTop / documentHeight) * 100;
 
-  if (scrollPercent < triggerPercentage) {
-    // Daha %20'den az kaydırdıysan hiçbir şey yapma
-    return;
-  }
+          if (scrollPercent < triggerPercentage) {
+            return;
+          }
 
-  if (scrollTop > lastScrollTop) {
-    // Aşağı kaydırıyor
-    navbar.style.top = '-10rem';
-  } else {
-    // Yukarı kaydırıyor
-    navbar.style.top = '0';
-  }
+          if (scrollTop > lastScrollTop) {
+            navbar.style.top = '-10rem';
+          } else {
+            navbar.style.top = '0';
+          }
 
-  lastScrollTop = scrollTop;
-});
+          lastScrollTop = scrollTop;
+        });
 
     </script>
    

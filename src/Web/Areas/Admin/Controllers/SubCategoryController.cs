@@ -39,7 +39,7 @@ namespace Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _subCategoryService.AddAsync(dto, Request);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new {scid = dto.CategoryId});
             }
 
             var categories = await _categoryService.GetAllAsync();

@@ -9,21 +9,17 @@
         <section class="hero-section">
             <div class="swiper hero-slider">
                 <div class="swiper-wrapper">
-                    @if (Model != null)
+                    @foreach (var i in Model)
                     {
-                        foreach (var i in Model)
-                        {
-                            <div class="swiper-slide">
-                                <img src="@(i.ImageUrl ?? "")"
-                                     alt="Art Studio"
-                                     width="1920" height="1080">
-                                <div class="hero-content">
-                                    <p class="text-[var(--primary-color)] mb-4">@(i.Text1 ?? "")</p>
+                        <div class="swiper-slide">
+                            <img src="@(i.ImageUrl ?? "")" alt="Sanat" width="1920" height="1080">
+                            <div class="hero-content">
+                                <div class="hero-text-box">
                                     <h1 class="hero-title">@(i.Text2 ?? "")</h1>
                                     <h2 class="hero-subtitle">@(i.Text3 ?? "")</h2>
                                 </div>
                             </div>
-                        }
+                        </div>
                     }
                 </div>
                 <div class="swiper-pagination"></div>
@@ -39,13 +35,9 @@
         {
             <section class="about-hero">
                 <img src="@i.ImageUrl" alt="About Us Hero" class="w-100 h-100 object-fit-cover">
-                <div class="hero-content">
-                    <h1 class="hero-title">@i.Text1</h1>
-                    <div class="d-flex align-items-center gap-2 text-white">
-                        <a href="/anasayfa" class="text-white text-decoration-none">@i.Text2</a>
-                        <span>//</span>
-                        <span>@i.Text3</span>
-                    </div>
+                <div class="hero-content flex-col">
+                    <h1 class="hero-title m-0">@(i.Text2 ?? "")</h1>
+                    <h2 class="hero-subtitle text-gray-200">@(i.Text3 ?? "")</h2>
                 </div>
             </section>
         }

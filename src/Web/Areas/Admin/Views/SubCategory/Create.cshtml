@@ -18,7 +18,7 @@
             <div class="group">
                 <label asp-for="DisplayName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Alt Kategori Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="DisplayName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                    <input asp-for="DisplayName" id="Name" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
                         bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                         focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
                         hover:border-primary-400/70 dark:hover:border-primary-400
@@ -31,16 +31,13 @@
             </div>
 
             <div class="group">
-                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Alt Kategori Url</label>
+                <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Adı</label>
                 <div class="relative mt-1">
-                    <input asp-for="UrlName" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
-                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
-                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
-                        hover:border-primary-400/70 dark:hover:border-primary-400
-                        transition-all duration-300 ease-in-out
-                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
-                        shadow-sm" />
-                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                    <input readonly id="UrlName" asp-for="UrlName" type="text"
+                           class="block w-full border border-gray-200 dark:border-gray-700 rounded-lg py-2.5 px-4
+                   bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400
+                   cursor-not-allowed select-none
+                   text-sm shadow-sm transition-colors duration-200" />
                 </div>
                 <span asp-validation-for="UrlName" class="text-red-500 text-xs mt-1"></span>
             </div>
@@ -125,6 +122,14 @@
                 }
                 reader.readAsDataURL(file);
             }
+        });
+
+        const displayNameInput = document.getElementById('Name');
+        const urlNameInput = document.getElementById('UrlName');
+
+        displayNameInput.addEventListener('input', function () {
+            const slug = slugify(displayNameInput.value);
+            urlNameInput.value = slug;
         });
     </script>
 }
