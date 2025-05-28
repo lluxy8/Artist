@@ -42,7 +42,7 @@
                 else
                 {
                     <a asp-action="Index" asp-route-kategori="@category.UrlName" asp-route-altkategori="@(category.UrlName)-kategorisiz" class="filter-btn">
-                        <span class="btn-text @(Model.Selected.Id == category.Id ? "active" : "")">@category.DisplayName</span>
+                        <span class="btn-text @(Model.Selected != null && Model.Selected.Id == category.Id ? "active" : "")">@category.DisplayName</span>
                     </a>
                 }
             }
