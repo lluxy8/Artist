@@ -605,6 +605,8 @@ footer {
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
+        display: flex;
+        justify-content: center;
     }
 
     footer .social-link {
