@@ -50,7 +50,7 @@ namespace Infrastructure.Repositories
                 sectionList.Add(section);
             }
 
-            await context.BulkUpdateAsync(sectionList);
+            await context.SaveChangesAsync();
         }
     }
 }
