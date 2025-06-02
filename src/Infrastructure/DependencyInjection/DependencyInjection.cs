@@ -15,7 +15,7 @@ namespace Infrastructure.DependencyInjection
         {
 
             services.AddDbContextFactory<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DevConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.Scan(scan => scan
                 .FromAssemblyOf<AdminRepository>()
