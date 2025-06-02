@@ -30,6 +30,7 @@ namespace Core.DTOs
         [Required(ErrorMessage = "Sayfa İçeriği ID'si zorunludur.")]
         public Guid PageContentId { get; set; }
         [Required(ErrorMessage = "Sayfa İçeriği zorunludur.")]
+        public int DisplayOrder { get; set; }
         public required PageContent PageContent { get; set; } 
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }

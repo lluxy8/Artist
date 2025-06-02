@@ -5,42 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @(ViewBag.CompanyName ?? "Sanat Galerisi")</title>
     <meta name="description" content="@ViewData["MetaDescription"]" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Swiper.js -->
+    <script src="~/js/tailwind.config.js" asp-append-version="true"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    @await Component.InvokeAsync("GetColors")
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -58,9 +32,12 @@
 
    @await Component.InvokeAsync("Footer")
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         document.querySelector('.mobile-menu-button').addEventListener('click', function() {
@@ -68,64 +45,64 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let heroSwiper;
-            setTimeout(() => {
-                heroSwiper = new Swiper('.hero-slider', {
-                    loop: true,
-                    speed: 1000,
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                });
-            }, 100);
-
-            // Image optimization - load remaining images after page load
-            const deferredImages = document.querySelectorAll('img[data-src]');
-            if (deferredImages.length > 0) {
+            document.addEventListener('DOMContentLoaded', function() {
+                let heroSwiper;
                 setTimeout(() => {
-                    deferredImages.forEach(img => {
-                        img.src = img.getAttribute('data-src');
-                        img.removeAttribute('data-src');
+                    heroSwiper = new Swiper('.hero-slider', {
+                        loop: true,
+                        speed: 1000,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
                     });
-                }, 300);
-            }
+                }, 100);
 
-            // Initialize AOS
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true,
-                offset: 100
-            });
+                // Image optimization - load remaining images after page load
+                const deferredImages = document.querySelectorAll('img[data-src]');
+                if (deferredImages.length > 0) {
+                    setTimeout(() => {
+                        deferredImages.forEach(img => {
+                            img.src = img.getAttribute('data-src');
+                            img.removeAttribute('data-src');
+                        });
+                    }, 300);
+                }
 
-            // Initialize GSAP animations
-            gsap.registerPlugin(ScrollTrigger);
+                // Initialize AOS
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true,
+                    offset: 100
+                });
 
-            gsap.utils.toArray('.animate-on-scroll').forEach(section => {
-                gsap.from(section, {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 80%',
-                    }
+                // Initialize GSAP animations
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.utils.toArray('.animate-on-scroll').forEach(section => {
+                    gsap.from(section, {
+                        y: 50,
+                        opacity: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 80%',
+                        }
+                    });
                 });
             });
-        });
 
-                    // Mobile Menu Toggle
+            // Mobile Menu Toggle
             const hamburger = document.querySelector('.hamburger-menu');
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');

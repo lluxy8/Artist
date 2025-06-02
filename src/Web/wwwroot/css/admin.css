@@ -22,3 +22,9 @@ th:hover{
     cursor:pointer;
 }
 
+.dragging {
+    box-shadow: none !important;
+    transition: none !important;
+    background-color: rgba(0, 0, 0, 0.23) !important;
+}
+

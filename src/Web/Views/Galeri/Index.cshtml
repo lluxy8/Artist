@@ -10,10 +10,7 @@
 
 <section id="gallery" class="gallery-container bg-light">
     <div class="container">
-        <div class="gallery-title">
-            <h2>Sanat Galerisi</h2>
-            <p>En son çalışmalarımı ve özel koleksiyonlarımı keşfedin. Her bir eser, tutkuyla ve özenle yaratılmıştır.</p>
-        </div>
+        @await Component.InvokeAsync("PageContent", ViewData["PageUrl"])
 
         <div class="filter-buttons">
             <a asp-action="Index" asp-route-kategori="" asp-route-altkategori="" class="filter-btn @(Model.Selected is null ? "active" : "")">
@@ -21,8 +18,9 @@
             </a>
             @foreach (var category in Model.Categories)
             {
+                var defaultSubUrl = $"{category.UrlName}-kategorisiz";
                 if (category.SubCategories
-                    .Any(x => x.UrlName != $"{category.UrlName}-kategorisiz"))
+                .Any(x => x.UrlName != defaultSubUrl))
                 {
                     <div class="filter-dropdown">
                         <button class="filter-btn has-dropdown" data-toggle="dropdown">
@@ -30,7 +28,7 @@
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-content">
-                            @foreach (var subcategory in category.SubCategories)
+                            @foreach (var subcategory in category.SubCategories.OrderBy(x => x.UrlName == defaultSubUrl ? 0 : 1))
                             {
                                 <a asp-action="Index" asp-route-kategori="@category.UrlName" asp-route-altkategori="@subcategory.UrlName" class="filter-btn  @(Model.SelectedSub != null && Model.SelectedSub.Id == subcategory.Id ? "active" : "")">
                                     <span class="btn-text">@subcategory.DisplayName</span>

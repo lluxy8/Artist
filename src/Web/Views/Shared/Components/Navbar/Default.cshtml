@@ -11,9 +11,9 @@
             </a>
             <div class="d-flex align-items-center gap-4">
                 <div class="d-none d-md-flex gap-4">
-                    @foreach (var i in Model.Where(i => i.UrlName != "detay"))
+                    @foreach (var i in Model.Where(i => i.UrlName != "detay").OrderBy(x => !x.IsDefaultPage))
                     {
-                        <a asp-controller="@i.UrlName" asp-action="Index" class="nav-link">@i.DisplayName</a>                        
+                        <a asp-controller="@(i.IsDefaultPage ? @i.UrlName : "sayfalar")" asp-action="@(i.IsDefaultPage ? "Index" : i.UrlName)" class="nav-link">@i.DisplayName</a>
                     }
                 </div>
                 <div class="hamburger-menu d-md-none">

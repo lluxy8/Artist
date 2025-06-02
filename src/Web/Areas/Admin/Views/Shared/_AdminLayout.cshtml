@@ -16,6 +16,12 @@
 
     
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
     <script>
         tailwind.config = {
             safelist: [
@@ -49,13 +55,6 @@
             },
         }
     </script>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <script>
         toastr.options = {
           "closeButton": true,
@@ -114,7 +113,6 @@
                 localStorage.setItem('darkMode', !isDark);
             }
 
-            // Sayfa yüklendiğinde tema durumunu kontrol et
             initTheme();
             setTimeout(function() {
                 document.getElementsByTagName("html")[0].style.visibility = "visible";
@@ -131,11 +129,8 @@
                 }
             }, 120);
 
-
-            
-
-            // Tema değiştirme butonuna tıklandığında
             $toggle.on('change', toggleTheme);
+
         });
     </script>
 
@@ -232,6 +227,7 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script asp-append-version="true" src="~/js/admin.js"></script>
 </body>
 </html>

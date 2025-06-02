@@ -2,22 +2,21 @@
 
 <section class="py-20">
     <div class="container text-center mx-auto px-4">
-            <p class="text-center text-[var(--primary-color)] mb-2">PORTFOLYOM</p>
-            <h2 class="text-center text-4xl section-title">Popüler Kategoriler</h2>
-            <div class="portfolio-grid mt-12">
-                @foreach (var i in Model.Categories)
-                {
-                <a asp-controller="Galeri" asp-action="Index" asp-route-kategori="@i.UrlName" href="nav-link">
-                    <div class="portfolio-item">
-
-                        <img src="@i.ImageUrl" width="600" height="400"/>
+        <p class="text-center set-color-primary mb-2">PORTFOLYOM</p>
+        <h2 class="text-center text-4xl section-title set-color-secondary">Sevilen Kategorilerim</h2>
+        <div class="portfolio-grid mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach (var i in Model.Categories)
+            {
+                <a asp-controller="Galeri" asp-action="Index" asp-route-kategori="@i.UrlName" class="nav-link">
+                    <div class="portfolio-item w-full">
+                        <img src="@i.ImageUrl" alt="@i.DisplayName" width="600" height="400">
                         <div class="portfolio-overlay">
                             <h3 class="portfolio-title">@i.DisplayName</h3>
-                            <span href="#" class="text-white">Projeleri Gör <i class="fas fa-arrow-right"></i></span>
+                            <span class="text-white">Projeleri Gör <i class="fas fa-arrow-right"></i></span>
                         </div>
                     </div>
                 </a>
-                }
-            </div>
+            }
         </div>
+    </div>
 </section>

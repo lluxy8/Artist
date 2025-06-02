@@ -41,7 +41,10 @@ namespace Web.Areas.Admin.Controllers
                 ExperienceYear = setting.ExperienceYear,
                 PhoneNumber = setting.PhoneNumber,
                 Email = setting.Email,
-                Address = setting.Address
+                Address = setting.Address,
+                PrimaryColor = setting.PrimaryColor ?? "#000",
+                SecondaryColor = setting.SecondaryColor ?? "#000",
+                ThirdColor = setting.ThirdColor ?? "#000"
             };
 
             return View(dto);
@@ -50,12 +53,9 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(SettingUpdateDto setting)
         {
-            if (ModelState.IsValid)
-            {
-                await _settingService.UpdateAsync(setting, Request);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(setting);
+            if (!ModelState.IsValid) return View(setting);
+            await _settingService.UpdateAsync(setting, Request);
+            return RedirectToAction(nameof(Index));
         }
     }
 } 

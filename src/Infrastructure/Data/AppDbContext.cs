@@ -20,6 +20,7 @@ namespace Infrastructure.Data
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Social> Socials { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<PageSection> PageSections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

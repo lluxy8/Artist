@@ -93,7 +93,9 @@ namespace Application.Services
 
         public async Task UpdateAsync(CategoryUpdateDto dto, HttpRequest request)
         {
-            if (await _categoryRepository.CheckUrl(dto.UrlName))
+            var urlExists = await _categoryRepository.CheckUrl(dto.UrlName);
+
+            if (urlExists)
                 throw new Exception("Bu url'ye sahip bir kategori zaten var!");
 
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
@@ -101,7 +103,7 @@ namespace Application.Services
 
             var imgurl = existingEntity.ImageUrl;
             var file = dto.Image;
-            var changeImg = file != null && file.Length > 0;
+            var changeImg = file is { Length: > 0 };
 
             if (changeImg)
                 imgurl = await FileHelper.SaveImageAsync(file, "Category", request);

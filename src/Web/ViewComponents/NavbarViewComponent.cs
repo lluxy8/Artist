@@ -22,6 +22,7 @@ namespace Web.ViewComponents
                 {
                     DisplayName = x.DisplayName,
                     UrlName = x.UrlName,
+                    IsDefaultPage = x.IsDefaultPage
                 })
                 .OrderBy(x => x.DisplayName)
                 .ToList();

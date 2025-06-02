@@ -1,28 +1,41 @@
-﻿@model PageContentViewModel
+﻿@model List<PageContentViewModel>
 
-<section class="py-20">
-    @if(string.IsNullOrEmpty(@Model.ImageUrl))
+<section class="space-y-8">
+    @foreach (var conent in Model)
     {
-        <div class="container mx-auto px-4 flex justify-center items-center">
-            <div class="space-y-6 text-center">
-                <p class="text-[var(--primary-color)]">@Html.Raw(Model.Text1)</p>
-                <h2 class="text-4xl section-title">@Html.Raw(Model.Text2)</h2>
-                <p class="text-gray-600">@Html.Raw(Model.Text3)</p>
+        @if (string.IsNullOrEmpty(conent.ImageUrl))
+        {
+            <div class="container">
+                <div class="single-title">
+                    <h2>@Html.Raw(conent.Text2)</h2>
+                    <p>@Html.Raw(conent.Text3)</p>
+                </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-            <div class="experience-card portfolio-item">
-                <img src="@Model.ImageUrl" class="rounded-lg shadow-xl w-full">
+        }
+        else
+        {
+            <div class="container mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center">
+                @if (!conent.ImagePosition)
+                {
+                    <div class="experience-card portfolio-item">
+                        <img src="@conent.ImageUrl" alt="@conent.Text2" class="rounded-lg shadow-xl w-full">
+                    </div>
+                }
+
+                <div class="space-y-6">
+                    <p class="set-color-primary">@Html.Raw(conent.Text1)</p>
+                    <h2 class="text-4xl section-title">@Html.Raw(conent.Text2)</h2>
+                    <p class="text-gray-600">@Html.Raw(conent.Text3)</p>
+                </div>
+
+                @if (conent.ImagePosition)
+                {
+                    <div class="experience-card portfolio-item">
+                        <img src="@conent.ImageUrl" alt="@conent.Text2" class="rounded-lg shadow-xl w-full">
+                    </div>
+                }
             </div>
-            <div class="space-y-6">
-                <p class="text-[var(--primary-color)]">@Html.Raw(Model.Text1)</p>
-                <h2 class="text-4xl section-title">@Html.Raw(Model.Text2)</h2>
-                <p class="text-gray-600">@Html.Raw(Model.Text3)</p>
-            </div>
-        </div>
+        }
     }
 
 

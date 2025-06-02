@@ -22,8 +22,10 @@ namespace Web.ViewComponents
                     ImageUrl = x.ImageUrl,
                     Text1 = x.Text1,
                     Text2 = x.Text2,
-                    Text3 = x.Text3
+                    Text3 = x.Text3,
+                    DisplayOrder = x.DisplayOrder
                 })
+                .OrderBy(x => x.DisplayOrder)
                 .ToList();
 
             return View(carousels);

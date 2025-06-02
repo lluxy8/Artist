@@ -1,8 +1,10 @@
 using Application.DependencyInjection;
 using Core.DependencyInjection;
+using Core.Interfaces.Service;
 using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +37,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+
+builder.Services.AddControllersWithViews()
+    .AddViewOptions(options =>
+    {
+        options.HtmlHelperOptions.ClientValidationEnabled = false;
+    });
 
 var app = builder.Build();
 
@@ -49,6 +57,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseMiddleware<RateLimitingMiddleware>();
 
 app.UseRouting();
 

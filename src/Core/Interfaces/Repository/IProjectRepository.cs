@@ -7,6 +7,8 @@ namespace Core.Interfaces.Repository
         Task<List<Project>> GetHighlightedProjectsAsync();
         Task<Project?> GetByUrl(string url);
         Task<List<Project>> GetVisibleProjectsAsync();
+        Task<List<Project>> GetBySubCategoryIdAsync(Guid id);
         Task<List<Project>> GetByCategoryIdAsync(Guid id);
+
     }
 }

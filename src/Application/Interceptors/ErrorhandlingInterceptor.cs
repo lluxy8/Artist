@@ -53,7 +53,7 @@ namespace Application.Interceptors
             }
         }
 
-        private async Task InterceptAsync(Task task, ITempDataDictionary tempData)
+        private static async Task InterceptAsync(Task task, ITempDataDictionary tempData)
         {
             try
             {

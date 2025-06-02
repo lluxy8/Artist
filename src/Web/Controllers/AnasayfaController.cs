@@ -30,7 +30,8 @@ namespace Web.Controllers
 
             var vm = new PageViewModel
             {
-                Page = page,
+                Url = page.UrlName,
+                PageSections = page?.PageContent?.PageSections ?? [],
                 Projects = projects,
                 Categories = categories
             };

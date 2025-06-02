@@ -4,6 +4,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Core.Common.Models;
 using Core.DTOs;
 using Core.Interfaces.Service;
 
@@ -29,7 +30,8 @@ namespace Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var pagesNotCreated = await _pageService.GetByUrlAsync("anasayfa") == null;
+            // yarrak gibi kod umarým deðiþtiririm sonra...
+            var pagesNotCreated = await _pageService.GetByUrlAsync("anasayfa") is null;
 
             if(pagesNotCreated)
             {
@@ -37,30 +39,36 @@ namespace Web.Areas.Admin.Controllers
                 {
                     DisplayName = "Anasayfa",
                     UrlName = "anasayfa",
+                    IsDefaultPage = true
+                    
                 });
 
                 await _pageService.AddAsync(new Page
                 {
                     DisplayName = "Galeri",
                     UrlName = "galeri",
+                    IsDefaultPage = true
                 });
 
                 await _pageService.AddAsync(new Page
                 {
                     DisplayName = "Hakkýmda",
                     UrlName = "hakkimizda",
+                    IsDefaultPage = true
                 });
 
                 await _pageService.AddAsync(new Page
                 {
                     DisplayName = "Iletisim",
                     UrlName = "Iletisim",
+                    IsDefaultPage = true
                 });
 
                 await _pageService.AddAsync(new Page
                 {
                     DisplayName = "Detay",
                     UrlName = "detay",
+                    IsDefaultPage = true
                 });
 
                 await Task.Delay(500);
@@ -78,13 +86,10 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PageCreateDto page)
         {
-            if(ModelState.IsValid)
-            {
-                await _pageService.AddAsync(page);
-                return RedirectToAction(nameof(Index));
-            }
+            if (!ModelState.IsValid) return View(page);
+            await _pageService.AddAsync(page);
+            return RedirectToAction(nameof(Index));
 
-            return View(page);
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -116,13 +121,10 @@ namespace Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if(ModelState.IsValid)
-            {
-                await _pageService.UpdateAsync(page);
-                return RedirectToAction(nameof(Index));
-            }
+            if (!ModelState.IsValid) return View(page);
+            await _pageService.UpdateAsync(page);
+            return RedirectToAction(nameof(Index));
 
-            return View(page);
         }
 
         public async Task<IActionResult> Delete(Guid id)
@@ -154,19 +156,17 @@ namespace Web.Areas.Admin.Controllers
 
             if (content == null)
             {
-                content = new PageContent { PageId = id };
+                content = new PageContent { PageId = id, Title = string.Empty, Description = string.Empty};
                 await _pageContentService.AddAsync(content);
-                await Task.Delay(500);
+                await Task.Delay(200);
             }
 
             var pc = new PageContentUpdateDto
             {
                 Id = content.Id,
                 PageId = content.PageId,
-                ImageUrl = content.ImageUrl,
-                Text1 = content.Text1,
-                Text2 = content.Text2,
-                Text3 = content.Text3
+                Title = content.Title,
+                Description = content.Description
             };
 
             return View(pc);
@@ -175,13 +175,9 @@ namespace Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Content(PageContentUpdateDto content)
         {
-            if(ModelState.IsValid)
-            {
-                await _pageContentService.UpdateAsync(content, Request);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(content);
+            if (!ModelState.IsValid) return View(content);
+            await _pageContentService.UpdateAsync(content, Request);
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -191,6 +187,13 @@ namespace Web.Areas.Admin.Controllers
             ViewBag.PageId = PageId;
             ViewBag.pageContentId = pageContentId;
             return View(carousels.Where(x => x.PageContentId == pageContentId).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCarouselOrders([FromBody] List<DisplayOrderModel> items)
+        {
+            await _pageCarouselService.UpdateOrders(items);
+            return Ok();
         }
 
         public IActionResult CreateCarousel(Guid PageId, Guid pageContentId)
@@ -224,6 +227,7 @@ namespace Web.Areas.Admin.Controllers
                 Text1 = carousel.Text1,
                 Text2 = carousel.Text2,
                 Text3 = carousel.Text3,
+                DisplayOrder = carousel.DisplayOrder,
                 PageContent = carousel.PageContent,
                 CreateDate = carousel.CreateDate,
                 UpdateDate = carousel.UpdateDate
@@ -259,13 +263,10 @@ namespace Web.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteCarouselConfirmed(Guid id)
         {
             var carousel = await _pageCarouselService.GetByIdAsync(id);
-            if (carousel != null)
-            {
-                var pageContentId = carousel.PageContentId;
-                await _pageCarouselService.DeleteAsync(id);
-                return RedirectToAction(nameof(Carousel), new { pageContentId });
-            }
-            return NotFound();
+            if (carousel == null) return NotFound();
+            var pageContentId = carousel.PageContentId;
+            await _pageCarouselService.DeleteAsync(id);
+            return RedirectToAction(nameof(Carousel), new { pageContentId });
         }
     }
 } 

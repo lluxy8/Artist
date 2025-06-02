@@ -1,0 +1,53 @@
+﻿@model SortableTableViewModel
+
+<script>
+        $(function () {
+            $("@Model.TableId tbody").sortable({
+                helper: fixWidthHelper,
+                cursor: "move",
+                start: function (event, ui) {
+                    ui.item.addClass("dragging");
+                },
+                stop: function (event, ui) {
+                    ui.item.removeClass("dragging");
+                },
+                update: function (event, ui) {
+                    var displayDisplayOrders = [];
+
+                    $("@Model.TableId tbody tr").each(function () {
+                        var id = $(this).data("id");
+                        if (id) {
+                            var order = $(this).index();
+                            displayDisplayOrders.push({ id: id, order: order });
+                        }
+                    });
+
+                    if (displayDisplayOrders.length === 0) {
+                        console.warn("Gönderilecek veri bulunamadı.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action(Model.Action, Model.Controller)',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(displayDisplayOrders),
+                        success: function () {
+                            console.log("Sıralama başarıyla güncellendi.");
+                        },
+                        error: function () {
+                            alert("Sıralama güncellenemedi.");
+                        }
+                    });
+                }
+            }).disableSelection();
+        });
+
+
+        function fixWidthHelper(e, ui) {
+            ui.children().each(function () {
+                $(this).width($(this).width());
+            });
+            return ui;
+        }
+    </script>

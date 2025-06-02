@@ -1,0 +1,35 @@
+﻿@model ColorViewModel
+
+<style>
+
+    :root {
+        --primary-color: @Model.PrimaryColor;
+        --secondary-color: @Model.SecondaryColor;
+        --third-color: @Model.ThirdColor;
+    }
+
+
+    .set-color-primary {
+        color: var(--primary-color);
+    }
+
+    .set-bg-primary {
+        background-color: var(--primary-color);
+    }
+
+    .set-color-secondary {
+        color: var(--secondary-color);
+    }
+
+    .set-bg-secondary {
+        background-color: var(--secondary-color);
+    }
+
+    .set-color-third {
+        color: var(--third-color);
+    }
+
+    .set-bg-third {
+        background-color: var(--third-color);
+    }
+</style>

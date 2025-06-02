@@ -1,5 +1,6 @@
 ﻿using Core.Common.Constants;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices.JavaScript;
 
 namespace Core.DTOs
 {
@@ -14,7 +15,6 @@ namespace Core.DTOs
         [Required(ErrorMessage = "URL adı zorunludur.")]
         [StringLength(MaxLenghts.Small, ErrorMessage = "URL adı en fazla {1} karakter olabilir.")]
         public required string UrlName { get; set; }
-
         public bool ListProjects { get; set; }
         public bool ListCategories { get; set; }
     }
