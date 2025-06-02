@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
                 carouselList.Add(carousel);
             }
 
-            await context.BulkUpdateAsync(carouselList);
+            await context.SaveChangesAsync();
         }
 
     }
