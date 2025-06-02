@@ -1,10 +1,5 @@
 ﻿using Core.Entities;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Core.Common.Constants;
 
@@ -22,6 +17,7 @@ namespace Core.DTOs
 
         [StringLength(MaxLenghts.Medium, ErrorMessage = "Metin 3 en fazla {1} karakter olabilir.")]
         public string Text3 { get; set; } = string.Empty;
+        public int DisplayOrder { get; set; }
 
         [Required(ErrorMessage = "Sayfa İçeriği zorunludur.")]
         public Guid PageContentId { get; set; }

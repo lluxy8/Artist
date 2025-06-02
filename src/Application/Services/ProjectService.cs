@@ -7,8 +7,6 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Service;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Application.Services
 {
@@ -29,39 +27,22 @@ namespace Application.Services
 
         public async Task<List<Project>> GetHighlightedProjects()
         {
-            try
-            {
-                return await _projectRepository.GetHighlightedProjectsAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving highlighted projects.", ex);
-            }
+            return await _projectRepository.GetHighlightedProjectsAsync() ?? [];
         }
 
         public async Task<List<Project>> GetVisibleProjects()
         {
-            try
-            {
-                return await _projectRepository.GetVisibleProjectsAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving highlighted projects.", ex);
-            }
+            return await _projectRepository.GetVisibleProjectsAsync() ?? [];
+        }
+
+        public async Task<List<Project>> GetBySubCategoryIdAsync(Guid id)
+        {
+            return await _projectRepository.GetBySubCategoryIdAsync(id) ?? [];
         }
 
         public async Task<List<Project>> GetByCategoryIdAsync(Guid id)
         {
-            try
-            {
-                return await _projectRepository.GetByCategoryIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving the project by category ID.", ex);
-
-            }
+            return await _projectRepository.GetByCategoryIdAsync(id);
         }
 
         public async Task AddAsync(ProjectCreateDto dto)
@@ -85,14 +66,7 @@ namespace Application.Services
 
         public async Task<Project?> GetByUrlAsync(string url)
         {
-            try
-            {
-                return await _projectRepository.GetByUrl(url);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving the project by URL.", ex);
-            }
+            return await _projectRepository.GetByUrl(url);
         }
 
 

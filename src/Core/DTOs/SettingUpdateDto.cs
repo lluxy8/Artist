@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Core.Common.Constants;
 
 namespace Core.DTOs
@@ -38,6 +39,30 @@ namespace Core.DTOs
 
         [Range(0, 100, ErrorMessage = "Deneyim yılı 0 ile 100 arasında olmalıdır.")]
         public int ExperienceYear { get; set; }
+
+        [StringLength(MaxLenghts.HexCode , ErrorMessage = "Hex kodu en fazla {1} karakter olabilir. Örneğin: #FFFFFF")]
+        [HexColor]
+        public string PrimaryColor { get; set; } = string.Empty;
+
+        [StringLength(MaxLenghts.HexCode, ErrorMessage = "Hex kodu en fazla {1} karakter olabilir. Örneğin: #FFFFFF")]
+        [HexColor]
+        public string SecondaryColor { get; set; } = string.Empty;
+
+        [StringLength(MaxLenghts.HexCode, ErrorMessage = "Hex kodu en fazla {1} karakter olabilir. Örneğin: #FFFFFF")]
+        [HexColor]
+        public string ThirdColor { get; set; } = string.Empty;
         public IFormFile? Icon { get; set; }
     }
+
+    internal class HexColor : RegularExpressionAttribute
+    {
+        internal HexColor(bool allowSharpPrefix = true)
+            : base(allowSharpPrefix
+                ? "^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$"
+                : "^([a-fA-F0-9]{3}|[a-fA-F0-9]{4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$")
+        {
+            ErrorMessage = "Geçerli bir Hex kodu giriniz.";
+        }
+    }
 }
+

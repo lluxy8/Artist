@@ -1,4 +1,5 @@
-﻿using Core.DTOs;
+﻿using Core.Common.Models;
+using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ namespace Core.Interfaces.Service
     {
         Task AddAsync(PageCarouselCreateDto dto, HttpRequest request);
         Task UpdateAsync(PageCarouselUpdateDto dto, HttpRequest request);
+        Task UpdateOrders(List<DisplayOrderModel> items);
 
     }
 }

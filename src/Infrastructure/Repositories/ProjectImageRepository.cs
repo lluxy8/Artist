@@ -18,13 +18,10 @@ namespace Infrastructure.Repositories
         }
         public async Task<bool> CheckMainImage(Guid ProjectId)
         {
-            using var context = _contextfactory.CreateDbContext();
-            return (await context.Projects
-                .AsNoTracking()
-                .Include(x => x.Images)
-                .FirstOrDefaultAsync(x => x.Id == ProjectId))?.Images
-                .Any(x => x.IsMainImage) 
-                ?? false;
+            await using var context = await _contextfactory.CreateDbContextAsync();
+            return await context.ProjectImages
+                .Where(x => x.ProjectId == ProjectId)
+                .AnyAsync(x => x.IsMainImage);
         }
 
     }

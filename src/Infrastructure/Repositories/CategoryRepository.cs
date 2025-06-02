@@ -21,28 +21,30 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Category>> GetHighlightedCategoriesAsync()
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             return await IncludeRelatedEntities(context.Categories)
-                .AsNoTracking()
-                .Where(c => c.IsHighlighted)          
+                .Where(c => c.IsHighlighted)
+                .AsNoTrackingWithIdentityResolution()
                 .ToListAsync();
         }
 
         public async Task<Category?> GetByUrlAsync(string url)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             return await IncludeRelatedEntities(context.Categories)
+                .Where(c => c.UrlName == url)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.UrlName == url);
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> CheckUrl(string url)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
-            return await context.Categories.AnyAsync(x => x.UrlName == url);
+            return await context.Categories
+                .AnyAsync(x => x.UrlName == url);
         }
     }
 }

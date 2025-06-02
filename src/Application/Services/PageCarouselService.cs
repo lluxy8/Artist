@@ -9,26 +9,29 @@ using Core.Interfaces;
 using Core.Common.Dispatchers;
 using Application.Events;
 using Core.Common.Enums;
+using Core.Common.Models;
 
 namespace Application.Services
 {
     public sealed class PageCarouselService : BaseService<PageCarousel>, IPageCarouselService
     {
+        private readonly IPageCarouselRepository _pageCarouselRepository;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly EventDispatcher _eventDispatcher;
         public PageCarouselService(IRepository<PageCarousel> repository,
             IAuthenticationManager authenticationManager,
-            EventDispatcher eventDispatcher) : base(repository)
+            EventDispatcher eventDispatcher, IPageCarouselRepository pageCarouselRepository) : base(repository)
         {
             _authenticationManager = authenticationManager;
             _eventDispatcher = eventDispatcher;
+            _pageCarouselRepository = pageCarouselRepository;
         }
 
         public async Task AddAsync(PageCarouselCreateDto dto, HttpRequest request)
         {
             var file = dto.Image;
 
-            string imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
+            var imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
 
             var pageCarousel = new PageCarousel
             {
@@ -38,6 +41,7 @@ namespace Application.Services
                 Text1 = dto.Text1,
                 Text2 = dto.Text2,
                 Text3 = dto.Text3,
+                DisplayOrder = 0,
                 CreateDate = DateTime.UtcNow
             };
 
@@ -52,11 +56,11 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Entity not found.");
 
-            string imgurl = existingEntity.ImageUrl;
+            var imgurl = existingEntity.ImageUrl;
             var file = dto.Image;
-            var ChangeImg = file != null && file.Length > 0;
+            var changeImg = file is { Length: > 0 };
 
-            if (ChangeImg)
+            if (changeImg)
                 imgurl = await FileHelper.SaveImageAsync(file, "PageCarousel", request);
 
             var pageCarousel = new PageCarousel
@@ -67,6 +71,7 @@ namespace Application.Services
                 Text3 = dto.Text3,
                 ImageUrl = imgurl,
                 PageContentId = dto.PageContentId,
+                DisplayOrder = dto.DisplayOrder,
                 PageContent = existingEntity.PageContent,
                 CreateDate = existingEntity.CreateDate,
                 UpdateDate = DateTime.UtcNow
@@ -76,6 +81,15 @@ namespace Application.Services
             await _eventDispatcher.DispatchAsync(new LogEvent(
                 _authenticationManager.GetUser().Name,
                 "Bir sayfa carouseli güncellendi.", LogType.Update));
+        }
+
+        public async Task UpdateOrders(List<DisplayOrderModel> items)
+        {
+            await _pageCarouselRepository.UpdateOrders(items);
+
+            await _eventDispatcher.DispatchAsync(new LogEvent(
+                _authenticationManager.GetUser().Name,
+                "Sayfa carousel sırası düzenlendi.", LogType.Update));
         }
 
         public override async Task DeleteAsync(Guid id)

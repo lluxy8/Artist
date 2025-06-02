@@ -21,38 +21,53 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Project>> GetHighlightedProjectsAsync()
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await IncludeRelatedEntities(context.Projects)
-                .AsNoTracking()
                 .Where(p => p.IsHighlighted && p.IsVisible)
+                .AsNoTrackingWithIdentityResolution()
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
         public async Task<List<Project>> GetVisibleProjectsAsync()
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await IncludeRelatedEntities(context.Projects)
-                .AsNoTracking()
                 .Where(p => p.IsVisible)
+                .AsNoTrackingWithIdentityResolution()
+                .AsSplitQuery()
                 .ToListAsync();
+        }
+
+        public async Task<List<Project>> GetBySubCategoryIdAsync(Guid id)
+        {
+            await using var context = await _contextfactory.CreateDbContextAsync();
+            return await IncludeRelatedEntities(context.Projects)
+                .Where(p => p.SubCategoryId == id && p.IsVisible)
+                .AsNoTrackingWithIdentityResolution()
+                .AsSplitQuery()
+                .ToListAsync();
+
         }
 
         public async Task<List<Project>> GetByCategoryIdAsync(Guid id)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await IncludeRelatedEntities(context.Projects)
-                .AsNoTracking()
-                .Where(p => p.SubCategoryId == id && p.IsVisible)
+                .Where(x => x.SubCategory.CategoryId == id)
+                .AsNoTrackingWithIdentityResolution()
+                .AsSplitQuery()
                 .ToListAsync();
-
         }
 
         public async Task<Project?> GetByUrl(string url)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await IncludeRelatedEntities(context.Projects)
+                .Where(p => p.UrlName == url && p.IsVisible)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.UrlName == url && p.IsVisible);
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
     }
 }

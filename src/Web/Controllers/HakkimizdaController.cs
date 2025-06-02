@@ -28,11 +28,12 @@ namespace Web.Controllers
 
             var vm = new AboutPageViewModel
             {
-                Page = page,
-                DoneCustomerCount = settings.DoneCustomerCount,
-                DoneProjectsCount = settings.DoneProjectsCount,
-                ExperienceYear = settings.ExperienceYear
+                Url = page.UrlName,
+                DoneCustomerCount = settings?.DoneCustomerCount ?? string.Empty,
+                DoneProjectsCount = settings?.DoneProjectsCount ?? string.Empty,
+                ExperienceYear = settings?.ExperienceYear ?? 0
             };
+
             return View(vm);
         }
     }

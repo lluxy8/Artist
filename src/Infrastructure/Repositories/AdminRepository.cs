@@ -12,18 +12,20 @@ namespace Infrastructure.Repositories
 
         public async Task<Admin?> FindAdminAsync(string username, string password)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await context.Admins
+                .Where(x => x.Name == username && x.PasswordHash == password)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Name == username && x.PasswordHash == password);
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Admin?> GetByUserNameAsync(string username)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await context.Admins
+                    .Where(x => x.Name == username)
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Name == username);
+                    .FirstOrDefaultAsync();
         }
     }
 }

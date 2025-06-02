@@ -12,6 +12,7 @@ namespace Core.Interfaces.Service
         Task AddAsync(ProjectCreateDto dto);
         Task<List<Project>> GetHighlightedProjects();
         Task<List<Project>> GetVisibleProjects();
+        Task<List<Project>> GetBySubCategoryIdAsync(Guid id);
         Task<List<Project>> GetByCategoryIdAsync(Guid id);
     }
 }

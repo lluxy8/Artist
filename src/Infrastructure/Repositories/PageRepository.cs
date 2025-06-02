@@ -17,20 +17,24 @@ namespace Infrastructure.Repositories
         {
             return query
                 .Include(p => p.PageContent)
-                .Include(p => p.PageContent.PageCarousels);
+                .ThenInclude(pc => pc.PageCarousels)
+                .Include(p => p.PageContent)
+                .ThenInclude(pc => pc.PageSections);
         }
 
         public async Task<Page?> GetByUrlAsync(string url)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
             return await IncludeRelatedEntities(context.Pages)
+                .Where(p => p.UrlName == url)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.UrlName == url);
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> CheckUrl(string url)
         {
-            using var context = _contextfactory.CreateDbContext();
+            await using var context = await _contextfactory.CreateDbContextAsync();
 
             return await context.Categories.AnyAsync(x => x.UrlName == url);
         }

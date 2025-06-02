@@ -15,18 +15,19 @@ namespace Web.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string url)
         {
-            var page = await _pageService.GetByUrlAsync(url);
-
-
-            var vm = new PageContentViewModel
-            {
-                ImageUrl = page?.PageContent?.ImageUrl ?? string.Empty,
-                Text1 = page?.PageContent?.Text1 ?? string.Empty,
-                Text2 = page?.PageContent?.Text2 ?? string.Empty,
-                Text3 = page?.PageContent?.Text3 ?? string.Empty
-            };
-            
-
+            var vm = (await _pageService.GetByUrlAsync(url))?
+                .PageContent?.PageSections
+                .Select(x => new PageContentViewModel
+                {
+                    ImageUrl = x.ImageUrl,
+                    Text1 = x.Text1,
+                    Text2 = x.Text2,
+                    Text3 = x.Text3,
+                    DisplayOrder = x.DisplayOrder,
+                    ImagePosition = x.ImagePosition
+                })
+                .OrderBy(x => x.DisplayOrder)
+                .ToList() ?? [];
 
             return View(vm);
         }

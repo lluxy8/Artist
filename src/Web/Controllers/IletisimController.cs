@@ -25,11 +25,11 @@ namespace Web.Controllers
 
             var vm = new IletisimPageViewModel
             {
-                Address = settings.Address,
-                Page = page,
-                AddressGoogleMaps = settings.AddressGoogleMaps,
-                PhoneNumber = settings.PhoneNumber,
-                Email = settings.Email
+                Address = settings?.Address ?? string.Empty,
+                PageSections = page.PageContent?.PageSections ?? [],
+                AddressGoogleMaps = settings?.AddressGoogleMaps ?? string.Empty,
+                PhoneNumber = settings?.PhoneNumber ?? string.Empty,
+                Email = settings?.Email ?? string.Empty
             };  
 
             return View(vm);

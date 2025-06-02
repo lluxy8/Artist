@@ -13,5 +13,8 @@ namespace Core.Entities
         public string DoneProjectsCount { get; set; } = string.Empty;
         public string DoneCustomerCount { get; set; } = string.Empty;
         public int ExperienceYear { get; set; }
+        public string PrimaryColor { get; set; } = string.Empty;
+        public string SecondaryColor { get; set; } = string.Empty;
+        public string ThirdColor { get; set; } = string.Empty;
     }
 }

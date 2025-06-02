@@ -26,14 +26,7 @@ namespace Application.Services
 
         public async Task<Page?> GetByUrlAsync(string url)
         {
-            try
-            {
-                return await _pageRepository.GetByUrlAsync(url);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception("Error getting page by URL", ex);
-            }
+            return await _pageRepository.GetByUrlAsync(url);
         }
 
         public async Task AddAsync(PageCreateDto dto)

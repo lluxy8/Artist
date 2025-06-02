@@ -31,7 +31,7 @@ namespace Application.Services
 
             var logoUrl = existingEntity.LogoUrl;
             var logoFile = dto.Image;
-            var changeImg = logoFile != null && logoFile.Length > 0;
+            var changeImg = logoFile is { Length: > 0 };
 
 
             if (changeImg)
@@ -49,7 +49,10 @@ namespace Application.Services
                 PhoneNumber = dto.PhoneNumber,
                 Email = dto.Email,
                 Address = dto.Address,
-                CreateDate = DateTime.UtcNow,
+                PrimaryColor = dto.PrimaryColor,
+                SecondaryColor = dto.SecondaryColor,
+                ThirdColor = dto.ThirdColor,
+                CreateDate = existingEntity.CreateDate,
                 UpdateDate = DateTime.UtcNow
             };
 

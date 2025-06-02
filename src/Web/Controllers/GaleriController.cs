@@ -46,7 +46,14 @@ namespace Web.Controllers
 
                 if (selectedSub != null)
                 {
-                    vm.Projects = await _projectService.GetByCategoryIdAsync(selectedSub.Id) ?? [];
+                    if (selectedSub.UrlName == $"{category.UrlName}-kategorisiz")
+                    {
+                        vm.Projects = await _projectService.GetByCategoryIdAsync(selectedSub.CategoryId) ?? [];
+                        vm.SelectedSub = selectedSub;
+                        return View(vm);
+                    }
+
+                    vm.Projects = await _projectService.GetBySubCategoryIdAsync(selectedSub.Id) ?? [];
                     vm.SelectedSub = selectedSub;
                 }
                 else

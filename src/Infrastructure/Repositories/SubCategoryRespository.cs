@@ -20,23 +20,28 @@ namespace Infrastructure.Repositories
         }
 
 
-        public Task<List<SubCategory>> GetByCategoryIdAsync(Guid id)
+        public async Task<List<SubCategory>> GetByCategoryIdAsync(Guid id)
         {
-            var context = _contextfactory.CreateDbContext();
+            var context = await _contextfactory.CreateDbContextAsync();
 
-            return IncludeRelatedEntities(context.SubCategories)
-                .AsNoTracking()
+            return await IncludeRelatedEntities(context.SubCategories)
                 .Where(p => p.CategoryId == id)
+                .AsNoTrackingWithIdentityResolution()
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
-        public Task<SubCategory?> GetByUrlAsync(string url)
+        public async Task<SubCategory?> GetByUrlAsync(string url)
         {
-            var context = _contextfactory.CreateDbContext();
+            var context = await _contextfactory.CreateDbContextAsync();
 
-            return IncludeRelatedEntities(context.SubCategories)
+            return await IncludeRelatedEntities(context.SubCategories)
+                .Where(p => p.UrlName == url)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.UrlName == url);
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
+
+
     }
 }

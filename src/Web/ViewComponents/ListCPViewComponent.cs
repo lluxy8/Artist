@@ -27,23 +27,29 @@ namespace Web.ViewComponents
             var projects = await _projectService.GetHighlightedProjects();
             var categories = await _categoryService.GetHighlightedCategoriesAsync();
             
-            var pageVM = new PageViewModel
+            var pageVm = new PageViewModel
             {
-                Page = page,
+                Url = page?.UrlName ?? string.Empty,
+                PageSections = page?.PageContent?.PageSections ?? [],
                 Projects = projects,
                 Categories = categories
             };
 
 
 
-            if (page.ListProjects && page.ListCategories)
-                return View("Both", pageVM);
-
-            else if (page.ListProjects)
-                return View("Projects", pageVM);
-
-            else if(page.ListCategories)
-                return View("Categories", pageVM);
+            switch (page.ListProjects)
+            {
+                case true when page.ListCategories:
+                    return View("Both", pageVm);
+                case true:
+                    return View("Projects", pageVm);
+                default:
+                {
+                    if(page.ListCategories)
+                        return View("Categories", pageVm);
+                    break;
+                }
+            }
 
             return View();
         }

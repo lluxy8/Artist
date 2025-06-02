@@ -48,17 +48,12 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Sosyal medya bağlantısı bulunamadı.");
 
-            string imgurl = existingEntity.IconUrl;
-            var file = dto.Image;
-            var ChangeImg = file != null && file.Length > 0;
-
-            if (ChangeImg)
-                imgurl = await FileHelper.SaveImageAsync(file, "Social", request);
+            var imgurl = existingEntity.IconUrl;
 
             var social = new Social
             {
                 Id = existingEntity.Id,
-                IconUrl = "",
+                IconUrl = string.Empty,
                 Name = dto.Name,
                 Url = dto.Url,
                 CreateDate = existingEntity.CreateDate,

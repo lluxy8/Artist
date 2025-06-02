@@ -2,7 +2,6 @@
 using Application.Events;
 using Core.Common.Dispatchers;
 using Core.Common.Enums;
-using Core.Common.Helpers;
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
@@ -29,24 +28,15 @@ namespace Application.Services
             var existingEntity = await _repository.GetByIdAsync(dto.Id)
                 ?? throw new Exception("Entity not found.");
 
-            string imgurl = existingEntity.ImageUrl;
-            var file = dto.Image;
-            var ChangeImg = file != null && file.Length > 0;
-
-            if (ChangeImg)
-                imgurl = await FileHelper.SaveImageAsync(file, "PageContent", request);
-
             var pc = new PageContent
             {
                 Id = dto.Id,
-                ImageUrl = imgurl,
-                Text1 = dto.Text1,
-                Text2 = dto.Text2,
-                Text3 = dto.Text3,
+                Title = dto.Title,
+                Description = dto.Description,
                 PageCarousels = existingEntity.PageCarousels,
                 PageId = dto.PageId,
                 Page = existingEntity.Page,
-                CreateDate = DateTime.UtcNow,
+                CreateDate = existingEntity.CreateDate,
                 UpdateDate = DateTime.UtcNow
             };
 

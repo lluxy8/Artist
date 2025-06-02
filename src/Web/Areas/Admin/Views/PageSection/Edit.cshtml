@@ -1,0 +1,167 @@
+﻿@model PageSectionUpdateDto
+@{
+    ViewData["Title"] = "Sayfa Bölümü Düzenle";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sayfa Bölümü Düzenle</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Sayfa bölümünü düzenleyin.</p>
+    </div>
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+        
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="PageContentId" value="@Model.PageContentId" />
+        <input type="hidden" asp-for="ImageUrl" value="" />
+        <input type="hidden" name="pageId" value="@ViewBag.PageId" />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="group">
+                <label asp-for="Text1" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Üst başlık</label>
+                <div class="relative mt-1">
+                    <textarea asp-for="Text1" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
+                        shadow-sm"></textarea>
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Text1" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="Text2" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Başlık</label>
+                <div class="relative mt-1">
+                    <textarea asp-for="Text2" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
+                        shadow-sm"></textarea>
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Text2" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div class="group">
+                <label asp-for="Text3" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">İçerik</label>
+                <div class="relative mt-1">
+                    <textarea asp-for="Text3" rows="3" class="block w-full border border-gray-300 dark:border-gray-700 rounded-lg py-2.5 px-4
+                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+                        hover:border-primary-400/70 dark:hover:border-primary-400
+                        transition-all duration-300 ease-in-out
+                        placeholder-gray-400 dark:placeholder-gray-500 text-sm
+                        shadow-sm"></textarea>
+                    <div class="absolute inset-0 rounded-lg transition-all duration-300 ease-in-out pointer-events-none group-hover:ring-2 group-hover:ring-primary-500/20"></div>
+                </div>
+                <span asp-validation-for="Text3" class="text-red-500 text-xs mt-1"></span>
+            </div>
+
+            <div></div>
+
+            <div class="group @(string.IsNullOrEmpty(Model.ImageUrl) ? "hidden" : "")" id="imagePositionCon">
+                <span class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Görsel Konumu</span>
+
+                <div class="flex items-center mt-1">
+                    <input type="radio" asp-for="ImagePosition" id="left" value="false" class="sr-only peer/left" />
+                    <label for="left"
+                           class="flex flex-col items-center justify-center w-32 h-24 text-center text-sm
+                                  font-medium text-gray-600 bg-white border border-gray-300 rounded-l-lg
+                                  cursor-pointer transition-all duration-300 peer-checked/left:bg-primary-600
+                                  peer-checked/left:text-white peer-checked/left:border-primary-600 dark:bg-gray-900 dark:border-gray-700
+                                  peer-checked/left:dark:bg-primary-900 peer-checked/left:dark:text-primary-300
+                                  peer-checked/left:border-primary-600">
+                        <i class="fa-solid fa-image text-2xl mb-1"></i>
+                        Solda Göster
+                    </label>
+
+                    <input type="radio" asp-for="ImagePosition" id="right" value="true" class="sr-only peer/right" />
+                    <label for="right"
+                           class="flex flex-col items-center justify-center w-32 h-24 text-center text-sm
+                                  font-medium text-gray-600 bg-white border border-gray-300 rounded-r-lg -ml-px
+                                  cursor-pointer transition-all duration-300 peer-checked/right:bg-primary-600
+                                  peer-checked/right:text-white peer-checked/right:border-primary-600 dark:bg-gray-900
+                                  dark:border-gray-700 peer-checked/right:dark:bg-primary-900 peer-checked/right:dark:text-primary-300
+                                  peer-checked/right:border-primary-600">
+                        <i class="fa-solid fa-image text-2xl mb-1"></i>
+                        Sağda Göster
+                    </label>
+                </div>
+            </div>
+
+            <div class="group md:col-span-2">
+                <label asp-for="Image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Görsel</label>
+                <div class="mt-1 flex items-center">
+                    <div id="imagePreview" class="h-20 w-20 mx-2 @(string.IsNullOrEmpty(Model.ImageUrl) ? "hidden" : "")">
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "" : Model.ImageUrl)" alt="@Model.Text2" class="h-full w-full object-cover rounded-lg shadow-sm mr-4 transition-transform duration-300 hover:scale-105" />
+                    </div>
+                    <div class="flex-1">
+                        <input asp-for="Image" type="file" id="imageFile" class="block w-full text-sm text-gray-500 dark:text-gray-400
+                            file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0
+                            file:text-sm file:font-medium file:bg-primary-50 dark:file:bg-primary-900 file:text-primary-700 dark:file:text-primary-300
+                            hover:file:bg-primary-100 dark:hover:file:bg-primary-800
+                            file:cursor-pointer
+                            file:transition-all file:duration-300 file:ease-in-out
+                            file:shadow-sm
+                            file:focus:outline-none file:focus:ring-2 file:focus:ring-primary-500/50" />
+                    </div>
+                </div>
+                <span asp-validation-for="Image" class="text-red-500 text-xs mt-1"></span>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <div class="flex space-x-3">
+                <a asp-action="Index" asp-route-pcId="@Model.PageContentId" asp-route-pageId="@ViewBag.PageId"  class="inline-flex items-center px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900
+                    hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                    transition-all duration-300 ease-in-out">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Listeye Dön
+                </a>
+                <button type="submit" class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600
+                    hover:bg-primary-700 hover:shadow-md
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500/50
+                    transition-all duration-300 ease-in-out
+                    active:bg-primary-800 active:shadow-sm">
+                    <i class="fas fa-save mr-2"></i>
+                    Kaydet
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const imageInput = document.getElementById('imageFile');
+        const imagePreviewContainer = document.getElementById('imagePreview');
+        const imagePositionContainer = document.getElementById('imagePositionCon');
+        const imagePreview = imagePreviewContainer.querySelector('img');
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.classList.remove('hidden');
+                    imagePositionCon.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

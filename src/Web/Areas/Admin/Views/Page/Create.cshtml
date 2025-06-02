@@ -14,7 +14,7 @@
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Sayfa Adı -->
+
             <div class="group">
                 <label asp-for="DisplayName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors duration-200">Sayfa Adı</label>
                 <div class="relative mt-1">
@@ -30,7 +30,7 @@
                 <span asp-validation-for="DisplayName" class="text-red-500 text-xs mt-1"></span>
             </div>
 
-            <!-- URL Adı -->
+
             <div class="group">
                 <label asp-for="UrlName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Adı</label>
                 <div class="relative mt-1">
@@ -56,7 +56,7 @@
                         dark:checked:hover:bg-primary-800" />
                 <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
             </div>
-            <label asp-for="ListCategories" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne çıkan Kategoriler</label>
+            <label asp-for="ListCategories" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Kategorileri Listele</label>
         </div>
 
         <div class="group flex items-center">
@@ -71,7 +71,7 @@
                         dark:checked:hover:bg-primary-800" />
                 <div class="absolute inset-0 rounded-md transition-all duration-300 ease-in-out pointer-events-none peer-hover:ring-2 peer-hover:ring-primary-500/20"></div>
             </div>
-            <label asp-for="ListProjects" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Öne çıkan Projeler</label>
+            <label asp-for="ListProjects" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">Projeleri Listele</label>
         </div>
 
         <div class="mt-6 flex justify-end space-x-3">
