@@ -8,9 +8,10 @@
 <link href="~/css/Galeri.css" rel="stylesheet" />
 }
 
+@await Component.InvokeAsync("PageContent", ViewData["PageUrl"])
+
 <section id="gallery" class="gallery-container bg-light">
     <div class="container">
-        @await Component.InvokeAsync("PageContent", ViewData["PageUrl"])
 
         <div class="filter-buttons">
             <a asp-action="Index" asp-route-kategori="" asp-route-altkategori="" class="filter-btn @(Model.Selected is null ? "active" : "")">
