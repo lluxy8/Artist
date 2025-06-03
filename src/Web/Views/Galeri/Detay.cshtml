@@ -6,6 +6,7 @@
 
 @section Styles {
     <link href="~/css/detail.css" rel="stylesheet" />
+    <link rel="stylesheet" href="@("https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css")" />
 }
 <!-- Artwork Section -->
 <section class="artwork-section mt-5">
@@ -121,36 +122,36 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="@("https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js")"></script>
     <script>
         const allImages = [
-            @foreach (var image in Model.Images)
-            {
-
-                var last = Model.Images.Last();
-                <text>"@image"</text>
-                @(image != last ? "," : "")
-            }
+        @foreach (var image in Model.Images)
+        {
+            var last = Model.Images.Last();
+            <text>"@image"</text>
+            @(image != last ? "," : "")
+        }
         ];
-
 
         const slidesContainer = document.getElementById('artworkSlides');
         const thumbsContainer = document.getElementById('artworkThumbs');
 
         allImages.forEach((imgSrc, index) => {
-            if(!imgSrc.endsWith(".mp4"))
-            {
+            if (!imgSrc.endsWith(".mp4")) {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
-                slide.innerHTML = `<img src="${imgSrc}" alt="@Model.ProjectName - ${index + 1}">`;
+                slide.innerHTML = `
+                  <a href="${imgSrc}" data-fancybox="gallery" data-caption="@Model.ProjectName - ${index + 1}">
+                    <img src="${imgSrc}" alt="@Model.ProjectName - ${index + 1}" />
+                  </a>
+                `;
                 slidesContainer.appendChild(slide);
 
                 const thumb = document.createElement('div');
                 thumb.classList.add('swiper-slide');
                 thumb.innerHTML = `<img src="${imgSrc}" alt="Küçük görsel - ${index + 1}">`;
                 thumbsContainer.appendChild(thumb);
-            }
-            else
-            {
+            } else {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide');
                 slide.innerHTML = `<video controls>  <source src="${imgSrc}" type="video/webm" /></video>`;
@@ -162,7 +163,6 @@
                 thumbsContainer.appendChild(thumb);
             }
         });
-
 
         const thumbsSwiper = new Swiper('.thumbsSwiper', {
             spaceBetween: 10,
@@ -195,5 +195,36 @@
             });
         });
 
+        Fancybox.bind('[data-fancybox="gallery"]:not(.swiper-slide-duplicate)', {
+            Images: {
+                zoom: true,
+                pan: true,
+                click: "toggle",
+                wheel: "zoom",
+            },
+            Toolbar: {
+                display: {
+                    left: ["infobar"],
+                    middle: [
+                        "zoomIn",
+                        "zoomOut",
+                        "toggle1to1",
+                        "rotateCCW",
+                        "rotateCW",
+                        "flipX",
+                        "flipY",
+                    ],
+                    right: ["slideshow", "thumbs", "close"],
+                },
+            },
+            Thumbs: {
+                autoStart: true,
+            },
+            Carousel: {
+                infinite: true,
+                transition: "fade",
+            },
+        });
     </script>
+
 }
