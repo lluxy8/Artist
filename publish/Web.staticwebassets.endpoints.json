@@ -9775,7 +9775,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "24673"
+          "Value": "24911"
         },
         {
           "Name": "Content-Type",
@@ -9783,22 +9783,22 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"tGJp/Ya5CyNTU4RXQxTV2uKe9/pP/Q1NQqSr50vzv7A=\""
+          "Value": "\"qRz/qg71dkMKTPkW0m5M4IakV8uWKrmG8SOfbwFfCTA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Jun 2025 18:58:16 GMT"
+          "Value": "Fri, 20 Jun 2025 19:23:22 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-tGJp/Ya5CyNTU4RXQxTV2uKe9/pP/Q1NQqSr50vzv7A="
+          "Value": "sha256-qRz/qg71dkMKTPkW0m5M4IakV8uWKrmG8SOfbwFfCTA="
         }
       ]
     },
     {
-      "Route": "css/site.saj09i99n1.css",
+      "Route": "css/site.hitdylbb0j.css",
       "AssetFile": "css/site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -9812,7 +9812,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "24673"
+          "Value": "24911"
         },
         {
           "Name": "Content-Type",
@@ -9820,21 +9820,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"tGJp/Ya5CyNTU4RXQxTV2uKe9/pP/Q1NQqSr50vzv7A=\""
+          "Value": "\"qRz/qg71dkMKTPkW0m5M4IakV8uWKrmG8SOfbwFfCTA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Jun 2025 18:58:16 GMT"
+          "Value": "Fri, 20 Jun 2025 19:23:22 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "saj09i99n1"
+          "Value": "hitdylbb0j"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-tGJp/Ya5CyNTU4RXQxTV2uKe9/pP/Q1NQqSr50vzv7A="
+          "Value": "sha256-qRz/qg71dkMKTPkW0m5M4IakV8uWKrmG8SOfbwFfCTA="
         },
         {
           "Name": "label",
@@ -9921,6 +9921,88 @@
         {
           "Name": "label",
           "Value": "favicon.ico"
+        }
+      ]
+    },
+    {
+      "Route": "fonts/BRUSHSCRIPTSTD.OTF",
+      "AssetFile": "fonts/BRUSHSCRIPTSTD.OTF",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37060"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "font/otf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CCmUJOnlrgmxxgtYieOnmGw+qJ78/G/ijpnmDT8TVrc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 19:14:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CCmUJOnlrgmxxgtYieOnmGw+qJ78/G/ijpnmDT8TVrc="
+        }
+      ]
+    },
+    {
+      "Route": "fonts/BRUSHSCRIPTSTD.k1gvcmpdyx.OTF",
+      "AssetFile": "fonts/BRUSHSCRIPTSTD.OTF",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37060"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "font/otf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CCmUJOnlrgmxxgtYieOnmGw+qJ78/G/ijpnmDT8TVrc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 19:14:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k1gvcmpdyx"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CCmUJOnlrgmxxgtYieOnmGw+qJ78/G/ijpnmDT8TVrc="
+        },
+        {
+          "Name": "label",
+          "Value": "fonts/BRUSHSCRIPTSTD.OTF"
         }
       ]
     },
